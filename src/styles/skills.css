@@ -1,0 +1,363 @@
+/* ─── Skills Section ────────────────────────────── */
+
+.sk-section {
+  position: relative;
+  padding: 50px 0 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
+  overflow: hidden;
+}
+
+/* ── Glowing orbs ── */
+.sk-orb {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  filter: blur(80px);
+  opacity: 0.18;
+}
+
+.sk-orb-1 {
+  width: 400px;
+  height: 400px;
+  top: -80px;
+  left: -100px;
+  background: radial-gradient(circle, rgba(99,102,241,0.6), transparent 70%);
+}
+
+.sk-orb-2 {
+  width: 300px;
+  height: 300px;
+  bottom: 0;
+  right: -80px;
+  background: radial-gradient(circle, rgba(139,92,246,0.5), transparent 70%);
+}
+
+.sk-orb-3 {
+  width: 250px;
+  height: 250px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle, rgba(99,102,241,0.2), transparent 70%);
+}
+
+/* ── Floating math symbols ── */
+.sk-math-symbol {
+  position: absolute;
+  font-family: Georgia, 'Times New Roman', serif;
+  color: var(--accent);
+  opacity: 0.06;
+  pointer-events: none;
+  user-select: none;
+  font-weight: 300;
+  animation: math-float 8s ease-in-out infinite;
+  z-index: 0;
+}
+
+@keyframes math-float {
+  0%, 100% { transform: translateY(0px)   rotate(0deg);   }
+  33%       { transform: translateY(-12px) rotate(3deg);   }
+  66%       { transform: translateY(6px)  rotate(-2deg);  }
+}
+
+/* ── Eyebrow ── */
+.sk-eyebrow {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 0.68rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  color: var(--text-muted);
+}
+
+.sk-eyebrow-line {
+  width: 40px;
+  height: 1px;
+  background: var(--border);
+}
+
+/* ── Headline ── */
+.sk-headline {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  text-align: center;
+}
+
+.sk-headline-text {
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 800;
+  color: var(--text);
+  letter-spacing: -1px;
+  margin: 0;
+}
+
+.sk-headline-sub {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  margin: 0;
+  max-width: 460px;
+  text-align: center;
+  line-height: 1.6;
+}
+
+/* ── Ticker ── */
+.sk-ticker-wrap {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  overflow: hidden;
+  padding: 14px 0;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+.sk-ticker-row {
+  overflow: hidden;
+  width: 100%;
+}
+
+.sk-ticker-track {
+  display: flex;
+  gap: 10px;
+  width: max-content;
+}
+
+.sk-ticker-left {
+  animation: ticker-left 60s linear infinite;
+}
+
+.sk-ticker-right {
+  animation: ticker-right 70s linear infinite;
+}
+
+@keyframes ticker-left {
+  0%   { transform: translateX(0);    }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes ticker-right {
+  0%   { transform: translateX(-50%); }
+  100% { transform: translateX(0);    }
+}
+
+.sk-ticker-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 18px;
+  background: var(--bg-subtle);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  white-space: nowrap;
+  transition: border-color 0.2s ease, color 0.2s ease;
+  cursor: default;
+}
+
+.sk-ticker-item:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.sk-ticker-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--accent);
+  opacity: 0.4;
+  flex-shrink: 0;
+}
+
+/* ── 3 Square Cards ── */
+.sk-cards-grid {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  /* gap: 20px; */
+  width: 100%;
+  margin-left: 10%;
+  margin-right: 10%;
+}
+
+.sk-card {
+  position: relative;
+  background: var(--bg-subtle);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 32px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  transition: border-color 0.3s ease, transform 0.3s ease;
+  cursor: default;
+}
+
+.sk-card:hover {
+  border-color: var(--accent);
+  transform: translateY(-6px);
+}
+
+/* ── Card top row ── */
+.sk-card-top {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.sk-card-icon-wrap {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.sk-card:hover .sk-card-icon-wrap {
+  border-color: var(--accent);
+  background: rgba(99,102,241,0.08);
+}
+
+.sk-card-icon {
+  font-size: 1.3rem;
+  color: var(--accent);
+}
+
+.sk-card-header-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.sk-card-label {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: -0.2px;
+}
+
+.sk-card-count {
+  font-size: 0.65rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* ── Divider ── */
+.sk-card-divider {
+  width: 100%;
+  height: 1px;
+  background: var(--border);
+}
+
+/* ── Skills list ── */
+.sk-card-skills {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  flex: 1;
+}
+
+.sk-card-skill-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.sk-card-skill-name {
+  font-size: 0.84rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  transition: color 0.2s ease;
+}
+
+.sk-card:hover .sk-card-skill-name {
+  color: var(--text);
+}
+
+/* ── Footer ── */
+.sk-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+  margin-top: auto;
+}
+
+.sk-card-footer-label {
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--text-muted);
+  opacity: 0.5;
+}
+
+.sk-card-footer-value {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--accent);
+}
+
+/* ── Card hover glow ── */
+.sk-card-glow {
+  position: absolute;
+  inset: 0;
+  border-radius: 20px;
+  background: radial-gradient(
+    circle at 50% 0%,
+    rgba(99,102,241,0.06) 0%,
+    transparent 70%
+  );
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.sk-card:hover .sk-card-glow {
+  opacity: 1;
+}
+
+/* ── Shared dots ── */
+.skill-dots {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.skill-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--border);
+  transition: background 0.2s ease;
+}
+
+.skill-dot-filled {
+  background: var(--accent);
+}

@@ -1,0 +1,112 @@
+/* ─── Quote Band ────────────────────────────────── */
+
+.quote-section {
+  position: relative;
+  width: 100%;
+  min-height: 55vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 48px;
+  background: var(--bg-subtle);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  overflow: hidden;
+}
+
+.quote-section::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 700px;
+  height: 300px;
+  background: radial-gradient(
+    ellipse,
+    rgba(99, 102, 241, 0.06) 0%,
+    transparent 70%
+  );
+  pointer-events: none;
+}
+
+/* ── Corner quote marks — absolutely positioned ── */
+.quote-corner-tl {
+  position: absolute;
+  top: 28px;
+  left: 36px;
+  font-size: 5rem;
+  font-family: Georgia, serif;
+  color: var(--accent);
+  opacity: 0.2;
+  line-height: 1;
+  user-select: none;
+  z-index: 0;
+}
+
+.quote-corner-br {
+  position: absolute;
+  bottom: 28px;
+  right: 36px;
+  font-size: 5rem;
+  font-family: Georgia, serif;
+  color: var(--accent);
+  opacity: 0.2;
+  line-height: 1;
+  user-select: none;
+  z-index: 0;
+}
+
+/* ── Center content ── */
+.quote-inner {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  max-width: 760px;
+  width: 100%;
+  text-align: center;
+}
+
+/* ── Quote text ── */
+.quote-text {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  text-align: center;
+}
+
+.quote-line-text {
+  display: block;
+  font-size: clamp(1.4rem, 3vw, 2.2rem);
+  font-weight: 500;
+  line-height: 1.45;
+  color: var(--text);
+  letter-spacing: -0.3px;
+  text-align: center;
+}
+
+/* ── Attribution ── */
+.quote-attribution {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 12px;
+  font-size: 0.68rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 2.5px;
+  color: var(--text-muted);
+}
+
+.quote-divider-line {
+  width: 44px;
+  height: 1px;
+  background: var(--border);
+}

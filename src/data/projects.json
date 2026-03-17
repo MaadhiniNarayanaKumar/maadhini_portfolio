@@ -1,0 +1,110 @@
+[
+  {
+    "id": "1",
+    "title": "AlphaSignal Engine",
+    "description": "A systematic trading signal generator using ML models trained on alternative data sources to extract alpha from market microstructure.",
+    "category": "Quant Finance",
+    "year": "2025",
+    "tags": ["Python", "Trading", "ML", "Alpha"],
+    "gradient": "linear-gradient(135deg, #1e1b4b 0%, #312e81 50%, #4338ca 100%)",
+    "accent": "#818cf8",
+    "size": "large",
+    "slug": "alphasignal-engine"
+  },
+  {
+    "id": "2",
+    "title": "RAG Financial Intelligence",
+    "description": "Retrieval-augmented generation system for querying SEC filings, earnings calls, and financial reports using natural language.",
+    "category": "ML & AI",
+    "year": "2025",
+    "tags": ["RAG", "LLM", "FastAPI", "Vector DB"],
+    "gradient": "linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%)",
+    "accent": "#60a5fa",
+    "size": "medium",
+    "slug": "rag-financial-intelligence"
+  },
+  {
+    "id": "3",
+    "title": "Vol Surface Modeler",
+    "description": "Real-time implied volatility surface construction and visualization for equity options using stochastic vol models.",
+    "category": "Quant Finance",
+    "year": "2024",
+    "tags": ["Options", "Volatility", "Python", "Pricing"],
+    "gradient": "linear-gradient(135deg, #0f172a 0%, #1e3a5f 50%, #0e7490 100%)",
+    "accent": "#22d3ee",
+    "size": "medium",
+    "slug": "vol-surface-modeler"
+  },
+  {
+    "id": "4",
+    "title": "MLOps Pipeline Framework",
+    "description": "End-to-end MLOps framework for training, versioning, and deploying financial ML models with full experiment tracking.",
+    "category": "Engineering",
+    "year": "2024",
+    "tags": ["MLflow", "Docker", "CI/CD", "AWS"],
+    "gradient": "linear-gradient(135deg, #0d1117 0%, #161b22 50%, #1f2937 100%)",
+    "accent": "#4ade80",
+    "size": "small",
+    "slug": "mlops-pipeline-framework"
+  },
+  {
+    "id": "5",
+    "title": "Portfolio Risk Analyzer",
+    "description": "Monte Carlo based portfolio risk engine computing VaR, CVaR, and stress test scenarios across multi-asset portfolios.",
+    "category": "Quant Finance",
+    "year": "2024",
+    "tags": ["Risk", "Monte Carlo", "Portfolio", "Python"],
+    "gradient": "linear-gradient(135deg, #1c1917 0%, #292524 50%, #44403c 100%)",
+    "accent": "#fb923c",
+    "size": "small",
+    "slug": "portfolio-risk-analyzer"
+  },
+  {
+    "id": "6",
+    "title": "Sentiment Alpha Research",
+    "description": "NLP-driven sentiment analysis pipeline extracting tradeable signals from financial news, social media, and analyst reports.",
+    "category": "ML & AI",
+    "year": "2024",
+    "tags": ["NLP", "Sentiment", "Signals", "Research"],
+    "gradient": "linear-gradient(135deg, #1a0533 0%, #2d1b69 50%, #5b21b6 100%)",
+    "accent": "#c084fc",
+    "size": "small",
+    "slug": "sentiment-alpha-research"
+  },
+  {
+    "id": "7",
+    "title": "Time Series Forecaster",
+    "description": "Deep learning based multivariate time series forecasting system for financial and macroeconomic indicators.",
+    "category": "ML & AI",
+    "year": "2023",
+    "tags": ["LSTM", "Forecasting", "Time Series", "Deep Learning"],
+    "gradient": "linear-gradient(135deg, #052e16 0%, #14532d 50%, #166534 100%)",
+    "accent": "#4ade80",
+    "size": "wide",
+    "slug": "time-series-forecaster"
+  },
+  {
+    "id": "8",
+    "title": "Crypto Market Maker",
+    "description": "Automated market making bot for crypto exchanges implementing inventory management and spread optimization strategies.",
+    "category": "Quant Finance",
+    "year": "2023",
+    "tags": ["Market Making", "Crypto", "Automation", "Python"],
+    "gradient": "linear-gradient(135deg, #1c1917 0%, #431407 50%, #7c2d12 100%)",
+    "accent": "#f97316",
+    "size": "medium",
+    "slug": "crypto-market-maker"
+  },
+  {
+    "id": "9",
+    "title": "Factor Model Research",
+    "description": "Multi-factor equity model research framework implementing Fama-French factors plus custom ML-derived alpha factors.",
+    "category": "Research",
+    "year": "2023",
+    "tags": ["Factor Model", "Equity", "Research", "Statistics"],
+    "gradient": "linear-gradient(135deg, #0c0a09 0%, #1c1917 50%, #292524 100%)",
+    "accent": "#d4a574",
+    "size": "small",
+    "slug": "factor-model-research"
+  }
+]

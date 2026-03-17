@@ -1,0 +1,80 @@
+[
+  {
+    "id": "1",
+    "title": "Building Systematic Trading Signals with Alternative Data",
+    "excerpt": "How I used satellite imagery, sentiment scores, and web scraping to construct alpha signals that survive transaction costs.",
+    "category": "Quant Finance",
+    "date": "Mar 2025",
+    "readTime": "8 min read",
+    "tags": ["Trading", "Alpha", "Alternative Data"],
+    "accent": "#818cf8",
+    "bg": "linear-gradient(135deg, #1e1b4b 0%, #312e81 100%)",
+    "size": "featured",
+    "slug": "systematic-trading-signals-alternative-data"
+  },
+  {
+    "id": "2",
+    "title": "RAG Systems in Finance — Beyond Simple Q&A",
+    "excerpt": "Designing retrieval pipelines that actually understand financial documents, not just keyword match them.",
+    "category": "ML & AI",
+    "date": "Feb 2025",
+    "readTime": "6 min read",
+    "tags": ["RAG", "LLM", "Finance"],
+    "accent": "#60a5fa",
+    "bg": "linear-gradient(135deg, #0f172a 0%, #1e3a5f 100%)",
+    "size": "tall",
+    "slug": "rag-systems-finance"
+  },
+  {
+    "id": "3",
+    "title": "The Mathematics of Volatility Surfaces",
+    "excerpt": "A deep dive into stochastic vol models and how practitioners actually construct and interpolate vol surfaces.",
+    "category": "Quant Finance",
+    "date": "Jan 2025",
+    "readTime": "10 min read",
+    "tags": ["Volatility", "Options", "Math"],
+    "accent": "#22d3ee",
+    "bg": "linear-gradient(135deg, #0c4a6e 0%, #0e7490 100%)",
+    "size": "tall",
+    "slug": "mathematics-volatility-surfaces"
+  },
+  {
+    "id": "4",
+    "title": "Why Most ML Models Fail in Production",
+    "excerpt": "Lessons from shipping a dozen models — the gap between research accuracy and production reliability is wider than you think.",
+    "category": "Engineering",
+    "date": "Dec 2024",
+    "readTime": "5 min read",
+    "tags": ["MLOps", "Production", "Engineering"],
+    "accent": "#4ade80",
+    "bg": "linear-gradient(135deg, #052e16 0%, #166534 100%)",
+    "size": "wide",
+    "slug": "ml-models-fail-production"
+  },
+  {
+    "id": "5",
+    "title": "Bayesian Inference for Portfolio Optimization",
+    "excerpt": "Using Bayesian methods to incorporate prior beliefs into portfolio construction — beating Black-Litterman at its own game.",
+    "category": "Research",
+    "date": "Nov 2024",
+    "readTime": "9 min read",
+    "tags": ["Bayesian", "Portfolio", "Statistics"],
+    "accent": "#c084fc",
+    "bg": "linear-gradient(135deg, #2d1b69 0%, #5b21b6 100%)",
+    "size": "small",
+    "slug": "bayesian-inference-portfolio-optimization"
+  },
+  {
+    "id": "6",
+    "title": "From Jupyter Notebook to Trading System",
+    "excerpt": "A practical guide to turning research-grade Python code into a production trading system that actually runs.",
+    "category": "Engineering",
+    "date": "Oct 2024",
+    "readTime": "7 min read",
+    "tags": ["Python", "Trading", "Systems"],
+    "accent": "#fb923c",
+    "bg": "linear-gradient(135deg, #431407 0%, #7c2d12 100%)",
+    "size": "small",
+    "slug": "jupyter-to-trading-system"
+  }
+]

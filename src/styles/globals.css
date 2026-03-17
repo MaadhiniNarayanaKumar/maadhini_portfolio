@@ -1,0 +1,172 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import './reveal.css';
+
+/* ─── Design Tokens ─────────────────────────────── */
+:root {
+  --bg:          #f8fafc;
+  --bg-subtle:   #f1f5f9;
+  --sidebar-bg:  #ffffff;
+  --text:        #1f2937;
+  --text-muted:  #6b7280;
+  --border:      #e5e7eb;
+  --accent:      #6366f1;
+  --accent-hover:#4f46e5;
+  --hero-text:   #000000;
+}
+
+html.dark {
+  --bg:          #0f1117;
+  --bg-subtle:   #1a1d27;
+  --sidebar-bg:  #13151f;
+  --text:        #f1f5f9;
+  --text-muted:  #9ca3af;
+  --border:      #2a2d3a;
+  --accent:      #818cf8;
+  --accent-hover:#a5b4fc;
+  --hero-text:   #c6c7c8;
+}
+
+/* ─── Base ───────────────────────────────────────── */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* ─── Theme Toggle Button ───────────────────────── */
+.theme-toggle-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background-color: var(--bg-subtle);
+  color: var(--text);
+  cursor: pointer;
+  transition: transform 0.2s ease, background-color 0.3s ease, box-shadow 0.2s ease;
+}
+
+.theme-toggle-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 10px var(--accent);
+  background-color: var(--accent);
+  color: #fff;
+}
+
+/* Icon rotation animation on theme swap */
+.icon-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: iconSwap 0.35s ease forwards;
+}
+
+.rotate-enter {
+  animation: iconRotateIn 0.35s ease forwards;
+}
+
+@keyframes iconSwap {
+  0%   { opacity: 0; transform: rotate(-90deg) scale(0.7); }
+  100% { opacity: 1; transform: rotate(0deg)   scale(1);   }
+}
+
+@keyframes iconRotateIn {
+  0%   { opacity: 0; transform: rotate(90deg) scale(0.7); }
+  100% { opacity: 1; transform: rotate(0deg)  scale(1);   }
+}
+
+/* ─── Theme Button (Resume) ─────────────────────── */
+.theme-button {
+  background-color: var(--bg-subtle);
+  color: var(--text);
+  border: 1px solid var(--border);
+  transition: all 0.2s ease;
+}
+
+.theme-button:hover {
+  background-color: var(--border);
+  color: var(--text);
+  transform: translateY(-1px);
+}
+
+/* ─── Contact / Let's Talk Button ───────────────── */
+.contact-button {
+  position: relative;
+  background-color: var(--accent);
+  color: #fff;
+  border: 1px solid transparent;
+  overflow: hidden;
+  transition: background-color 0.2s ease, transform 0.1s ease, box-shadow 0.2s ease;
+}
+
+/* Shimmer sweep idle animation */
+.contact-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -75%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(
+    120deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.25) 50%,
+    transparent 100%
+  );
+  animation: shimmer 3s infinite;
+}
+
+@keyframes shimmer {
+  0%   { left: -75%; }
+  60%  { left: 125%; }
+  100% { left: 125%; }
+}
+
+/* Border trace on hover */
+.contact-button::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.contact-button:hover::after {
+  opacity: 1;
+}
+
+.contact-button:hover {
+  background-color: var(--accent-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+}
+
+.contact-button:active {
+  transform: scale(0.96);
+  box-shadow: none;
+}
+
+/* ─── Scrollbar ─────────────────────────────────── */
+::-webkit-scrollbar       { width: 5px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 9999px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+/* ─── Selection ─────────────────────────────────── */
+::selection {
+  background-color: var(--accent);
+  color: #fff;
+}

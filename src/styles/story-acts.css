@@ -1,0 +1,338 @@
+/* ─── Story Floating ────────────────────────────── */
+
+.sf-section {
+  position: relative;
+  padding: 100px 0 60px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 28px;
+}
+
+/* ── Eyebrow ── */
+.sf-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 0.68rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  color: var(--text-muted);
+}
+
+.sf-eyebrow-line {
+  width: 40px;
+  height: 1px;
+  background: var(--border);
+}
+
+/* ── Goal headline ── */
+.sf-goal-headline {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  text-align: center;
+}
+
+.sf-goal-prefix {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  font-weight: 400;
+}
+
+.sf-goal-title {
+  font-size: clamp(1.4rem, 2.5vw, 2rem);
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  background: linear-gradient(135deg, var(--text) 30%, var(--accent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ── Main canvas ── */
+.sf-canvas {
+  position: relative;
+  width: 100%;
+  height: 780px;
+}
+
+/* ── Background SVG ── */
+.sf-bg-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── Connector arrows ── */
+.sf-connector {
+  position: absolute;
+  font-size: 1rem;
+  color: var(--accent);
+  opacity: 0.3;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.sf-connector-1 { top: 10%;  left: 44%;  transform: rotate(5deg);   }
+.sf-connector-2 { top: 42%;  left: 16%;  transform: rotate(60deg);  }
+.sf-connector-3 { top: 58%;  left: 56%;  transform: rotate(-10deg); }
+
+/* ── Cards ── */
+.sf-card {
+  position: absolute;
+  width: 310px;
+  background: var(--bg-subtle);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 22px 20px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition: border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+  z-index: 2;
+  overflow: hidden;
+}
+
+.sf-card:hover {
+  transform: translateY(-6px) !important;
+  box-shadow: 0 16px 40px rgba(0,0,0,0.12);
+}
+
+/* ── Card status variants ── */
+.sf-card-complete {
+  border-color: var(--border);
+  opacity: 0.85;
+}
+
+.sf-card-active {
+  border-color: var(--accent);
+  box-shadow:
+    0 0 0 1px var(--accent),
+    0 8px 32px rgba(99,102,241,0.2);
+}
+
+.sf-card-goal {
+  border-color: rgba(168,85,247,0.4);
+  background: linear-gradient(
+    135deg,
+    var(--bg-subtle) 0%,
+    rgba(168,85,247,0.04) 100%
+  );
+}
+
+/* ── Card header ── */
+.sf-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.sf-card-number {
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--text-muted);
+  opacity: 0.6;
+}
+
+/* ── Status badge ── */
+.sf-status-badge {
+  font-size: 0.62rem;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 999px;
+  letter-spacing: 0.5px;
+}
+
+.sf-badge-complete {
+  background: rgba(34,197,94,0.1);
+  color: #16a34a;
+  border: 1px solid rgba(34,197,94,0.2);
+}
+
+html.dark .sf-badge-complete {
+  color: #4ade80;
+  background: rgba(74,222,128,0.1);
+  border-color: rgba(74,222,128,0.2);
+}
+
+.sf-badge-active {
+  background: rgba(99,102,241,0.12);
+  color: var(--accent);
+  border: 1px solid rgba(99,102,241,0.25);
+  animation: badge-pulse 2.5s ease-in-out infinite;
+}
+
+@keyframes badge-pulse {
+  0%, 100% { opacity: 1;   }
+  50%       { opacity: 0.6; }
+}
+
+.sf-badge-goal {
+  background: rgba(168,85,247,0.1);
+  color: #a855f7;
+  border: 1px solid rgba(168,85,247,0.2);
+}
+
+/* ── Year ── */
+.sf-card-year {
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+}
+
+/* ── Title row ── */
+.sf-card-title-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sf-card-icon {
+  font-size: 1.1rem;
+  color: var(--accent);
+  opacity: 0.6;
+  flex-shrink: 0;
+}
+
+.sf-card-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: -0.2px;
+  line-height: 1.2;
+  margin: 0;
+}
+
+/* ── Subtitle ── */
+.sf-card-subtitle {
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: var(--accent);
+  opacity: 0.75;
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+}
+
+/* ── Divider ── */
+.sf-card-divider {
+  width: 28px;
+  height: 2px;
+  background: var(--accent);
+  border-radius: 2px;
+  opacity: 0.4;
+}
+
+/* ── Description ── */
+.sf-card-desc {
+  font-size: 0.8rem;
+  line-height: 1.72;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+/* ── Tags ── */
+.sf-card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-top: 2px;
+}
+
+.sf-card-tag {
+  padding: 2px 8px;
+  border-radius: 5px;
+  font-size: 0.62rem;
+  font-weight: 500;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  transition: all 0.2s ease;
+}
+
+.sf-card-active .sf-card-tag,
+.sf-card:hover .sf-card-tag {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* ── Active pulse ring ── */
+.sf-active-ring {
+  position: absolute;
+  inset: -2px;
+  border-radius: 18px;
+  border: 2px solid var(--accent);
+  opacity: 0;
+  animation: active-ring-pulse 3s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes active-ring-pulse {
+  0%        { opacity: 0;    transform: scale(1);    }
+  50%       { opacity: 0.25; transform: scale(1.02); }
+  100%      { opacity: 0;    transform: scale(1.04); }
+}
+
+/* ── Goal shimmer ── */
+.sf-goal-shimmer {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    120deg,
+    transparent 0%,
+    rgba(168,85,247,0.06) 50%,
+    transparent 100%
+  );
+  animation: goal-shimmer 4s ease-in-out infinite;
+  pointer-events: none;
+  border-radius: 18px;
+}
+
+@keyframes goal-shimmer {
+  0%   { transform: translateX(-100%); }
+  60%  { transform: translateX(100%);  }
+  100% { transform: translateX(100%);  }
+}
+
+/* ── Bottom note ── */
+.sf-bottom-note {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  padding: 10px 20px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--bg-subtle);
+}
+
+.sf-bottom-note strong {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.sf-bottom-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #22c55e;
+  box-shadow: 0 0 6px #22c55e;
+  animation: pulse-dot 2s infinite;
+  flex-shrink: 0;
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1;   transform: scale(1);   }
+  50%       { opacity: 0.5; transform: scale(0.8); }
+}

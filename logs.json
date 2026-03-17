@@ -1,0 +1,110 @@
+{
+  "logs": [
+    {
+      "timestamp": "2026-03-11T12:00:00Z",
+      "file": "logs.json",
+      "action": "created",
+      "description": "Initial logs file created to track all file and content changes in the project."
+    },
+    {
+      "timestamp": "2026-03-11T12:30:00Z",
+      "file": "tailwind.config.ts",
+      "action": "updated",
+      "description": "Updated Tailwind content paths to include all src folders."
+    },
+    {
+      "timestamp": "2026-03-11T12:30:00Z",
+      "file": "postcss.config.js",
+      "action": "created",
+      "description": "Added PostCSS configuration file with Tailwind and Autoprefixer plugins."
+    },
+    {
+      "timestamp": "2026-03-11T12:30:00Z",
+      "file": "src/styles/globals.css",
+      "action": "updated",
+      "description": "Added Tailwind directives (@tailwind base, components, utilities) to globals.css."
+    },
+    {
+      "timestamp": "2026-03-11T12:30:00Z",
+      "file": "src/app/layout.tsx",
+      "action": "updated",
+      "description": "Imported globals.css into layout.tsx to ensure Tailwind styles are applied globally."
+    },
+    {
+      "timestamp": "2026-03-11T12:45:00Z",
+      "file": "src/components/layout/LeftSidebar.tsx",
+      "action": "updated",
+      "description": "Updated profile image border to 0px and matched border color to background color."
+    },
+    {
+      "timestamp": "2026-03-11T12:50:00Z",
+      "file": "src/components/layout/LeftSidebar.tsx",
+      "action": "updated",
+      "description": "Enhanced LeftSidebar with role title, tagline, nav links with icons, social links, and footer."
+    },
+    {
+      "timestamp": "2026-03-11T12:55:00Z",
+      "file": "src/components/layout/LeftSidebar.tsx",
+      "action": "updated",
+      "description": "Centered social icons and updated tagline to 'Quantitative Researcher, AI Engineer' and role information to 'Quantitative Finance Student'."
+    },
+    {
+      "timestamp": "2026-03-11T13:00:00Z",
+      "file": "src/components/layout/LeftSidebar.tsx",
+      "action": "updated",
+      "description": "Refined LeftSidebar to match the provided design, improving spacing, colors, and alignment for a polished look."
+    },
+    {
+      "timestamp": "2026-03-11T00:00:00Z",
+      "changes": [
+        {
+          "description": "Removed RightSidebar component and its functions from the project.",
+          "files": [
+            "src/app/layout.tsx",
+            "src/components/layout/RightSidebar.tsx"
+          ]
+        },
+        {
+          "description": "Added active route highlighting functionality to LeftSidebar navigation links.",
+          "files": [
+            "src/components/layout/LeftSidebar.tsx"
+          ]
+        },
+        {
+          "description": "Added a theme toggle button to the main layout and integrated theme logic.",
+          "files": [
+            "src/app/layout.tsx",
+            "src/components/layout/ThemeToggle.tsx",
+            "src/hooks/useTheme.ts",
+            "src/lib/theme.ts"
+          ]
+        },
+        {
+          "description": "Ensured real-time theme changes by adding Tailwind CSS dark mode classes to the layout.",
+          "files": [
+            "src/app/layout.tsx"
+          ]
+        },
+        {
+          "description": "Updated the layout to ensure the main page takes up the full height of the screen.",
+          "files": [
+            "src/app/layout.tsx"
+          ]
+        },
+        {
+          "description": "Removed space between routes in the LeftSidebar and adjusted the width of each link to 80% of the sidebar width, centering them horizontally.",
+          "files": [
+            "src/components/layout/LeftSidebar.tsx"
+          ]
+        },
+        {
+          "description": "Refactored theme styles to use global configuration. Removed inline theme classes and added global theme variables in globals.css.",
+          "files": [
+            "src/app/layout.tsx",
+            "src/styles/globals.css"
+          ]
+        }
+      ]
+    }
+  ]
+}
