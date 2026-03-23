@@ -138,22 +138,22 @@ export default function ProjectsGrid() {
         )}
 
         {/* Row 2 — small + small + small */}
-        {r2.length > 0 && (
+        {/* {r2.length > 0 && (
           <div className="pg-row pg-row-2">
             {r2.map((p, i) => (
               <ProjectCard key={p.id} project={p} index={i + 3} visible={visible} />
             ))}
           </div>
-        )}
+        )} */}
 
         {/* Row 3 — wide + medium + small */}
-        {r3.length > 0 && (
+        {/* {r3.length > 0 && (
           <div className="pg-row pg-row-3">
             {r3.map((p, i) => (
               <ProjectCard key={p.id} project={p} index={i + 6} visible={visible} />
             ))}
           </div>
-        )}
+        )} */}
 
       </div>
 

@@ -3,6 +3,8 @@ import Link from 'next/link';
 import projects from '../../data/projects.json';
 import '../../styles/projects-grid.css';
 
+let projects1=projects.slice(0,3);//remove for all projects from json for /projects page only
+
 function ProjectCard({ project }: { project: (typeof projects)[0] }) {
   return (
     <Link
@@ -58,7 +60,7 @@ export default function ProjectsPage() {
 
       <div className="pg-grid-wrap">
         <div className="pg-row pg-row-1" style={{ gridTemplateColumns: 'repeat(3, minmax(0, 1fr))' }}>
-          {projects.map((p) => (
+          {projects1.map((p) => (
             <ProjectCard key={p.id} project={p} />
           ))}
         </div>
