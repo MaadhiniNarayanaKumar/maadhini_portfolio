@@ -77,7 +77,7 @@ export default function ProjectPage() {
       {/* WHAT IT IS */}
       <section className="pj-section">
         <div className="pj-label">01 — What It Is</div>
-        <h2 className="pj-title">A pipeline that doesn't just compute — it validates.</h2>
+        <h2 className="pj-title">A pipeline that doesn&apos;t just compute — it validates.</h2>
         <div className="pj-accent-card">
           <p className="pj-body">
             A full-stack data engineering project that ingests real equity market data, computes key quantitative features using a distributed PySpark pipeline, and validates every output through a formal QA system benchmarked against industry-standard libraries. Built to simulate the kind of infrastructure used in real-world quant research and risk analytics teams.
@@ -89,7 +89,7 @@ export default function ProjectPage() {
       <section className="pj-section">
         <div className="pj-label">02 — The Problem It Solves</div>
         <h2 className="pj-title">Three gaps most financial projects ignore.</h2>
-        <p className="pj-body">Most financial data projects stop at "I got results." Three real gaps exist in that approach.</p>
+        <p className="pj-body">Most financial data projects stop at &quot;I got results.&quot; Three real gaps exist in that approach.</p>
         <div className="pj-problem-grid">
           {problems.map(p => (
             <div className="pj-problem-card" key={p.n}>
@@ -193,7 +193,7 @@ export default function ProjectPage() {
             </p>
           ) : (
             <p className="pj-body">
-              Spark Window functions partitioned by ticker eliminate cross-stock shuffles entirely. The QA layer intentionally uses a different execution model (single-node Pandas vs distributed Spark) to catch numerical drift, not just rerun the same logic twice. Drawdown uses unbounded cumulative max windows — the one place where Spark's lazy evaluation needs explicit checkpointing.
+              Spark Window functions partitioned by ticker eliminate cross-stock shuffles entirely. The QA layer intentionally uses a different execution model (single-node Pandas vs distributed Spark) to catch numerical drift, not just rerun the same logic twice. Drawdown uses unbounded cumulative max windows — the one place where Spark&apos;s lazy evaluation needs explicit checkpointing.
             </p>
           )}
         </div>
