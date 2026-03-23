@@ -8,7 +8,9 @@ import '../../styles/projects-grid.css';
 const filters = ['All', 'Quant Finance', 'ML & AI', 'Engineering', 'Research'];
 
 /* ── Row layout config ── */
-const row1 = ['1', '2', '3'];        // large + medium + medium
+// const row1 = ['1', '2', '3'];  
+const row1 = ['1'];        // large + medium + medium
+      // large + medium + medium
 const row2 = ['4', '5', '6'];        // small + small + small
 const row3 = ['7', '8', '9'];        // wide + medium + small
 
@@ -161,7 +163,7 @@ export default function ProjectsGrid() {
       <div className={`pg-showmore reveal reveal-up ${visible ? 'is-visible' : ''}`}>
         <Link href="/projects" className="pg-showmore-btn">
           <span>View All Projects</span>
-          <span className="pg-showmore-count">{projects.length} total</span>
+          {/* <span className="pg-showmore-count">{projects.length} total</span> */}
           <span className="pg-showmore-arrow">→</span>
         </Link>
       </div>
