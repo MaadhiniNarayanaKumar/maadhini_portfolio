@@ -20,7 +20,7 @@ export default function HomePage() {
             <StoryActs />
             <SkillsSection />
             <ProjectGrid />
-            <BlogsGrid />
+            {/* <BlogsGrid /> */}
             <ContactCTA />
             {/* quick links for redirection */}
             {/* <p>

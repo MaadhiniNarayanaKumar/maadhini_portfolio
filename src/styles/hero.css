@@ -64,7 +64,7 @@
 }
 
 .hero-hey {
-  font-size: clamp(6rem, 15vw, 12rem);
+  font-size: clamp(6rem, 11vw, 12rem);
   letter-spacing: 2px;
 }
 

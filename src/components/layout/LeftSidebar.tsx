@@ -24,7 +24,7 @@ const navItems = [
 //   { label: 'Experience', href: routes.experience,icon: Briefcase  },
   { label: 'Projects',   href: routes.projects,  icon: FolderOpen },
 //   { label: 'Portfolio',  href: routes.portfolio, icon: LayoutGrid },
-  { label: 'Blog',       href: routes.blog,      icon: BookOpen   },
+  // { label: 'Blog',       href: routes.blog,      icon: BookOpen   },
   { label: 'Contact',    href: routes.contact,   icon: Mail       },
 ];
 
