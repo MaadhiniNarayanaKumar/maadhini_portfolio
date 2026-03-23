@@ -1,0 +1,69 @@
+/* ─── Resume Button ─────────────────────────────── */
+
+.resume-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  text-decoration: none;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+/* ── Variants ── */
+.resume-btn-pill {
+  padding: 8px 18px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--bg-subtle);
+  color: var(--text);
+}
+
+.resume-btn-pill:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  transform: translateY(-1px);
+}
+
+.resume-btn-solid {
+  padding: 11px 26px;
+  border-radius: 10px;
+  background: var(--accent);
+  color: #fff;
+  border: 1px solid transparent;
+  box-shadow: 0 4px 14px rgba(99,102,241,0.3);
+}
+
+.resume-btn-solid:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(99,102,241,0.45);
+}
+
+.resume-btn-solid:active {
+  transform: scale(0.97);
+}
+
+.resume-btn-ghost {
+  padding: 11px 22px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text-muted);
+}
+
+.resume-btn-ghost:hover {
+  background: var(--bg-subtle);
+  color: var(--text);
+  border-color: var(--text-muted);
+  transform: translateY(-1px);
+}
+
+/* ── Sizes ── */
+.resume-btn-sm { font-size: 0.78rem; }
+.resume-btn-md { font-size: 0.86rem; }
+.resume-btn-lg { font-size: 0.96rem; }
+
+.resume-btn-sm .resume-btn-icon { width: 13px; height: 13px; }
+.resume-btn-md .resume-btn-icon { width: 15px; height: 15px; }
+.resume-btn-lg .resume-btn-icon { width: 17px; height: 17px; }

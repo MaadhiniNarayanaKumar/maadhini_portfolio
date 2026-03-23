@@ -2,6 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import projects from '../../../data/projects.json';
+import ResumeButton from '../../../components/ui/ResumeButton';
 
 export default function ProjectDetailPage({ params }: { params: { slug: string } }) {
   const project = projects.find((p) => p.slug === params.slug);
@@ -69,9 +70,10 @@ export default function ProjectDetailPage({ params }: { params: { slug: string }
             >
               Let&apos;s talk →
             </Link>
-            <a href="/resume.pdf" download className="flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium theme-button">
+            {/* <a href="/resume.pdf" download className="flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium theme-button">
               Download resume
-            </a>
+            </a> */}
+            <ResumeButton />
           </div>
         </div>
       </div>

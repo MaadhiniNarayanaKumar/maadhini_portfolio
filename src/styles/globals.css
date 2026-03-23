@@ -1,6 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import './resume-button.css';
 @import './reveal.css';
 
 /* ─── Design Tokens ─────────────────────────────── */

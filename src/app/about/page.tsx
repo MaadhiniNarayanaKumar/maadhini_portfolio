@@ -3,6 +3,7 @@ import React, { useEffect, useState, useRef, useMemo } from 'react';
 import ContactCTA from '../../components/home/ContactCTA';
 import '../../styles/about.css';
 import Link from 'next/link';
+import ResumeButton from '../../components/ui/ResumeButton';
 
 /* ════════════════════════════════════════
    HOOK
@@ -420,15 +421,15 @@ function MidCTA() {
         </p>
 
         <div className="ab-midcta-actions">
-          <a
+          {/* <a
             href="/resume.pdf"
             download
             className="ab-midcta-btn ab-midcta-btn-primary"
             aria-label="Download Resume"
           >
             Download Resume →
-          </a>
-
+          </a> */}
+          <ResumeButton />
           <Link
             href="/projects"
             className="ab-midcta-btn ab-midcta-btn-secondary"

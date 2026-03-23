@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useScrollReveal } from '../../hooks/useScrollReveal';
 import '../../styles/contact-cta.css';
 import { profile } from '../../data/profile';
+import ResumeButton from '../ui/ResumeButton';
 
 const socials = [
     {
@@ -78,9 +79,11 @@ export default function ContactCTA() {
                             Get In Touch
                             <span className="cc-btn-arrow">→</span>
                         </Link>
-                        <a href="/resume.pdf" download className="cc-btn-secondary">
+                        {/* <a href="/resume.pdf" download className="cc-btn-secondary">
                             Download Resume
-                        </a>
+                        </a> */}
+                        <ResumeButton />
+
                     </div>
 
                 </div>
