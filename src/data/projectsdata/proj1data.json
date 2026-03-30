@@ -1,0 +1,319 @@
+{
+    "hero": {
+        "eyebrow": [
+            "Quant Finance",
+            "Data Engineering",
+            "AI Full-Stack",
+            "2026"
+        ],
+        "title": "Distributed Market Intelligence",
+        "subtitle": "Self-Validating Quant Platform",
+        "tagline": "A real-time, job-tracked quantitative pipeline that processes equity data at scale — with live WebSocket updates, formal QA validation, and seamless demo/live modes.",
+        "chips": [
+            "PySpark",
+            "FastAPI",
+            "React",
+            "WebSocket",
+            "job_id",
+            "AWS EC2",
+            "Parquet",
+            "yfinance"
+        ]
+    },
+    "sections": {
+        "whatItIs": {
+            "label": "01 — What It Is",
+            "title": "A pipeline that doesn't just compute — it validates in real time.",
+            "body": "A full-stack AI-ready data engineering project that ingests real equity market data, computes key quantitative features using a distributed PySpark pipeline, validates every output through a formal QA system, and streams live execution status via WebSocket."
+        },
+        "problem": {
+            "label": "02 — The Problem It Solves",
+            "title": "Four gaps most financial projects ignore.",
+            "intro": "Most financial data projects stop at \"I got results.\" Four real gaps exist in that approach."
+        },
+        "architecture": {
+            "label": "03 — Architecture Overview",
+            "title": "Four clean layers, one cohesive real-time system.",
+            "flowLabel": "End-to-end data flow (with job_id & WebSocket)"
+        },
+        "features": {
+            "label": "04 — Key Features",
+            "title": "Seven capabilities, two major differentiators."
+        },
+        "techStack": {
+            "label": "05 — Tech Stack",
+            "title": "Every tool chosen with purpose."
+        },
+        "whyStandsOut": {
+            "label": "06 — Why This Stands Out",
+            "title": "Built for two audiences."
+        },
+        "aiExpertise": {
+            "label": "07 — AI Full-Stack Finance Expertise",
+            "title": "I own the entire stack — AI, Full-Stack & Quant Finance.",
+            "intro": "This project is deliberately architected as a complete AI-powered quantitative platform. Here’s my depth across the three core pillars."
+        },
+        "roadmap": {
+            "label": "08 — Roadmap",
+            "title": "Current build status."
+        }
+    },
+    "techStack": [
+        {
+            "layer": "Frontend",
+            "tech": "React, Recharts",
+            "role": "Dashboard & visualization"
+        },
+        {
+            "layer": "Backend",
+            "tech": "FastAPI, Python",
+            "role": "API layer & pipeline orchestration"
+        },
+        {
+            "layer": "Processing",
+            "tech": "PySpark",
+            "role": "Distributed feature engineering"
+        },
+        {
+            "layer": "QA",
+            "tech": "Pandas, NumPy",
+            "role": "Benchmark validation"
+        },
+        {
+            "layer": "Storage",
+            "tech": "Parquet",
+            "role": "Columnar data storage"
+        },
+        {
+            "layer": "Data Source",
+            "tech": "yfinance",
+            "role": "Equity market data ingestion"
+        },
+        {
+            "layer": "Infrastructure",
+            "tech": "AWS EC2",
+            "role": "Single-instance deployment"
+        },
+        {
+            "layer": "Job Management",
+            "tech": "FastAPI Background Tasks + UUID",
+            "role": "job_id tracking & multi-user safety"
+        },
+        {
+            "layer": "Real-time",
+            "tech": "FastAPI WebSockets",
+            "role": "live pipeline timeline updates"
+        },
+        {
+            "layer": "Demo Layer",
+            "tech": "Static JSON + env switch",
+            "role": "Vercel-ready zero-backend preview"
+        }
+    ],
+    "features": [
+        {
+            "name": "Log Returns",
+            "desc": "Normalized price change series for cross-asset comparison.",
+            "icon": "↗"
+        },
+        {
+            "name": "Rolling Volatility",
+            "desc": "20-day standard deviation of returns for risk measurement.",
+            "icon": "〜"
+        },
+        {
+            "name": "Momentum",
+            "desc": "Rate of price change signal for trend detection.",
+            "icon": "⚡"
+        },
+        {
+            "name": "Maximum Drawdown",
+            "desc": "Peak-to-trough decline tracking for downside risk.",
+            "icon": "↘"
+        },
+        {
+            "name": "Real-time Pipeline Timeline",
+            "desc": "WebSocket-driven live status updates with job_id tracking — watch the pipeline breathe in real time.",
+            "icon": "🔴"
+        },
+        {
+            "name": "Seamless Demo ↔ Live Mode",
+            "desc": "Same UI, zero code change. Works instantly on Vercel (demo) or connected to real Spark backend (live).",
+            "icon": "🔄"
+        },
+        {
+            "name": "QA Validation System",
+            "desc": "Every Spark output benchmarked against Pandas/SciPy with relative error thresholds and an alignment score (>95% target).",
+            "icon": "✓",
+            "highlight": true
+        }
+    ],
+    "problems": [
+        {
+            "n": "01",
+            "t": "Scalability",
+            "d": "Data doesn't stay small. Pandas breaks at scale — PySpark handles millions of rows across tickers without breaking a sweat."
+        },
+        {
+            "n": "02",
+            "t": "Correctness",
+            "d": "Rolling metrics like volatility and drawdown are expensive to compute correctly. Window functions need care — especially drawdown's unbounded cumulative max."
+        },
+        {
+            "n": "03",
+            "t": "Validation",
+            "d": "No one validates whether the numbers are actually right. This project does — with a formal QA layer that scores alignment against a trusted benchmark."
+        },
+        {
+            "n": "04",
+            "t": "Observability",
+            "d": "Most pipelines are black boxes. This one streams live status via WebSocket so you can see exactly what’s happening at every step."
+        }
+    ],
+    "archLayers": [
+        {
+            "tag": "Layer 01",
+            "title": "UI Layer",
+            "desc": "React dashboard for visualization and pipeline control"
+        },
+        {
+            "tag": "Layer 02",
+            "title": "API Layer",
+            "desc": "FastAPI backend that decouples the frontend from processing logic"
+        },
+        {
+            "tag": "Layer 03",
+            "title": "Processing Layer",
+            "desc": "PySpark pipeline handling ingestion, feature engineering, QA validation, and Parquet storage"
+        },
+        {
+            "tag": "Layer 04",
+            "title": "Job & Real-time Layer",
+            "desc": "Background tasks + WebSocket + job_id routing for safe multi-user live execution and timeline streaming"
+        }
+    ],
+    "aiFullStackExpertise": [
+        {
+            "id": "ai",
+            "tab": "AI Layer",
+            "title": "AI & Predictive Intelligence",
+            "icon": "🧠",
+            "desc": "Extending the PySpark pipeline with MLlib and future Torch models for predictive signals and anomaly detection.",
+            "highlights": [
+                "Built modular feature store ready for ML training",
+                "QA layer designed to benchmark both classical quant metrics AND ML model outputs",
+                "Momentum & volatility features engineered to feed directly into LSTM/Transformer forecasters",
+                "Anomaly detection hook using isolation forest (planned Phase 6)"
+            ]
+        },
+        {
+            "id": "fullstack",
+            "tab": "Full-Stack",
+            "title": "Full-Stack Orchestration",
+            "icon": "🔄",
+            "desc": "End-to-end ownership: React dashboard ↔ FastAPI backend ↔ distributed Spark engine.",
+            "highlights": [
+                "WebSocket real-time timeline + job_id management",
+                "Seamless demo ↔ live mode switching via env/config",
+                "Background task architecture preventing timeouts",
+                "Subdomain deployment (app. + api.) with CORS-ready FastAPI"
+            ]
+        },
+        {
+            "id": "finance",
+            "tab": "Quant Finance",
+            "title": "Domain-Specific Quant Finance",
+            "icon": "📈",
+            "desc": "Production-grade quantitative features with built-in correctness guarantees.",
+            "highlights": [
+                "Log returns, rolling volatility, momentum, max drawdown at scale",
+                "Formal Spark vs Pandas QA with >95% alignment score",
+                "Window-function optimizations for unbounded drawdown calculation",
+                "Ticker-partitioned processing to eliminate cross-stock shuffles"
+            ]
+        }
+    ],
+    "flowSteps": [
+        "User opens UI",
+        "Select ticker & date",
+        "POST /run-pipeline",
+        "Generate job_id",
+        "Spark Ingestion (yfinance)",
+        "Feature Engineering",
+        "QA Validation",
+        "Parquet Storage",
+        "WebSocket updates",
+        "Fetch results & QA",
+        "Render dashboard"
+    ],
+    "roadmap": [
+        {
+            "phase": "Phase 1",
+            "label": "PySpark pipeline — ingestion, feature engineering & QA",
+            "done": false
+        },
+        {
+            "phase": "Phase 2",
+            "label": "FastAPI backend & data serving layer",
+            "done": true
+        },
+        {
+            "phase": "Phase 3",
+            "label": "React dashboard & full UI",
+            "done": true
+        },
+        {
+            "phase": "Phase 4",
+            "label": "WebSocket real-time timeline + job_id tracking",
+            "done": false
+        },
+        {
+            "phase": "Phase 5",
+            "label": "Demo mode + Vercel deployment (same UI, different data source)",
+            "done": false
+        }
+    ],
+    "sidebar": [
+        {
+            "id": "overview",
+            "label": "Overview",
+            "number": "01"
+        },
+        {
+            "id": "problem",
+            "label": "The Problem",
+            "number": "02"
+        },
+        {
+            "id": "architecture",
+            "label": "Architecture",
+            "number": "03"
+        },
+        {
+            "id": "how-it-works",
+            "label": "How It Works",
+            "number": "04"
+        },
+        {
+            "id": "features",
+            "label": "Key Features",
+            "number": "05"
+        },
+        {
+            "id": "ai-expertise",
+            "label": "AI Full-Stack Expertise",
+            "number": "06",
+            "highlight": true
+        },
+        {
+            "id": "why-stands-out",
+            "label": "Why This Stands Out",
+            "number": "07"
+        },
+        {
+            "id": "roadmap",
+            "label": "Roadmap",
+            "number": "08"
+        }
+    ]
+}

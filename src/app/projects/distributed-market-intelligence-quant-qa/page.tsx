@@ -1,247 +1,294 @@
 "use client";
 import "../../../styles/proj1.css";
 import { useState, useEffect } from "react";
-
-const techStack = [
-  { layer: "Frontend",       tech: "React, Recharts", role: "Dashboard & visualization" },
-  { layer: "Backend",        tech: "FastAPI, Python",  role: "API layer & pipeline orchestration" },
-  { layer: "Processing",     tech: "PySpark",          role: "Distributed feature engineering" },
-  { layer: "QA",             tech: "Pandas, NumPy",    role: "Benchmark validation" },
-  { layer: "Storage",        tech: "Parquet",          role: "Columnar data storage" },
-  { layer: "Data Source",    tech: "yfinance",         role: "Equity market data ingestion" },
-  { layer: "Infrastructure", tech: "AWS EC2",          role: "Single-instance deployment" },
-];
-
-const features = [
-  { name: "Log Returns",          desc: "Normalized price change series for cross-asset comparison.",                                                                          icon: "↗" },
-  { name: "Rolling Volatility",   desc: "20-day standard deviation of returns for risk measurement.",                                                                         icon: "〜" },
-  { name: "Momentum",             desc: "Rate of price change signal for trend detection.",                                                                                   icon: "⚡" },
-  { name: "Maximum Drawdown",     desc: "Peak-to-trough decline tracking for downside risk.",                                                                                 icon: "↘" },
-  { name: "QA Validation System", desc: "Every Spark output benchmarked against Pandas/SciPy with relative error thresholds and an alignment score (>95% target).",          icon: "✓", highlight: true },
-];
-
-const roadmap = [
-  { phase: "Phase 1", label: "PySpark pipeline — ingestion, feature engineering & QA", done: true  },
-  { phase: "Phase 2", label: "FastAPI backend & data serving layer",                    done: false },
-  { phase: "Phase 3", label: "React dashboard & full UI",                               done: false },
-];
-
-const flowSteps = [
-  "User triggers pipeline", "FastAPI", "Spark + yfinance",
-  "Feature engineering", "QA validation", "Parquet storage",
-  "API serves JSON", "UI renders insights",
-];
-
-const problems = [
-  { n: "01", t: "Scalability", d: "Data doesn't stay small. Pandas breaks at scale — PySpark handles millions of rows across tickers without breaking a sweat." },
-  { n: "02", t: "Correctness", d: "Rolling metrics like volatility and drawdown are expensive to compute correctly. Window functions need care — especially drawdown's unbounded cumulative max." },
-  { n: "03", t: "Validation",  d: "No one validates whether the numbers are actually right. This project does — with a formal QA layer that scores alignment against a trusted benchmark." },
-];
-
-const archLayers = [
-  { tag: "Layer 01", title: "UI Layer",         desc: "React dashboard for visualization and pipeline control" },
-  { tag: "Layer 02", title: "API Layer",        desc: "FastAPI backend that decouples the frontend from processing logic" },
-  { tag: "Layer 03", title: "Processing Layer", desc: "PySpark pipeline handling ingestion, feature engineering, QA validation, and Parquet storage" },
-];
+import proj1data from "../../../data/projectsdata/proj1data.json"   // ← Adjust path if you put it in a subfolder
 
 export default function ProjectPage() {
   const [activeAudience, setActiveAudience] = useState("recruiters");
+  const [activeTab, setActiveTab] = useState("ai");
+  const [activeSection, setActiveSection] = useState("overview");
   const [mounted, setMounted] = useState(false);
-  useEffect(() => setMounted(true), []);
+
+  const {
+    hero,
+    sections,
+    techStack,
+    features,
+    problems,
+    archLayers,
+    aiFullStackExpertise,
+    flowSteps,
+    roadmap,
+    sidebar
+  } = proj1data;
+
+  useEffect(() => {
+    setMounted(true);
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setActiveSection(entry.target.id);
+          }
+        });
+      },
+      { threshold: 0.4, rootMargin: "-80px 0px -20% 0px" }
+    );
+
+    const sectionsToObserve = document.querySelectorAll("section[id]");
+    sectionsToObserve.forEach((section) => observer.observe(section));
+
+    return () => observer.disconnect();
+  }, []);
+
+  const scrollToSection = (id: string) => {
+    const element = document.getElementById(id);
+    if (element) {
+      const offset = 80;
+      const bodyRect = document.body.getBoundingClientRect().top;
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition = elementPosition - bodyRect - offset;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: "smooth"
+      });
+    }
+  };
 
   return (
     <div className="pj-root">
-      
-
       {/* HERO */}
-      <div className="pj-hero">
+      <div className="pj-hero" id="overview">
         <div className="pj-eyebrow">
-          <span>Quant Finance</span><span style={{opacity:0.4}}>·</span>
-          <span>Data Engineering</span><span style={{opacity:0.4}}>·</span>
-          <span>2026</span>
+          {hero.eyebrow.map((item, i) => (
+            <span key={i}>
+              {item}
+              {i < hero.eyebrow.length - 1 && <span style={{ opacity: 0.4 }}>·</span>}
+            </span>
+          ))}
         </div>
         <h1 className="pj-hero-title">
-          Distributed Market Intelligence<br />
-          <span>&amp; Quant QA System</span>
+          {hero.title}<br />
+          <span>&amp; {hero.subtitle}</span>
         </h1>
-        <p className="pj-tagline">
-          A scalable quantitative pipeline that processes equity market data at scale — and proves its own correctness.
-        </p>
+        <p className="pj-tagline">{hero.tagline}</p>
         <div className="pj-hero-chips">
-          {["PySpark", "FastAPI", "React", "AWS EC2", "Parquet", "yfinance"].map(t => (
+          {hero.chips.map(t => (
             <span className="pj-chip" key={t}>{t}</span>
           ))}
         </div>
       </div>
 
-      {/* WHAT IT IS */}
-      <section className="pj-section">
-        <div className="pj-label">01 — What It Is</div>
-        <h2 className="pj-title">A pipeline that doesn&apos;t just compute — it validates.</h2>
-        <div className="pj-accent-card">
-          <p className="pj-body">
-            A full-stack data engineering project that ingests real equity market data, computes key quantitative features using a distributed PySpark pipeline, and validates every output through a formal QA system benchmarked against industry-standard libraries. Built to simulate the kind of infrastructure used in real-world quant research and risk analytics teams.
-          </p>
-        </div>
-      </section>
-
-      {/* PROBLEM */}
-      <section className="pj-section">
-        <div className="pj-label">02 — The Problem It Solves</div>
-        <h2 className="pj-title">Three gaps most financial projects ignore.</h2>
-        <p className="pj-body">Most financial data projects stop at &quot;I got results.&quot; Three real gaps exist in that approach.</p>
-        <div className="pj-problem-grid">
-          {problems.map(p => (
-            <div className="pj-problem-card" key={p.n}>
-              <div className="pj-problem-num">{p.n}</div>
-              <div className="pj-problem-title">{p.t}</div>
-              <div className="pj-problem-desc">{p.d}</div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* ARCHITECTURE */}
-      <section className="pj-section">
-        <div className="pj-label">03 — Architecture Overview</div>
-        <h2 className="pj-title">Three clean layers, one cohesive system.</h2>
-        <div className="pj-arch-grid">
-          {archLayers.map(l => (
-            <div className="pj-arch-card" key={l.tag}>
-              <div className="pj-arch-tag">{l.tag}</div>
-              <div className="pj-arch-title">{l.title}</div>
-              <div className="pj-arch-desc">{l.desc}</div>
-            </div>
-          ))}
-        </div>
-        <div className="pj-flow-wrap">
-          <div className="pj-flow-label">End-to-end data flow</div>
-          <div className="pj-flow-steps">
-            {flowSteps.map((step, i) => (
-              <span key={step} style={{display:"flex",alignItems:"center"}}>
-                <span className="pj-flow-step">{step}</span>
-                {i < flowSteps.length - 1 && <span className="pj-flow-arrow">→</span>}
-              </span>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* FEATURES */}
-      <section className="pj-section">
-        <div className="pj-label">04 — Key Features</div>
-        <h2 className="pj-title">Five capabilities, one differentiator.</h2>
-        <div className="pj-features-grid">
-          {features.filter(f => !f.highlight).map(f => (
-            <div className="pj-feature-card" key={f.name}>
-              <span className="pj-feature-icon">{f.icon}</span>
-              <div className="pj-feature-name">{f.name}</div>
-              <div className="pj-feature-desc">{f.desc}</div>
-            </div>
-          ))}
-          {features.filter(f => f.highlight).map(f => (
-            <div className="pj-feature-card pj-highlight" key={f.name}>
-              <div className="pj-badge">Key Differentiator</div>
-              <span className="pj-feature-icon">{f.icon}</span>
-              <div className="pj-feature-name">{f.name}</div>
-              <div className="pj-feature-desc">{f.desc}</div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* TECH STACK */}
-      <section className="pj-section">
-        <div className="pj-label">05 — Tech Stack</div>
-        <h2 className="pj-title">Every tool chosen with purpose.</h2>
-        <div className="pj-table-wrap">
-          <table className="pj-table">
-            <thead>
-              <tr><th>Layer</th><th>Technology</th><th>Role</th></tr>
-            </thead>
-            <tbody>
-              {techStack.map(row => (
-                <tr key={row.layer}>
-                  <td className="cl">{row.layer}</td>
-                  <td className="ct">{row.tech}</td>
-                  <td>{row.role}</td>
-                </tr>
+      <div className="pj-main-with-sidebar">
+        {/* MAIN CONTENT */}
+        <div className="pj-main-content">
+          {/* PROBLEM */}
+          <section className="pj-section" id="problem">
+            <div className="pj-label">{sections.problem.label}</div>
+            <h2 className="pj-title">{sections.problem.title}</h2>
+            <p className="pj-body">{sections.problem.intro}</p>
+            <div className="pj-problem-grid">
+              {problems.map(p => (
+                <div className="pj-problem-card" key={p.n}>
+                  <div className="pj-problem-num">{p.n}</div>
+                  <div className="pj-problem-title">{p.t}</div>
+                  <div className="pj-problem-desc">{p.d}</div>
+                </div>
               ))}
-            </tbody>
-          </table>
-        </div>
-      </section>
+            </div>
+          </section>
 
-      {/* WHY STANDS OUT */}
-      <section className="pj-section">
-        <div className="pj-label">06 — Why This Stands Out</div>
-        <h2 className="pj-title">Built for two audiences.</h2>
-        {mounted && (
-          <div className="pj-toggle">
-            <button className={`pj-toggle-btn${activeAudience==="recruiters"?" active":""}`} onClick={() => setActiveAudience("recruiters")}>
-              For Recruiters
-            </button>
-            <button className={`pj-toggle-btn${activeAudience==="engineers"?" active":""}`} onClick={() => setActiveAudience("engineers")}>
-              For Engineers
-            </button>
-          </div>
-        )}
-        <div className="pj-accent-card">
-          {!mounted || activeAudience === "recruiters" ? (
-            <p className="pj-body">
-              Most portfolio projects compute results and stop. This one questions them. The QA validation layer — which benchmarks Spark outputs against Pandas as a ground truth — is the kind of rigor you see in production financial systems, not side projects. The architecture mirrors what quant research and risk analytics teams actually build.
-            </p>
-          ) : (
-            <p className="pj-body">
-              Spark Window functions partitioned by ticker eliminate cross-stock shuffles entirely. The QA layer intentionally uses a different execution model (single-node Pandas vs distributed Spark) to catch numerical drift, not just rerun the same logic twice. Drawdown uses unbounded cumulative max windows — the one place where Spark&apos;s lazy evaluation needs explicit checkpointing.
-            </p>
-          )}
-        </div>
-      </section>
-
-      {/* DEMO */}
-      {/* <section className="pj-section">
-        <div className="pj-label">07 — Demo</div>
-        <h2 className="pj-title">See it in action.</h2>
-        <div className="pj-video">
-          <div className="pj-play">▶</div>
-          <div className="pj-video-label">Demo video — coming soon</div>
-        </div>
-      </section> */}
-
-      {/* CTA */}
-      {/* <section className="pj-section">
-        <div className="pj-label">08 — Try It</div>
-        <h2 className="pj-title">Explore the project.</h2>
-        <p className="pj-body">
-          Live deployment and source code available below. The pipeline runs end-to-end — trigger it, watch it process, inspect the QA report.
-        </p>
-        <div className="pj-cta-row">
-          <a href="#" className="pj-btn pj-btn-primary">↗ Try Live Demo</a>
-          <a href="#" className="pj-btn pj-btn-secondary">⌥ View on GitHub</a>
-        </div>
-      </section> */}
-
-      {/* ROADMAP */}
-      <section className="pj-section">
-        <div className="pj-label">07 — Roadmap</div>
-        <h2 className="pj-title">Current build status.</h2>
-        <div className="pj-roadmap">
-          {roadmap.map(item => (
-            <div className={`pj-roadmap-item ${item.done ? "done" : "pend"}`} key={item.phase}>
-              <div className={`pj-dot ${item.done ? "done-dot" : "pend-dot"}`}>{item.done ? "✓" : "○"}</div>
-              <div>
-                <div className="pj-roadmap-phase">{item.phase}</div>
-                <div className="pj-roadmap-text">{item.label}</div>
+          {/* ARCHITECTURE */}
+          <section className="pj-section" id="architecture">
+            <div className="pj-label">{sections.architecture.label}</div>
+            <h2 className="pj-title">{sections.architecture.title}</h2>
+            <div className="pj-arch-grid">
+              {archLayers.map(l => (
+                <div className="pj-arch-card" key={l.tag}>
+                  <div className="pj-arch-tag">{l.tag}</div>
+                  <div className="pj-arch-title">{l.title}</div>
+                  <div className="pj-arch-desc">{l.desc}</div>
+                </div>
+              ))}
+            </div>
+            <div className="pj-flow-wrap">
+              <div className="pj-flow-label">{sections.architecture.flowLabel}</div>
+              <div className="pj-flow-steps">
+                {flowSteps.map((step, i) => (
+                  <span key={step} style={{ display: "flex", alignItems: "center" }}>
+                    <span className="pj-flow-step">{step}</span>
+                    {i < flowSteps.length - 1 && <span className="pj-flow-arrow">→</span>}
+                  </span>
+                ))}
               </div>
             </div>
-          ))}
+          </section>
+
+          {/* FEATURES */}
+          <section className="pj-section" id="features">
+            <div className="pj-label">{sections.features.label}</div>
+            <h2 className="pj-title">{sections.features.title}</h2>
+            <div className="pj-features-grid">
+              {features.filter(f => !f.highlight).map(f => (
+                <div className="pj-feature-card" key={f.name}>
+                  <span className="pj-feature-icon">{f.icon}</span>
+                  <div className="pj-feature-name">{f.name}</div>
+                  <div className="pj-feature-desc">{f.desc}</div>
+                </div>
+              ))}
+              {features.filter(f => f.highlight).map(f => (
+                <div className="pj-feature-card pj-highlight" key={f.name}>
+                  <div className="pj-badge">Key Differentiator</div>
+                  <span className="pj-feature-icon">{f.icon}</span>
+                  <div className="pj-feature-name">{f.name}</div>
+                  <div className="pj-feature-desc">{f.desc}</div>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          {/* TECH STACK */}
+          <section className="pj-section">
+            <div className="pj-label">{sections.techStack.label}</div>
+            <h2 className="pj-title">{sections.techStack.title}</h2>
+            <div className="pj-table-wrap">
+              <table className="pj-table">
+                <thead>
+                  <tr><th>Layer</th><th>Technology</th><th>Role</th></tr>
+                </thead>
+                <tbody>
+                  {techStack.map(row => (
+                    <tr key={row.layer}>
+                      <td className="cl">{row.layer}</td>
+                      <td className="ct">{row.tech}</td>
+                      <td>{row.role}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          {/* WHY STANDS OUT */}
+          <section className="pj-section" id="why-stands-out">
+            <div className="pj-label">{sections.whyStandsOut.label}</div>
+            <h2 className="pj-title">{sections.whyStandsOut.title}</h2>
+            {mounted && (
+              <div className="pj-toggle">
+                <button
+                  className={`pj-toggle-btn${activeAudience === "recruiters" ? " active" : ""}`}
+                  onClick={() => setActiveAudience("recruiters")}
+                >
+                  For Recruiters
+                </button>
+                <button
+                  className={`pj-toggle-btn${activeAudience === "engineers" ? " active" : ""}`}
+                  onClick={() => setActiveAudience("engineers")}
+                >
+                  For Engineers
+                </button>
+              </div>
+            )}
+            <div className="pj-accent-card">
+              {!mounted || activeAudience === "recruiters" ? (
+                <p className="pj-body">
+                  Most portfolio projects compute results and stop. This one questions them in real time.
+                  The QA validation layer + live WebSocket timeline + job_id tracking is the kind of rigor
+                  you see in production financial systems. The architecture mirrors real quant research and risk teams.
+                </p>
+              ) : (
+                <p className="pj-body">
+                  Spark Window functions partitioned by ticker eliminate cross-stock shuffles.
+                  The QA layer uses a different execution model to catch numerical drift.
+                  WebSocket streams job status live. Drawdown uses unbounded cumulative max with checkpointing.
+                  Everything is built with production observability in mind.
+                </p>
+              )}
+            </div>
+          </section>
+
+          {/* AI FULL-STACK FINANCE EXPERTISE */}
+          <section className="pj-section" id="ai-expertise">
+            <div className="pj-label">{sections.aiExpertise.label}</div>
+            <h2 className="pj-title">{sections.aiExpertise.title}</h2>
+            <p className="pj-body">{sections.aiExpertise.intro}</p>
+
+            <div className="pj-expertise-tabs">
+              {aiFullStackExpertise.map(tab => (
+                <button
+                  key={tab.id}
+                  className={`pj-tab-btn ${activeTab === tab.id ? "active" : ""}`}
+                  onClick={() => setActiveTab(tab.id)}
+                >
+                  <span className="pj-tab-icon">{tab.icon}</span>
+                  {tab.tab}
+                </button>
+              ))}
+            </div>
+
+            {aiFullStackExpertise.map(tab =>
+              tab.id === activeTab && (
+                <div key={tab.id} className="pj-expertise-content">
+                  <div className="pj-expertise-header">
+                    <span className="pj-expertise-icon-big">{tab.icon}</span>
+                    <h3>{tab.title}</h3>
+                  </div>
+                  <p className="pj-body">{tab.desc}</p>
+                  <ul className="pj-expertise-list">
+                    {tab.highlights.map((item, i) => (
+                      <li key={i}>→ {item}</li>
+                    ))}
+                  </ul>
+                </div>
+              )
+            )}
+          </section>
+
+          {/* ROADMAP */}
+          <section className="pj-section" id="roadmap">
+            <div className="pj-label">{sections.roadmap.label}</div>
+            <h2 className="pj-title">{sections.roadmap.title}</h2>
+            <div className="pj-roadmap">
+              {roadmap.map(item => (
+                <div className={`pj-roadmap-item ${item.done ? "done" : "pend"}`} key={item.phase}>
+                  <div className={`pj-dot ${item.done ? "done-dot" : "pend-dot"}`}>
+                    {item.done ? "✓" : "○"}
+                  </div>
+                  <div>
+                    <div className="pj-roadmap-phase">{item.phase}</div>
+                    <div className="pj-roadmap-text">{item.label}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
         </div>
-      </section>
+
+        {/* RIGHT STICKY SIDEBAR */}
+        <div className="pj-sidebar">
+          <div className="pj-sidebar-inner">
+            <div className="pj-sidebar-title">Contents</div>
+            <nav className="pj-sidebar-nav">
+              {sidebar.map(item => (
+                <button
+                  key={item.id}
+                  onClick={() => scrollToSection(item.id)}
+                  className={`pj-sidebar-link ${activeSection === item.id ? "active" : ""} ${item.highlight ? "highlight" : ""}`}
+                >
+                  <span className="pj-sidebar-num">{item.number}</span>
+                  <span>{item.label}</span>
+                </button>
+              ))}
+            </nav>
+          </div>
+        </div>
+      </div>
 
       {/* FOOTER */}
       <div className="pj-footer">
-        <span className="pj-footer-left">Distributed Market Intelligence & Quant QA System · 2025</span>
+        <span className="pj-footer-left">Distributed Market Intelligence & Quant QA System · 2026</span>
         <span className="pj-footer-badge">In Development</span>
       </div>
     </div>
