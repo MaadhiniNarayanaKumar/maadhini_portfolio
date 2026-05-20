@@ -2,19 +2,20 @@
   {
     "id": "1",
     "title": "Distributed Market Intelligence & Quant QA System",
-    "description": "A scalable PySpark pipeline that ingests equity market data, engineers quantitative features like volatility, momentum, and drawdown, and validates every output through a formal QA system benchmarked against Pandas — simulating real-world quant infrastructure.",
+    "description": "Local-first quant platform: PySpark seven-stage pipeline (validation, features, QA, signals, backtest), Next.js dashboard with WebSocket job tracking, DuckDB run history, and Spark-vs-Pandas/SciPy alignment scoring.",
     "category": "Quant Finance / Data Engineering",
     "year": "2025",
     "tags": [
       "Python",
       "PySpark",
       "FastAPI",
-      "React",
+      "Next.js",
+      "DuckDB",
       "Quant Finance",
       "Data Engineering",
       "QA Validation",
       "Parquet",
-      "AWS EC2"
+      "Docker"
     ],
     "gradient": "linear-gradient(135deg, #0f172a 0%, #1e3a5f 50%, #1d4ed8 100%)",
     "accent": "#38bdf8",
