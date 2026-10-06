@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import "../../../styles/proj1.css";
+import "../../styles/proj1.css";
 
 type Problem = { n: string; t: string; d: string };
 type Layer = { tag: string; title: string; desc: string };

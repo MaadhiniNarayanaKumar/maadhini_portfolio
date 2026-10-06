@@ -1,6 +1,7 @@
 "use client";
 import '../../styles/sidebar.css';
 import React from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { routes } from '../../lib/routes';
@@ -46,10 +47,13 @@ export default function LeftSidebar() {
       {/* ── Profile ── */}
       <div className="sidebar-profile">
         <div className="avatar-ring">
-          <img
+          <Image
             src="/assets/images/profile.jpg"
             alt={profile.name}
+            width={148}
+            height={148}
             className="avatar-img"
+            priority
           />
         </div>
         <h1 className="sidebar-name">{profile.name.split(' ')[0]}</h1>
