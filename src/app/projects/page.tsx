@@ -3,7 +3,10 @@ import Link from 'next/link';
 import projects from '../../data/projects.json';
 import '../../styles/projects-grid.css';
 
-let projects1=projects.slice(0,1);//remove for all projects from json for /projects page only
+// Featured builds with detail pages (quant + Mia app + extension)
+const projects1 = projects.filter((p) =>
+  ['1', '2', '3'].includes(p.id),
+);
 
 function ProjectCard({ project }: { project: (typeof projects)[0] }) {
   return (

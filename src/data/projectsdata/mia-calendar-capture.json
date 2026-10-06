@@ -1,0 +1,79 @@
+{
+  "hero": {
+    "eyebrow": ["Chrome MV3", "Firestore", "Capture", "2026"],
+    "title": "Mia Calendar Capture",
+    "subtitle": "Invite in. Event saved.",
+    "tagline": "A Chrome MV3 extension that pastes or scrapes calendar invites and writes structured events to Firestore for the Mia Calendar agenda.",
+    "impact": "Scrape mode requires a real date and time and filters page-title junk (e.g. university week headers), so the agenda stays clean. Events land under users/{uid}/events with source: extension.",
+    "chips": ["MV3", "Parse", "Firestore", "Paste invite", "Scrape", "Zoom links"]
+  },
+  "links": {
+    "github": "https://github.com/MaadhiniNarayanaKumar/mia-calendar-extension",
+    "githubLabel": "View repository (private)"
+  },
+  "problems": [
+    {
+      "n": "01",
+      "t": "Invite glue",
+      "d": "Copying Google Calendar blocks into structured fields is tedious and error-prone."
+    },
+    {
+      "n": "02",
+      "t": "Scrape noise",
+      "d": "Page titles look like events — scrapers must reject junk without a real when."
+    },
+    {
+      "n": "03",
+      "t": "Same store as the app",
+      "d": "Captured events must appear next to manual/voice events in the Flutter agenda."
+    },
+    {
+      "n": "04",
+      "t": "Auth without drama",
+      "d": "Anonymous or email/password Auth so writes satisfy Firebase security without a full OAuth flow."
+    }
+  ],
+  "layers": [
+    {
+      "tag": "UI",
+      "title": "Popup",
+      "desc": "Paste invite, scrape page, calendar picker, send to Mia"
+    },
+    {
+      "tag": "Parse",
+      "title": "Invite parser",
+      "desc": "Title, when, location/Zoom, junk filters, requireWhen for scrape"
+    },
+    {
+      "tag": "Auth",
+      "title": "Firebase Identity",
+      "desc": "Anonymous or email/password via Identity Toolkit"
+    },
+    {
+      "tag": "Data",
+      "title": "Firestore REST",
+      "desc": "Writes users/{uid}/events with source: extension"
+    }
+  ],
+  "highlights": [
+    "Paste Google Calendar–style invites with auto-parse",
+    "Scrape active tab with date+time required",
+    "Junk title filter (page title / week-of headers)",
+    "Same guest uid as the Flutter app (local-guest)",
+    "Standalone repo next to the voice app"
+  ],
+  "stack": [
+    { "layer": "Extension", "tech": "Chrome MV3", "role": "Popup + service worker + scripting" },
+    { "layer": "Parse", "tech": "JavaScript", "role": "Invite / scrape extraction" },
+    { "layer": "Auth", "tech": "Firebase Auth REST", "role": "Anonymous or email session" },
+    { "layer": "Store", "tech": "Firestore REST", "role": "Event documents for Mia Calendar" }
+  ],
+  "status": [
+    { "phase": "Shipped", "label": "Paste + scrape + Firestore write", "done": true },
+    { "phase": "Shipped", "label": "Junk filter + requireWhen", "done": true },
+    { "phase": "Shipped", "label": "Separate GitHub repo", "done": true },
+    { "phase": "Next", "label": "Richer icons / multi-account calendars", "done": false }
+  ],
+  "footer": "Mia Calendar Capture · 2026",
+  "badge": "Active — Chrome companion"
+}

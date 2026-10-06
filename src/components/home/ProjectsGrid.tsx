@@ -8,9 +8,7 @@ import '../../styles/projects-grid.css';
 const filters = ['All', 'Quant Finance', 'ML & AI', 'Engineering', 'Research'];
 
 /* ── Row layout config ── */
-// const row1 = ['1', '2', '3'];  
-const row1 = ['1'];        // large + medium + medium
-      // large + medium + medium
+const row1 = ['1', '2', '3'];        // featured: quant + Mia app + extension
 const row2 = ['4', '5', '6'];        // small + small + small
 const row3 = ['7', '8', '9'];        // wide + medium + small
 
