@@ -25,7 +25,7 @@
   {
     "id": "2",
     "title": "Mia — Voice Task App",
-    "description": "Flutter productivity shell with voice intents, task enrichment, theme packs, and a multi-source Calendar that lives alongside Mia tasks.",
+    "description": "Flutter shell with voice intents, Mia tasks, theme packs, and a multi-source Calendar — synced with Chrome extensions for tasks and invites.",
     "category": "ML & AI",
     "year": "2026",
     "tags": [
@@ -44,7 +44,7 @@
   {
     "id": "3",
     "title": "Mia Calendar Capture",
-    "description": "Chrome MV3 extension that pastes or scrapes calendar invites and writes structured events to Firestore for the Mia Calendar agenda.",
+    "description": "Chrome MV3 extension that pastes or scrapes calendar invites into Firestore so they appear on the Mia Calendar agenda.",
     "category": "Engineering",
     "year": "2026",
     "tags": [
@@ -61,20 +61,22 @@
   },
   {
     "id": "4",
-    "title": "MLOps Pipeline Framework",
-    "description": "End-to-end MLOps framework for training, versioning, and deploying financial ML models with full experiment tracking.",
+    "title": "Mia Task Capture",
+    "description": "Chrome MV3 extension that pastes or selects text into structured Mia tasks — category, priority, and due date — written to Firestore.",
     "category": "Engineering",
-    "year": "2024",
+    "year": "2026",
     "tags": [
-      "MLflow",
-      "Docker",
-      "CI/CD",
-      "AWS"
+      "Chrome Extension",
+      "MV3",
+      "Firestore",
+      "Gemini",
+      "Tasks",
+      "JavaScript"
     ],
-    "gradient": "linear-gradient(135deg, #0d1117 0%, #161b22 50%, #1f2937 100%)",
-    "accent": "#4ade80",
-    "size": "small",
-    "slug": "mlops-pipeline-framework"
+    "gradient": "linear-gradient(135deg, #052e16 0%, #14532d 45%, #4f46e5 100%)",
+    "accent": "#86efac",
+    "size": "medium",
+    "slug": "mia-task-capture"
   },
   {
     "id": "5",

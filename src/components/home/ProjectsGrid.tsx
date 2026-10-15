@@ -8,9 +8,9 @@ import '../../styles/projects-grid.css';
 const filters = ['All', 'Quant Finance', 'ML & AI', 'Engineering', 'Research'];
 
 /* ── Row layout config ── */
-const row1 = ['1', '2', '3'];        // featured: quant + Mia app + extension
-const row2 = ['4', '5', '6'];        // small + small + small
-const row3 = ['7', '8', '9'];        // wide + medium + small
+const row1 = ['1', '2', '3'];        // quant + Mia app + calendar extension
+const row2 = ['4'];                  // Mia task extension
+const row3 = ['7', '8', '9'];        // reserved
 
 function getProject(id: string) {
   return projects.find(p => p.id === id)!;
@@ -137,14 +137,14 @@ export default function ProjectsGrid() {
           </div>
         )}
 
-        {/* Row 2 — small + small + small */}
-        {/* {r2.length > 0 && (
-          <div className="pg-row pg-row-2">
+        {/* Row 2 — Mia Task Capture */}
+        {r2.length > 0 && (
+          <div className="pg-row pg-row-2" style={{ gridTemplateColumns: '1fr' }}>
             {r2.map((p, i) => (
               <ProjectCard key={p.id} project={p} index={i + 3} visible={visible} />
             ))}
           </div>
-        )} */}
+        )}
 
         {/* Row 3 — wide + medium + small */}
         {/* {r3.length > 0 && (

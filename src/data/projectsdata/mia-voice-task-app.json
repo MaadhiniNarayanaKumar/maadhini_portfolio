@@ -3,9 +3,9 @@
     "eyebrow": ["Flutter", "Voice AI", "Product", "2026"],
     "title": "Mia — Voice Task App",
     "subtitle": "Speak tasks. See your day.",
-    "tagline": "A Flutter productivity shell with voice intents, AI enrichment, theme packs, and a multi-source Calendar that sits beside Mia tasks.",
-    "impact": "Voice is the differentiator — AssemblyAI + Gemini turn speech into structured tasks and calendar events, while Firestore keeps the guest/local agenda in sync with the Chrome capture extension.",
-    "chips": ["Flutter", "Firebase", "AssemblyAI", "Gemini", "Calendar", "Theme packs"]
+    "tagline": "A Flutter productivity shell with voice intents, AI enrichment, theme packs, and a multi-source Calendar — plus companion Chrome extensions for tasks and invites.",
+    "impact": "Voice is the differentiator — AssemblyAI + Gemini turn speech into structured tasks and calendar events. Firestore keeps the guest agenda in sync with Mia Task Capture and Mia Calendar Capture.",
+    "chips": ["Flutter", "Firebase", "AssemblyAI", "Gemini", "Calendar", "Theme packs", "Chrome companions"]
   },
   "links": {
     "github": "https://github.com/MaadhiniNarayanaKumar/voice-task-app",
@@ -15,7 +15,7 @@
     {
       "n": "01",
       "t": "Capture friction",
-      "d": "Typing every task breaks flow — voice should create structured work in one pass."
+      "d": "Typing every task breaks flow — voice and browser capture should create structured work in one pass."
     },
     {
       "n": "02",
@@ -29,52 +29,55 @@
     },
     {
       "n": "04",
-      "t": "Product polish",
-      "d": "Week strips, now markers, filters, and indigo theming make the calendar feel like a real product."
+      "t": "Browser → app bridge",
+      "d": "Invites and task snippets live in the browser; they need to land in the same Firestore store the app reads."
     }
   ],
   "layers": [
     {
       "tag": "Shell",
       "title": "Parent app",
-      "desc": "Home grid, settings, auth gate (guest uid), theme controller"
+      "desc": "Home grid, bottom bar (Home / Mia / Calendar), settings, guest uid, theme controller"
     },
     {
       "tag": "Mia",
       "title": "Tasks module",
-      "desc": "Dashboard, categories, voice intents, enrichment, bottom bar with mic"
+      "desc": "Dashboard, categories, voice intents, enrichment, All done empty state"
     },
     {
       "tag": "Cal",
       "title": "Calendar module",
-      "desc": "Agenda / day / week / month, Firestore events, voice + parse invite"
+      "desc": "Agenda / Day / Week / Month, attendance prompts, voice + parse invite"
     },
     {
-      "tag": "Core",
-      "title": "Shared platform",
-      "desc": "Theme packs, config/.env secrets, voice services, UI primitives"
+      "tag": "Extensions",
+      "title": "Chrome companions",
+      "desc": "mia-task-extension → tasks · mia-calendar-extension → events"
     }
   ],
   "highlights": [
-    "Voice add for tasks and calendar events",
-    "Firestore multi-source events (manual + extension)",
-    "JSON-driven theme packs (Mia / Focus / Cal)",
-    "Week strip, filters, Now marker, Next up card",
-    "Companion Chrome extension for invite capture"
+    "Voice add for tasks and calendar events (AssemblyAI + Gemini)",
+    "Bottom navigation: Home · Mia · Calendar",
+    "Agenda / Day / Week / Month with week strip and Now marker",
+    "Finished events drop off with “Did you attend?” prompt",
+    "JSON theme packs (Mia / Focus / Cal) + lavender app icon",
+    "Companion extensions for task paste and calendar invite capture"
   ],
   "stack": [
     { "layer": "Client", "tech": "Flutter / Dart", "role": "Cross-platform UI and modules" },
-    { "layer": "Backend", "tech": "Firebase Auth + Firestore", "role": "Guest uid and event/task persistence" },
+    { "layer": "Backend", "tech": "Firebase Auth + Firestore", "role": "Guest uid; tasks + events" },
     { "layer": "Voice", "tech": "AssemblyAI", "role": "Speech-to-text" },
     { "layer": "AI", "tech": "Gemini", "role": "Intent / title / category enrichment" },
+    { "layer": "Capture", "tech": "Chrome MV3 extensions", "role": "Tasks + calendar invites → Firestore" },
     { "layer": "Config", "tech": ".env + theme JSON", "role": "Secrets and visual packs" }
   ],
   "status": [
-    { "phase": "Shipped", "label": "Mia tasks + voice + Calendar agenda", "done": true },
-    { "phase": "Shipped", "label": "Theme packs + parent shell", "done": true },
+    { "phase": "Shipped", "label": "Mia tasks + voice + Calendar views", "done": true },
+    { "phase": "Shipped", "label": "Theme packs + bottom nav shell", "done": true },
+    { "phase": "Shipped", "label": "Task + Calendar Chrome extensions", "done": true },
     { "phase": "Next", "label": "Google Calendar sync (deferred)", "done": false },
     { "phase": "Next", "label": "Tighten Firestore rules for production", "done": false }
   ],
   "footer": "Mia Voice Task App · 2026",
-  "badge": "Active — Flutter product"
+  "badge": "Active — Flutter product + extensions"
 }

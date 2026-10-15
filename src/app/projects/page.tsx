@@ -3,9 +3,9 @@ import Link from 'next/link';
 import projects from '../../data/projects.json';
 import '../../styles/projects-grid.css';
 
-// Featured builds with detail pages (quant + Mia app + extension)
+// Featured builds with detail pages (quant + Mia app + both extensions)
 const projects1 = projects.filter((p) =>
-  ['1', '2', '3'].includes(p.id),
+  ['1', '2', '3', '4'].includes(p.id),
 );
 
 function ProjectCard({ project }: { project: (typeof projects)[0] }) {
@@ -62,7 +62,10 @@ export default function ProjectsPage() {
       </div>
 
       <div className="pg-grid-wrap">
-        <div className="pg-row pg-row-1" style={{ gridTemplateColumns: 'repeat(3, minmax(0, 1fr))' }}>
+        <div
+          className="pg-row pg-row-1"
+          style={{ gridTemplateColumns: 'repeat(2, minmax(0, 1fr))' }}
+        >
           {projects1.map((p) => (
             <ProjectCard key={p.id} project={p} />
           ))}

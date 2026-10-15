@@ -4,7 +4,7 @@
     "title": "Mia Calendar Capture",
     "subtitle": "Invite in. Event saved.",
     "tagline": "A Chrome MV3 extension that pastes or scrapes calendar invites and writes structured events to Firestore for the Mia Calendar agenda.",
-    "impact": "Scrape mode requires a real date and time and filters page-title junk (e.g. university week headers), so the agenda stays clean. Events land under users/{uid}/events with source: extension.",
+    "impact": "Scrape mode requires a real date and time and filters page-title junk (e.g. university week headers), so the agenda stays clean. Events land under users/{uid}/events with source: extension — sibling to Mia Task Capture.",
     "chips": ["MV3", "Parse", "Firestore", "Paste invite", "Scrape", "Zoom links"]
   },
   "links": {
@@ -30,7 +30,7 @@
     {
       "n": "04",
       "t": "Auth without drama",
-      "d": "Anonymous or email/password Auth so writes satisfy Firebase security without a full OAuth flow."
+      "d": "Anonymous or email/password Auth so writes satisfy Firebase without a full OAuth flow."
     }
   ],
   "layers": [
@@ -60,7 +60,7 @@
     "Scrape active tab with date+time required",
     "Junk title filter (page title / week-of headers)",
     "Same guest uid as the Flutter app (local-guest)",
-    "Standalone repo next to the voice app"
+    "Sibling of Mia Task Capture; events show in-app Calendar"
   ],
   "stack": [
     { "layer": "Extension", "tech": "Chrome MV3", "role": "Popup + service worker + scripting" },
@@ -71,7 +71,7 @@
   "status": [
     { "phase": "Shipped", "label": "Paste + scrape + Firestore write", "done": true },
     { "phase": "Shipped", "label": "Junk filter + requireWhen", "done": true },
-    { "phase": "Shipped", "label": "Separate GitHub repo", "done": true },
+    { "phase": "Shipped", "label": "Standalone GitHub repo", "done": true },
     { "phase": "Next", "label": "Richer icons / multi-account calendars", "done": false }
   ],
   "footer": "Mia Calendar Capture · 2026",

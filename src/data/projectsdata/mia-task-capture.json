@@ -1,0 +1,81 @@
+{
+  "hero": {
+    "eyebrow": ["Chrome MV3", "Firestore", "Tasks", "2026"],
+    "title": "Mia Task Capture",
+    "subtitle": "Paste a task. It’s in Mia.",
+    "tagline": "A Chrome MV3 extension that turns pasted or selected text into structured Mia tasks — category, priority, and due date — written to Firestore.",
+    "impact": "Classification mirrors the Flutter app: keyword rules plus optional Gemini Auto mode. Due defaults to tomorrow 11:59 PM; today/overdue saves as high priority. Sibling of Mia Calendar Capture.",
+    "chips": ["MV3", "Parse", "Firestore", "Gemini", "Categories", "Context menu"]
+  },
+  "links": {
+    "github": "https://github.com/MaadhiniNarayanaKumar/mia-task-extension",
+    "githubLabel": "View repository (private)"
+  },
+  "problems": [
+    {
+      "n": "01",
+      "t": "Browser → todo gap",
+      "d": "Task snippets live in email, docs, and tabs — retyping them into the app breaks flow."
+    },
+    {
+      "n": "02",
+      "t": "Same rules as the app",
+      "d": "Category, priority, and due logic must match Mia’s add-task / enrichment behavior."
+    },
+    {
+      "n": "03",
+      "t": "One Firestore store",
+      "d": "Extension tasks must appear on the Mia list under the same guest uid."
+    },
+    {
+      "n": "04",
+      "t": "Optional AI classify",
+      "d": "Keyword fallbacks should work offline-ish; Gemini Auto when a key is configured."
+    }
+  ],
+  "layers": [
+    {
+      "tag": "UI",
+      "title": "Popup",
+      "desc": "Paste task, review title / category / due / priority / notes, send to Mia"
+    },
+    {
+      "tag": "Parse",
+      "title": "Task parser",
+      "desc": "Natural-language due, priority cues, category keywords matching the app"
+    },
+    {
+      "tag": "AI",
+      "title": "Gemini Auto",
+      "desc": "Optional classify via the same prompt style as the Flutter enrichment path"
+    },
+    {
+      "tag": "Data",
+      "title": "Firestore REST",
+      "desc": "Writes users/{uid}/tasks with status: enriched and timestamp fields"
+    }
+  ],
+  "highlights": [
+    "Paste lines like “Buy milk tomorrow” or “Email professor Friday, high priority”",
+    "Context menu: Send selection to Mia Tasks",
+    "Categories loaded from users/{uid}/categories (Auto or pick)",
+    "Priority + due rules aligned with the Flutter app",
+    "Optional geminiApiKey for Auto classification",
+    "Tasks show immediately in Mia (Home → Mia)"
+  ],
+  "stack": [
+    { "layer": "Extension", "tech": "Chrome MV3", "role": "Popup + service worker + contextMenus" },
+    { "layer": "Parse", "tech": "JavaScript", "role": "Due / priority / category extraction" },
+    { "layer": "AI", "tech": "Gemini API", "role": "Optional Auto classification" },
+    { "layer": "Auth", "tech": "Firebase Auth REST", "role": "Anonymous or email session" },
+    { "layer": "Store", "tech": "Firestore REST", "role": "Task documents for Mia" }
+  ],
+  "status": [
+    { "phase": "Shipped", "label": "Paste + context menu + Firestore write", "done": true },
+    { "phase": "Shipped", "label": "Category / priority / due parity with app", "done": true },
+    { "phase": "Shipped", "label": "Optional Gemini Auto classify", "done": true },
+    { "phase": "Shipped", "label": "Standalone GitHub repo", "done": true }
+  ],
+  "footer": "Mia Task Capture · 2026",
+  "badge": "Active — Chrome companion"
+}
