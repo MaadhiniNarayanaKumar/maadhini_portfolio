@@ -1,0 +1,83 @@
+{
+  "hero": {
+    "eyebrow": ["FastAPI", "LangChain", "Voice", "2024"],
+    "title": "Interview Assistant",
+    "subtitle": "Practice out loud. Get structured feedback.",
+    "tagline": "A FastAPI coach that transcribes a self-introduction and runs LangChain prompts for clarity, skills, sentiment, and interview practice chat.",
+    "impact": "Two routes do the work: /self_intro/ scores a spoken intro, and /interact/ classifies whether the user wants tips or is ready to practice.",
+    "chips": ["FastAPI", "LangChain", "OpenAI", "AssemblyAI", "JSON feedback"]
+  },
+  "links": {
+    "github": "https://github.com/MaadhiniNarayanaKumar/interview_assisstant",
+    "githubLabel": "View repository"
+  },
+  "problems": [
+    {
+      "n": "01",
+      "t": "Practice with no signal",
+      "d": "Rehearsing an interview alone gives no read on clarity, tone, or what to change."
+    },
+    {
+      "n": "02",
+      "t": "Loose feedback",
+      "d": "A free-form chat reply is hard to act on. The scorer should return a fixed shape: clarity, feedback, character, skills, and sentiment."
+    },
+    {
+      "n": "03",
+      "t": "Speech before scoring",
+      "d": "A self-intro is spoken. The model needs a transcript before it can judge the content."
+    },
+    {
+      "n": "04",
+      "t": "Tips vs live practice",
+      "d": "The same conversation has to tell “give me tips” apart from “I’m ready to speak.”"
+    }
+  ],
+  "layers": [
+    {
+      "tag": "API",
+      "title": "FastAPI",
+      "desc": "CORS for an Angular client on port 4200. GET /, POST /self_intro/, POST /interact/"
+    },
+    {
+      "tag": "Speech",
+      "title": "AssemblyAI",
+      "desc": "The self-intro path transcribes a local audio file, then passes the text into the prompt"
+    },
+    {
+      "tag": "Prompts",
+      "title": "LangChain + OpenAI",
+      "desc": "Templates for intro scoring, intent classification, tips, and a practice conversation"
+    },
+    {
+      "tag": "Router",
+      "title": "Interact flow",
+      "desc": "Classify the query, then return chat tips or continue practice. Replies are parsed as JSON"
+    }
+  ],
+  "highlights": [
+    "POST /self_intro/ returns structured intro feedback",
+    "POST /interact/ splits tips from live practice",
+    "LangChain prompt chains with a string output parser",
+    "AssemblyAI speech-to-text on the intro path",
+    "Pydantic request body (query, 1000 character cap)",
+    "CORS opened for an Angular client on port 4200"
+  ],
+  "stack": [
+    { "layer": "API", "tech": "FastAPI / Uvicorn", "role": "Routes and CORS" },
+    { "layer": "LLM", "tech": "LangChain + OpenAI", "role": "Prompt chains and JSON-shaped replies" },
+    { "layer": "Speech", "tech": "AssemblyAI", "role": "Intro audio to text" },
+    { "layer": "Schema", "tech": "Pydantic", "role": "Request body for the query" },
+    { "layer": "Client", "tech": "Angular submodule", "role": "UI pointer; not vendored in this repo" }
+  ],
+  "status": [
+    { "phase": "Completed", "label": "Self-intro and interact routes", "done": true },
+    { "phase": "Completed", "label": "Prompts for scoring, classification, tips, and conversation", "done": true },
+    { "phase": "Completed", "label": "AssemblyAI transcription helper", "done": true },
+    { "phase": "Open", "label": "Angular UI is a git submodule and is not in the public tree", "done": false },
+    { "phase": "Open", "label": "Intro transcription still points at a local audio path", "done": false }
+  ],
+  "statusHeading": "Build status — API in place.",
+  "footer": "Interview Assistant · 2024",
+  "badge": "Public API prototype"
+}

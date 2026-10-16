@@ -79,6 +79,24 @@
     "slug": "mia-task-capture"
   },
   {
+    "id": "10",
+    "title": "Interview Assistant",
+    "description": "FastAPI interview coach: AssemblyAI transcription plus LangChain prompts that score a self-intro and guide practice chat.",
+    "category": "ML & AI",
+    "year": "2024",
+    "tags": [
+      "FastAPI",
+      "LangChain",
+      "OpenAI",
+      "AssemblyAI",
+      "Interview"
+    ],
+    "gradient": "linear-gradient(135deg, #042f2e 0%, #134e4a 48%, #0f766e 100%)",
+    "accent": "#5eead4",
+    "size": "medium",
+    "slug": "interview-assistant"
+  },
+  {
     "id": "5",
     "title": "Portfolio Risk Analyzer",
     "description": "Monte Carlo based portfolio risk engine computing VaR, CVaR, and stress test scenarios across multi-asset portfolios.",

@@ -25,6 +25,7 @@ export type SimpleProjectData = {
   status: StatusItem[];
   footer: string;
   badge: string;
+  statusHeading?: string;
 };
 
 const sidebar = [
@@ -37,7 +38,7 @@ const sidebar = [
 
 export default function SimpleProjectPage({ data }: { data: SimpleProjectData }) {
   const [activeSection, setActiveSection] = useState("overview");
-  const { hero, links, problems, layers, highlights, stack, status, footer, badge } =
+  const { hero, links, problems, layers, highlights, stack, status, footer, badge, statusHeading } =
     data;
 
   const scrollToSection = (id: string) => {
@@ -152,7 +153,7 @@ export default function SimpleProjectPage({ data }: { data: SimpleProjectData })
 
           <section className="pj-section" id="status">
             <div className="pj-label">04 — Status</div>
-            <h2 className="pj-title">Build status — shipped complete.</h2>
+            <h2 className="pj-title">{statusHeading ?? "Build status — shipped complete."}</h2>
             <div className="pj-roadmap">
               {status.map((item) => (
                 <div
