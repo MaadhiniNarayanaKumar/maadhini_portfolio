@@ -2,9 +2,9 @@
   {
     "id": "1",
     "title": "Distributed Market Intelligence & Quant QA System",
-    "description": "Local-first quant platform: PySpark seven-stage pipeline (validation, features, QA, signals, backtest), Next.js dashboard with WebSocket job tracking, DuckDB run history, and Spark-vs-Pandas/SciPy alignment scoring.",
+    "description": "Completed local-first quant platform: PySpark seven-stage pipeline, FastAPI + WebSockets, Next.js live UI, DuckDB history, signals/backtest, and a static Vercel demo with fixture replay.",
     "category": "Quant Finance / Data Engineering",
-    "year": "2025",
+    "year": "2026",
     "tags": [
       "Python",
       "PySpark",
@@ -12,9 +12,9 @@
       "Next.js",
       "DuckDB",
       "Quant Finance",
-      "Data Engineering",
       "QA Validation",
-      "Parquet",
+      "Signals",
+      "Demo / Vercel",
       "Docker"
     ],
     "gradient": "linear-gradient(135deg, #0f172a 0%, #1e3a5f 50%, #1d4ed8 100%)",
@@ -25,7 +25,7 @@
   {
     "id": "2",
     "title": "Mia — Voice Task App",
-    "description": "Flutter shell with voice intents, Mia tasks, theme packs, and a multi-source Calendar — synced with Chrome extensions for tasks and invites.",
+    "description": "Completed Flutter shell with voice intents, Mia tasks, theme packs, and a multi-source Calendar — synced with Chrome extensions for tasks and invites.",
     "category": "ML & AI",
     "year": "2026",
     "tags": [
@@ -44,7 +44,7 @@
   {
     "id": "3",
     "title": "Mia Calendar Capture",
-    "description": "Chrome MV3 extension that pastes or scrapes calendar invites into Firestore so they appear on the Mia Calendar agenda.",
+    "description": "Completed Chrome MV3 extension that pastes or scrapes calendar invites into Firestore so they appear on the Mia Calendar agenda.",
     "category": "Engineering",
     "year": "2026",
     "tags": [
@@ -62,7 +62,7 @@
   {
     "id": "4",
     "title": "Mia Task Capture",
-    "description": "Chrome MV3 extension that pastes or selects text into structured Mia tasks — category, priority, and due date — written to Firestore.",
+    "description": "Completed Chrome MV3 extension that pastes or selects text into structured Mia tasks — category, priority, and due date — written to Firestore.",
     "category": "Engineering",
     "year": "2026",
     "tags": [

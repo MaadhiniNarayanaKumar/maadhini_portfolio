@@ -69,11 +69,11 @@
     { "layer": "Store", "tech": "Firestore REST", "role": "Event documents for Mia Calendar" }
   ],
   "status": [
-    { "phase": "Shipped", "label": "Paste + scrape + Firestore write", "done": true },
-    { "phase": "Shipped", "label": "Junk filter + requireWhen", "done": true },
-    { "phase": "Shipped", "label": "Standalone GitHub repo", "done": true },
-    { "phase": "Next", "label": "Richer icons / multi-account calendars", "done": false }
+    { "phase": "Completed", "label": "Paste + scrape + Firestore write", "done": true },
+    { "phase": "Completed", "label": "Junk filter + requireWhen", "done": true },
+    { "phase": "Completed", "label": "In-app calendar parity (local-guest)", "done": true },
+    { "phase": "Completed", "label": "Standalone GitHub repo", "done": true }
   ],
   "footer": "Mia Calendar Capture · 2026",
-  "badge": "Active — Chrome companion"
+  "badge": "Completed — Chrome companion"
 }

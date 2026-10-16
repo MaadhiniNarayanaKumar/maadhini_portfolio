@@ -8,19 +8,20 @@
         ],
         "title": "Distributed Market Intelligence",
         "subtitle": "Self-Validating Quant Platform",
-        "tagline": "A self-validating quant pipeline with live job tracking and a Next.js control plane.",
-        "impact": "Most projects stop at results — this one validates them in real time, streams every stage over WebSocket, and ships signals, backtest, and versioned runs in one local research workstation.",
+        "tagline": "A self-validating quant pipeline with live job tracking, a Next.js control plane, and a static Vercel demo for recruiter walkthroughs.",
+        "impact": "Most projects stop at results — this one validates them in real time, streams every stage over WebSocket, ships signals and backtests, and exports a fixture-backed demo that runs without FastAPI or PySpark.",
         "chips": [
             "Next.js",
             "FastAPI",
             "PySpark",
             "DuckDB",
             "WebSocket",
-            "QA"
+            "QA",
+            "Demo / Vercel"
         ]
     },
     "links": {
-        "github": "#",
+        "github": "https://github.com/MaadhiniNarayanaKumar/distributed-market-intelligence-quant-qa",
         "githubLabel": "View repository"
     },
     "sections": {
@@ -31,9 +32,9 @@
         },
         "howItWorks": {
             "label": "02 — How It Works",
-            "title": "Four layers, seven pipeline stages.",
+            "title": "Four layers, seven pipeline stages — plus a static demo.",
             "flowLabel": "Core pipeline stages",
-            "pipelineNote": "Then SAVING_DATA → COMPLETED; UI fetches via /features, /qa, and /api/v1/*."
+            "pipelineNote": "Then SAVING_DATA → COMPLETED; UI fetches via /features, /qa, and /api/v1/*. Live stack: API :8080 + web :3002. Demo stack: demo/ :3003 on fixtures only."
         },
         "highlights": {
             "label": "03 — Highlights",
@@ -41,7 +42,7 @@
         },
         "status": {
             "label": "04 — Status",
-            "title": "Build status and what's next."
+            "title": "Build status — all planned phases complete."
         }
     },
     "problems": [
@@ -70,7 +71,7 @@
         {
             "tag": "Layer 01",
             "title": "UI Layer",
-            "desc": "Next.js dashboard — run pipeline, jobs, QA, signals, backtest, reports"
+            "desc": "Next.js live dashboard (web/) + static portfolio demo (demo/) sharing components"
         },
         {
             "tag": "Layer 02",
@@ -98,15 +99,17 @@
         "REPORT_EXPORT"
     ],
     "flowStepsDetail": [
-        "Next.js UI — ticker input (dates in config.json)",
-        "POST /run-pipeline → job_id",
+        "Next.js UI — ticker input (dates in config/config.json)",
+        "POST /run-pipeline → job_id (API on :8080)",
         "WebSocket /ws/{job_id} for live timeline",
         "Seven stages above, then SAVING_DATA → COMPLETED",
         "Parquet + versioned artifacts under data/versioned/",
-        "DuckDB stores QA, signals, backtest per run_id",
+        "DuckDB stores jobs, QA, signals, backtests per run_id",
         "GET /features, /qa, /api/v1/signals, regime, backtest, reports/{ticker}",
         "Single pipeline lock — 409 if a run is already active",
-        "Snapshot mode: per-ticker CSV under data/snap/; live mode: yfinance"
+        "Snapshot mode: per-ticker CSV under data/snap/; live mode: yfinance",
+        "Demo refresh: seed pipeline → capture GETs → fixtures under demo/public/fixtures/",
+        "Vercel Root Directory = demo — zero backend, fixture replay of pipeline steps"
     ],
     "highlights": [
         {
@@ -116,8 +119,8 @@
             "highlight": true
         },
         {
-            "name": "Pipeline & Research Outputs",
-            "desc": "Rule-based signals, simple backtest, versioned run export, Parquet storage.",
+            "name": "Signals & Backtest",
+            "desc": "Rule-based BUY/SELL/HOLD with confidence + reasons; signal_rules_v1 metrics (CAGR, Sharpe, max DD, win rate).",
             "icon": "📊"
         },
         {
@@ -127,20 +130,25 @@
         },
         {
             "name": "Next.js Control Plane",
-            "desc": "Dashboard, Run pipeline, Jobs, Explorer, QA, Signals, Regime, Backtest, Reports, Settings.",
+            "desc": "Live web/ dashboard — Jobs, Explorer, QA, Signals, Regime, Backtest, Reports, Settings.",
             "icon": "🖥"
         },
         {
+            "name": "Static Demo / Vercel",
+            "desc": "demo/ app with fixture snapshot, historical step replay, and refresh scripts — no API required to deploy.",
+            "icon": "🚀"
+        },
+        {
             "name": "Local Research Platform",
-            "desc": "backend/ + web/ + config.json; snapshot or live ingestion; Docker Compose & start_dev.sh.",
+            "desc": "backend/ + web/ + demo/ + config/; Docker Compose; start_live_dev.sh / start_demo_dev.sh.",
             "icon": "⚙"
         }
     ],
     "techStackPrimary": [
         {
             "layer": "Frontend",
-            "tech": "Next.js 16, TypeScript, Tailwind",
-            "role": "App Router dashboard — tables & JSON views"
+            "tech": "Next.js, TypeScript, Tailwind",
+            "role": "Live web/ dashboard + demo/ portfolio UI"
         },
         {
             "layer": "Backend",
@@ -170,6 +178,16 @@
             "role": "Live or offline per-ticker data under data/snap/"
         },
         {
+            "layer": "Signals",
+            "tech": "Rule engine + RSI / vol / SMA filters",
+            "role": "BUY / SELL / HOLD with confidence & reasons"
+        },
+        {
+            "layer": "Backtest",
+            "tech": "signal_rules_v1",
+            "role": "CAGR, Sharpe, max drawdown, win rate, profit factor"
+        },
+        {
             "layer": "Job Management",
             "tech": "BackgroundTasks, UUID, DuckDB",
             "role": "job_id tracking; single-machine pipeline lock"
@@ -180,17 +198,17 @@
             "role": "Live timeline at /ws/{job_id}"
         },
         {
-            "layer": "Infrastructure",
-            "tech": "Docker Compose, start_dev.sh",
-            "role": "Local-first dev — NEXT_PUBLIC_API_BASE → :8000"
+            "layer": "Demo / Vercel",
+            "tech": "demo/ + static fixtures",
+            "role": "Zero-backend portfolio walkthrough (Phase 5 shipped)"
         },
         {
-            "layer": "Demo / Vercel (Planned)",
-            "tech": "Phase 5 — not built",
-            "role": "Static JSON zero-backend preview"
+            "layer": "Infrastructure",
+            "tech": "Docker Compose, start_*_dev.sh",
+            "role": "Live :8080/:3002 · Demo :3003"
         }
     ],
-    "futureWork": "Phases 1–4 are complete (PySpark pipeline, FastAPI, Next.js UI, WebSocket + job_id). Phase 5 adds a Vercel-friendly static demo mode. Today the platform ships engineered features, rule-based signals, backtest, and formal QA.",
+    "futureWork": "Phases 1–5 are complete: PySpark pipeline, FastAPI, Next.js live UI, WebSocket job tracking, and the static Vercel demo with fixture capture. Optional research waves (richer indicators, HMM regimes, HTML/PDF reports, formal pytest goldens) remain outside the shipped core.",
     "roadmap": [
         {
             "phase": "Phase 1",
@@ -199,12 +217,12 @@
         },
         {
             "phase": "Phase 2",
-            "label": "FastAPI backend & data serving layer",
+            "label": "FastAPI backend & data serving layer (/api/v1)",
             "done": true
         },
         {
             "phase": "Phase 3",
-            "label": "Next.js dashboard & full UI (web/)",
+            "label": "Next.js live dashboard (web/)",
             "done": true
         },
         {
@@ -214,8 +232,8 @@
         },
         {
             "phase": "Phase 5",
-            "label": "Demo mode + Vercel deployment (static JSON preview)",
-            "done": false
+            "label": "Static demo mode + Vercel deploy (demo/ fixtures)",
+            "done": true
         }
     ],
     "sidebar": [

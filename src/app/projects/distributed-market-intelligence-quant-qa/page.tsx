@@ -319,7 +319,7 @@ export default function ProjectPage() {
         <span className="pj-footer-left">
           Distributed Market Intelligence & Quant QA System · 2026
         </span>
-        <span className="pj-footer-badge">Active — local research platform</span>
+        <span className="pj-footer-badge">Completed — live stack + Vercel demo</span>
       </div>
     </div>
   );

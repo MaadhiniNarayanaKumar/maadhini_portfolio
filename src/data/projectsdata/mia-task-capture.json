@@ -71,11 +71,11 @@
     { "layer": "Store", "tech": "Firestore REST", "role": "Task documents for Mia" }
   ],
   "status": [
-    { "phase": "Shipped", "label": "Paste + context menu + Firestore write", "done": true },
-    { "phase": "Shipped", "label": "Category / priority / due parity with app", "done": true },
-    { "phase": "Shipped", "label": "Optional Gemini Auto classify", "done": true },
-    { "phase": "Shipped", "label": "Standalone GitHub repo", "done": true }
+    { "phase": "Completed", "label": "Paste + context menu + Firestore write", "done": true },
+    { "phase": "Completed", "label": "Category / priority / due parity with app", "done": true },
+    { "phase": "Completed", "label": "Optional Gemini Auto classify", "done": true },
+    { "phase": "Completed", "label": "Standalone GitHub repo", "done": true }
   ],
   "footer": "Mia Task Capture · 2026",
-  "badge": "Active — Chrome companion"
+  "badge": "Completed — Chrome companion"
 }

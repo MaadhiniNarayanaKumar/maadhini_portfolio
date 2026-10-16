@@ -72,12 +72,11 @@
     { "layer": "Config", "tech": ".env + theme JSON", "role": "Secrets and visual packs" }
   ],
   "status": [
-    { "phase": "Shipped", "label": "Mia tasks + voice + Calendar views", "done": true },
-    { "phase": "Shipped", "label": "Theme packs + bottom nav shell", "done": true },
-    { "phase": "Shipped", "label": "Task + Calendar Chrome extensions", "done": true },
-    { "phase": "Next", "label": "Google Calendar sync (deferred)", "done": false },
-    { "phase": "Next", "label": "Tighten Firestore rules for production", "done": false }
+    { "phase": "Completed", "label": "Mia tasks + voice + Calendar views", "done": true },
+    { "phase": "Completed", "label": "Theme packs + bottom nav shell", "done": true },
+    { "phase": "Completed", "label": "Task + Calendar Chrome extensions integrated", "done": true },
+    { "phase": "Completed", "label": "Separate GitHub repos for app + companions", "done": true }
   ],
   "footer": "Mia Voice Task App · 2026",
-  "badge": "Active — Flutter product + extensions"
+  "badge": "Completed — Flutter product + extensions"
 }

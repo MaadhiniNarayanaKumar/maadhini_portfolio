@@ -152,7 +152,7 @@ export default function SimpleProjectPage({ data }: { data: SimpleProjectData })
 
           <section className="pj-section" id="status">
             <div className="pj-label">04 — Status</div>
-            <h2 className="pj-title">Build status and what&apos;s next.</h2>
+            <h2 className="pj-title">Build status — shipped complete.</h2>
             <div className="pj-roadmap">
               {status.map((item) => (
                 <div
