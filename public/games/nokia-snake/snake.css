@@ -1,0 +1,107 @@
+.page {
+  margin: 0;
+  min-height: 100%;
+  background: #050805;
+  color: #b7f7c8;
+  font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+}
+
+.board {
+  max-width: 420px;
+  margin: 0 auto;
+  padding: 20px 16px 28px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+
+.hud {
+  width: min(400px, 92vw);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.score {
+  font-size: 14px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.score span {
+  color: #39ff14;
+  font-size: 20px;
+  margin-left: 8px;
+}
+
+.start {
+  background: transparent;
+  color: #39ff14;
+  border: 1px solid #39ff14;
+  border-radius: 999px;
+  padding: 8px 14px;
+  font: inherit;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.start:hover {
+  background: rgba(57, 255, 20, 0.12);
+}
+
+.grid {
+  width: min(400px, 92vw);
+  height: min(400px, 92vw);
+  display: flex;
+  flex-wrap: wrap;
+  border: 2px solid silver;
+  background: #000;
+  box-shadow: 0 0 0 8px #0c140e;
+}
+
+.grid div {
+  width: 10%;
+  height: 10%;
+  box-sizing: border-box;
+}
+
+.snake {
+  background-color: rgb(0, 255, 0);
+}
+
+.apple {
+  background-color: #ff3535;
+  border-radius: 50%;
+}
+
+.status {
+  min-height: 1.2em;
+  margin: 0;
+  font-size: 13px;
+  color: #86efac;
+  text-align: center;
+}
+
+.pad {
+  display: grid;
+  grid-template-columns: repeat(4, 48px);
+  gap: 8px;
+}
+
+.pad button {
+  height: 44px;
+  border-radius: 10px;
+  border: 1px solid rgba(57, 255, 20, 0.45);
+  background: #0c140e;
+  color: #39ff14;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.pad button:active {
+  background: rgba(57, 255, 20, 0.16);
+}

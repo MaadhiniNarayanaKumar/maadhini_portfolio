@@ -9,7 +9,7 @@ const filters = ['All', 'Quant Finance', 'ML & AI', 'Engineering', 'Research'];
 
 /* ── Row layout config ── */
 const row1 = ['1', '2', '3'];        // quant + Mia app + calendar extension
-const row2 = ['4', '10'];            // Mia task extension + interview assistant
+const row2 = ['4', '10', '11'];      // Mia task extension + interview assistant + nokia snake
 const row3 = ['7', '8', '9'];        // reserved
 
 function getProject(id: string) {
@@ -105,7 +105,7 @@ export default function ProjectsGrid() {
       <div className={`pg-headline reveal reveal-up reveal-delay-1 ${visible ? 'is-visible' : ''}`}>
         <h2 className="pg-headline-text">Selected Work</h2>
         <p className="pg-headline-sub">
-          A collection of quantitative research, ML systems, and financial engineering projects
+          Quantitative research, ML systems, and the first page I shipped
         </p>
       </div>
 
@@ -139,7 +139,7 @@ export default function ProjectsGrid() {
 
         {/* Row 2 — Mia Task Capture */}
         {r2.length > 0 && (
-          <div className="pg-row pg-row-2" style={{ gridTemplateColumns: 'repeat(2, minmax(0, 1fr))' }}>
+          <div className="pg-row pg-row-2">
             {r2.map((p, i) => (
               <ProjectCard key={p.id} project={p} index={i + 3} visible={visible} />
             ))}

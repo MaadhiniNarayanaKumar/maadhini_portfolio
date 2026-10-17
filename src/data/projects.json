@@ -97,6 +97,23 @@
     "slug": "interview-assistant"
   },
   {
+    "id": "11",
+    "title": "Nokia Snake",
+    "description": "First HTML, CSS, and JavaScript project: a 10×10 div-grid remake of the old Nokia snake, from February 2023. Playable on this site.",
+    "category": "Web",
+    "year": "2023",
+    "tags": [
+      "HTML",
+      "CSS",
+      "JavaScript",
+      "First project"
+    ],
+    "gradient": "linear-gradient(135deg, #050805 0%, #052e16 55%, #16a34a 100%)",
+    "accent": "#4ade80",
+    "size": "medium",
+    "slug": "nokia-snake"
+  },
+  {
     "id": "5",
     "title": "Portfolio Risk Analyzer",
     "description": "Monte Carlo based portfolio risk engine computing VaR, CVaR, and stress test scenarios across multi-asset portfolios.",

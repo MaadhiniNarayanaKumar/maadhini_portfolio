@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Snake — old Nokia</title>
+    <link rel="stylesheet" href="snake.css" />
+  </head>
+  <body class="page">
+    <div class="board">
+      <div class="hud">
+        <div class="score">Score <span id="score">0</span></div>
+        <button class="start" type="button">Start / Restart</button>
+      </div>
+      <div class="grid" aria-label="Snake board"></div>
+      <p class="status" id="status">Press start, then the arrow keys.</p>
+      <div class="pad" aria-label="Direction pad">
+        <button type="button" data-dir="up" aria-label="Up">↑</button>
+        <button type="button" data-dir="left" aria-label="Left">←</button>
+        <button type="button" data-dir="down" aria-label="Down">↓</button>
+        <button type="button" data-dir="right" aria-label="Right">→</button>
+      </div>
+    </div>
+    <script src="snake.js"></script>
+  </body>
+</html>
