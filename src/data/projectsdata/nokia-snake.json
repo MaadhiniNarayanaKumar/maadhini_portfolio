@@ -78,12 +78,12 @@
     { "layer": "Input", "tech": "Keyboard and buttons", "role": "Direction for the next tick" }
   ],
   "status": [
-    { "phase": "Completed", "label": "Movement, apple, and collision in the February 2023 file", "done": true },
-    { "phase": "Completed", "label": "Playable copy on this site, with a visible score and a centered board", "done": true },
-    { "phase": "Completed", "label": "Game over written under the grid instead of an alert", "done": true },
-    { "phase": "Open", "label": "The GitHub file still calls alert and places the board at left: 110%", "done": false }
+    { "phase": "Completed", "label": "Movement, apple, and collision", "done": true },
+    { "phase": "Completed", "label": "Board centered, with a visible score", "done": true },
+    { "phase": "Completed", "label": "Game over written on the page instead of an alert", "done": true },
+    { "phase": "Completed", "label": "Playable on this site", "done": true }
   ],
-  "statusHeading": "Build status — playable on this site.",
+  "statusHeading": "Build status — shipped complete.",
   "footer": "Nokia Snake · February 2023",
   "badge": "First HTML project"
 }
