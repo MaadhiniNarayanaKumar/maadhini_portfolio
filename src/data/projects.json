@@ -114,6 +114,41 @@
     "slug": "nokia-snake"
   },
   {
+    "id": "12",
+    "title": "YouTube Clone",
+    "description": "Early HTML and CSS layout of a YouTube home page, from February 2023. Sidebar, search bar, and a grid of video cards. Viewable on this site.",
+    "category": "Web",
+    "year": "2023",
+    "tags": [
+      "HTML",
+      "CSS",
+      "JavaScript",
+      "Layout"
+    ],
+    "gradient": "linear-gradient(135deg, #0f0f0f 0%, #1c1917 48%, #b91c1c 100%)",
+    "accent": "#f87171",
+    "size": "medium",
+    "slug": "youtube-clone"
+  },
+  {
+    "id": "13",
+    "title": "Eye Detection with Haar Cascades",
+    "description": "OpenCV notebook that reads a webcam, runs a Haar cascade XML for eyes, and draws a box on each detection. Swap the XML to target a different object.",
+    "category": "ML & AI",
+    "year": "2022",
+    "tags": [
+      "OpenCV",
+      "Haar Cascade",
+      "Computer Vision",
+      "Python",
+      "Webcam"
+    ],
+    "gradient": "linear-gradient(135deg, #082f49 0%, #155e75 52%, #0e7490 100%)",
+    "accent": "#67e8f9",
+    "size": "medium",
+    "slug": "detection-using-xml"
+  },
+  {
     "id": "5",
     "title": "Portfolio Risk Analyzer",
     "description": "Monte Carlo based portfolio risk engine computing VaR, CVaR, and stress test scenarios across multi-asset portfolios.",

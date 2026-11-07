@@ -3,9 +3,9 @@ import Link from 'next/link';
 import projects from '../../data/projects.json';
 import '../../styles/projects-grid.css';
 
-// Featured builds with detail pages (quant + Mia app + both extensions + interview assistant + nokia snake)
+// Featured builds with detail pages (quant + Mia app + both extensions + interview assistant + early web + eye detection)
 const projects1 = projects.filter((p) =>
-  ['1', '2', '3', '4', '10', '11'].includes(p.id),
+  ['1', '2', '3', '4', '10', '11', '12', '13'].includes(p.id),
 );
 
 function ProjectCard({ project }: { project: (typeof projects)[0] }) {
@@ -57,7 +57,7 @@ export default function ProjectsPage() {
       <div className="pg-headline">
         <h1 className="pg-headline-text">My Projects</h1>
         <p className="pg-headline-sub">
-          Quant research, ML systems, financial engineering, and the first page I shipped.
+          Quant research, ML systems, financial engineering, and earlier projects.
         </p>
       </div>
 

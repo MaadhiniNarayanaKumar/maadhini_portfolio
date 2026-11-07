@@ -1,0 +1,82 @@
+{
+  "hero": {
+    "eyebrow": ["OpenCV", "Haar Cascade", "Webcam", "2022"],
+    "title": "Eye Detection",
+    "subtitle": "A cascade file, a camera, a box.",
+    "tagline": "A short OpenCV notebook that opens the webcam, loads haarcascade_eye.xml, and draws a rectangle around each eye it finds.",
+    "impact": "The same loop works for a different target: swap the XML for another Haar cascade and the detector follows.",
+    "chips": ["OpenCV", "Haar Cascade", "Python", "Webcam", "Jupyter"]
+  },
+  "links": {
+    "github": "https://github.com/MaadhiniNarayanaKumar/detection-using-xml",
+    "githubLabel": "View repository"
+  },
+  "problems": [
+    {
+      "n": "01",
+      "t": "Eyes in a live frame",
+      "d": "A still photo is easy to inspect. The notebook has to find eyes in every frame coming off the webcam."
+    },
+    {
+      "n": "02",
+      "t": "No model to train",
+      "d": "Haar cascades ship as XML. The detector loads a trained file instead of fitting weights in the notebook."
+    },
+    {
+      "n": "03",
+      "t": "One loop, many targets",
+      "d": "Hand, fist, and face use the same detect-and-draw loop. Only the cascade file changes."
+    },
+    {
+      "n": "04",
+      "t": "A way to stop",
+      "d": "The capture loop has to release the camera. Escape ends the window and calls release."
+    }
+  ],
+  "layers": [
+    {
+      "tag": "Capture",
+      "title": "Webcam",
+      "desc": "cv2.VideoCapture(0) reads frames until the loop breaks"
+    },
+    {
+      "tag": "Cascade",
+      "title": "Haar XML",
+      "desc": "CascadeClassifier loads haarcascade_eye.xml. The repo also stores that file next to the notebook"
+    },
+    {
+      "tag": "Detect",
+      "title": "detectMultiScale",
+      "desc": "Each frame is converted to gray, then scanned with scale 1.1 and minNeighbors 10"
+    },
+    {
+      "tag": "Draw",
+      "title": "Overlay",
+      "desc": "A white rectangle marks each box. Escape (key 27) stops the loop and closes the window"
+    }
+  ],
+  "highlights": [
+    "Live eye boxes from the default webcam",
+    "Grayscale frames before detection",
+    "detectMultiScale at scale 1.1 and minNeighbors 10",
+    "White rectangle drawn on each hit",
+    "Escape releases the camera and destroys the window",
+    "Swap the XML to point the same loop at another cascade"
+  ],
+  "stack": [
+    { "layer": "Language", "tech": "Python 3 / Jupyter", "role": "Notebook that runs the loop" },
+    { "layer": "Vision", "tech": "OpenCV (cv2)", "role": "Capture, grayscale, detect, draw" },
+    { "layer": "Model", "tech": "haarcascade_eye.xml", "role": "Pretrained eye cascade" },
+    { "layer": "Input", "tech": "Webcam index 0", "role": "Live frames" },
+    { "layer": "Exit", "tech": "waitKey", "role": "Escape closes the window" }
+  ],
+  "status": [
+    { "phase": "Completed", "label": "Webcam loop with eye boxes", "done": true },
+    { "phase": "Completed", "label": "Cascade XML committed next to the notebook", "done": true },
+    { "phase": "Completed", "label": "Escape path that releases the camera", "done": true },
+    { "phase": "Open", "label": "Classifier path is a local Windows site-packages path, not the XML in the repo", "done": false }
+  ],
+  "statusHeading": "Build status — local notebook.",
+  "footer": "Eye Detection · 2022",
+  "badge": "OpenCV notebook"
+}
