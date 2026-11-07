@@ -17,7 +17,14 @@ export type SimpleProjectData = {
     impact: string;
     chips: string[];
   };
-  links: { github: string; githubLabel: string };
+  links: {
+    github: string;
+    githubLabel: string;
+    live?: string;
+    liveLabel?: string;
+    api?: string;
+    apiLabel?: string;
+  };
   problems: Problem[];
   layers: Layer[];
   highlights: string[];
@@ -71,14 +78,36 @@ export default function SimpleProjectPage({ data }: { data: SimpleProjectData })
             </span>
           ))}
         </div>
-        <a
-          className="pj-hero-link"
-          href={links.github}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          {links.githubLabel} →
-        </a>
+        <div className="pj-hero-links">
+          {links.live && (
+            <a
+              className="pj-hero-link"
+              href={links.live}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {links.liveLabel || "Open live demo"} →
+            </a>
+          )}
+          {links.api && (
+            <a
+              className="pj-hero-link"
+              href={links.api}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {links.apiLabel || "API docs"} →
+            </a>
+          )}
+          <a
+            className="pj-hero-link"
+            href={links.github}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {links.githubLabel} →
+          </a>
+        </div>
       </div>
 
       <div className="pj-main-with-sidebar">

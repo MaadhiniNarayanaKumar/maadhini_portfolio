@@ -1,15 +1,17 @@
 {
   "hero": {
-    "eyebrow": ["FastAPI", "LangChain", "Voice", "2024"],
+    "eyebrow": ["FastAPI", "Gemini", "Next.js", "2026"],
     "title": "Interview Assistant",
     "subtitle": "Practice out loud. Get structured feedback.",
-    "tagline": "A FastAPI coach that transcribes a self-introduction and runs LangChain prompts for clarity, skills, sentiment, and interview practice chat.",
-    "impact": "Two routes do the work: /self_intro/ scores a spoken intro, and /interact/ classifies whether the user wants tips or is ready to practice.",
-    "chips": ["FastAPI", "LangChain", "OpenAI", "AssemblyAI", "JSON feedback"]
+    "tagline": "Upload or record a self-introduction. AssemblyAI transcribes it, Gemini returns clarity notes, skills, character traits, and sentiment, and a chat coach API is ready for tips or speaking drills.",
+    "impact": "v2 split: Next.js UI for capture and review, FastAPI on Railway for transcription and Gemini scoring, with a hard 3-minute audio limit.",
+    "chips": ["Next.js", "FastAPI", "Gemini", "AssemblyAI", "Railway", "Vercel"]
   },
   "links": {
     "github": "https://github.com/MaadhiniNarayanaKumar/interview_assisstant",
-    "githubLabel": "View repository"
+    "githubLabel": "View repository",
+    "api": "https://interviewassisstant-production.up.railway.app/docs",
+    "apiLabel": "Open API docs"
   },
   "problems": [
     {
@@ -20,7 +22,7 @@
     {
       "n": "02",
       "t": "Loose feedback",
-      "d": "A free-form chat reply is hard to act on. The scorer should return a fixed shape: clarity, feedback, character, skills, and sentiment."
+      "d": "A free-form chat reply is hard to act on. The scorer returns a fixed shape: clarity, feedback, character, skills, and sentiment."
     },
     {
       "n": "03",
@@ -30,54 +32,54 @@
     {
       "n": "04",
       "t": "Tips vs live practice",
-      "d": "The same conversation has to tell “give me tips” apart from “I’m ready to speak.”"
+      "d": "The coach API must tell “give me tips” apart from “I’m ready to speak,” then return either coaching or a timed exercise."
     }
   ],
   "layers": [
     {
+      "tag": "UI",
+      "title": "Next.js",
+      "desc": "Upload audio or record from the mic, preview the clip, enforce a 3-minute max, and show structured feedback."
+    },
+    {
       "tag": "API",
-      "title": "FastAPI",
-      "desc": "CORS for an Angular client on port 4200. GET /, POST /self_intro/, POST /interact/"
+      "title": "FastAPI on Railway",
+      "desc": "POST /self-intro for file analysis, POST /chat for coaching sessions, GET /health for key status."
     },
     {
       "tag": "Speech",
       "title": "AssemblyAI",
-      "desc": "The self-intro path transcribes a local audio file, then passes the text into the prompt"
+      "desc": "Transcribes the uploaded or recorded intro before Gemini reviews it."
     },
     {
-      "tag": "Prompts",
-      "title": "LangChain + OpenAI",
-      "desc": "Templates for intro scoring, intent classification, tips, and a practice conversation"
-    },
-    {
-      "tag": "Router",
-      "title": "Interact flow",
-      "desc": "Classify the query, then return chat tips or continue practice. Replies are parsed as JSON"
+      "tag": "LLM",
+      "title": "Gemini",
+      "desc": "Structured JSON feedback for intros, plus ready / not_ready coaching turns with short session memory."
     }
   ],
   "highlights": [
-    "POST /self_intro/ returns structured intro feedback",
-    "POST /interact/ splits tips from live practice",
-    "LangChain prompt chains with a string output parser",
-    "AssemblyAI speech-to-text on the intro path",
-    "Pydantic request body (query, 1000 character cap)",
-    "CORS opened for an Angular client on port 4200"
+    "Next.js UI with upload, microphone recording, and result panel",
+    "3-minute duration checks on upload, record, and analyze",
+    "POST /self-intro returns transcript plus structured feedback",
+    "POST /chat keeps in-memory session history for coaching",
+    "Gemini structured outputs replace brittle free-text JSON scraping",
+    "API deployed on Railway; UI intended for Vercel with NEXT_PUBLIC_API_URL"
   ],
   "stack": [
-    { "layer": "API", "tech": "FastAPI / Uvicorn", "role": "Routes and CORS" },
-    { "layer": "LLM", "tech": "LangChain + OpenAI", "role": "Prompt chains and JSON-shaped replies" },
-    { "layer": "Speech", "tech": "AssemblyAI", "role": "Intro audio to text" },
-    { "layer": "Schema", "tech": "Pydantic", "role": "Request body for the query" },
-    { "layer": "Client", "tech": "Angular submodule", "role": "UI pointer; not vendored in this repo" }
+    { "layer": "UI", "tech": "Next.js 15 / React 19", "role": "Capture, preview, and feedback view" },
+    { "layer": "API", "tech": "FastAPI / Uvicorn", "role": "Routes, CORS, health checks" },
+    { "layer": "LLM", "tech": "Google Gemini", "role": "Structured intro review and coach turns" },
+    { "layer": "Speech", "tech": "AssemblyAI", "role": "Audio to transcript" },
+    { "layer": "Host", "tech": "Railway + Vercel", "role": "API and frontend deploy targets" }
   ],
   "status": [
-    { "phase": "Completed", "label": "Self-intro and interact routes", "done": true },
-    { "phase": "Completed", "label": "Prompts for scoring, classification, tips, and conversation", "done": true },
-    { "phase": "Completed", "label": "AssemblyAI transcription helper", "done": true },
-    { "phase": "Open", "label": "Angular UI is a git submodule and is not in the public tree", "done": false },
-    { "phase": "Open", "label": "Intro transcription still points at a local audio path", "done": false }
+    { "phase": "Completed", "label": "Gemini + AssemblyAI FastAPI backend", "done": true },
+    { "phase": "Completed", "label": "Next.js upload / record / analyze UI", "done": true },
+    { "phase": "Completed", "label": "Railway public API at interviewassisstant-production.up.railway.app", "done": true },
+    { "phase": "Open", "label": "Set GEMINI_API_KEY and ASSEMBLYAI_API_KEY on Railway Variables", "done": false },
+    { "phase": "Open", "label": "Claim or fix Vercel deploy with Root Directory = ui", "done": false }
   ],
-  "statusHeading": "Build status — API in place.",
-  "footer": "Interview Assistant · 2024",
-  "badge": "Public API prototype"
+  "statusHeading": "Build status — API live on Railway; UI linked from portfolio.",
+  "footer": "Interview Assistant · 2026",
+  "badge": "Live API · Demo linked"
 }

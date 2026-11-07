@@ -81,13 +81,13 @@
   {
     "id": "10",
     "title": "Interview Assistant",
-    "description": "FastAPI interview coach: AssemblyAI transcription plus LangChain prompts that score a self-intro and guide practice chat.",
+    "description": "Next.js + FastAPI interview coach: record or upload a self-intro, transcribe with AssemblyAI, and get structured Gemini feedback.",
     "category": "ML & AI",
-    "year": "2024",
+    "year": "2026",
     "tags": [
+      "Next.js",
       "FastAPI",
-      "LangChain",
-      "OpenAI",
+      "Gemini",
       "AssemblyAI",
       "Interview"
     ],
