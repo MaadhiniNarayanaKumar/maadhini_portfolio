@@ -1,0 +1,91 @@
+{
+  "hero": {
+    "eyebrow": ["HTML", "CSS", "JavaScript", "2023"],
+    "title": "YouTube Clone",
+    "subtitle": "A home page, built by hand.",
+    "tagline": "A static YouTube home layout from February 21, 2023. Header, sidebar, search bar, and a grid of video cards. No framework and no video player.",
+    "impact": "The layout below is that page. Icon paths point at the images/ and SVG/ folders, and the menu button has an image so the sidebar can be toggled.",
+    "chips": ["HTML", "CSS", "JavaScript", "CSS grid", "Responsive"]
+  },
+  "links": {
+    "github": "https://github.com/MaadhiniNarayanaKumar/youtube_clone",
+    "githubLabel": "View repository"
+  },
+  "embed": {
+    "label": "Look through it",
+    "title": "Header, sidebar, and the video grid.",
+    "body": "Click the menu to hide the sidebar. The search box and the video titles are static. Thumbnails are empty black boxes, the same as the original file.",
+    "src": "/demos/youtube-clone/index.html",
+    "frameTitle": "YouTube clone layout",
+    "tall": true
+  },
+  "problems": [
+    {
+      "n": "01",
+      "t": "A home page, no framework",
+      "d": "The header, sidebar, and video grid had to be plain HTML and CSS, with one click of JavaScript."
+    },
+    {
+      "n": "02",
+      "t": "A sidebar that can leave",
+      "d": "The side list takes a fixed column. The menu has to hide it, and a narrow screen should start with it closed."
+    },
+    {
+      "n": "03",
+      "t": "Cards that reflow",
+      "d": "Fifteen video cards need to wrap as the page gets narrower, without a fixed column count."
+    },
+    {
+      "n": "04",
+      "t": "Icons that resolve",
+      "d": "The markup asks for images/ and SVG/. Those files have to sit in those folders or the header and sidebar render empty."
+    }
+  ],
+  "layers": [
+    {
+      "tag": "Header",
+      "title": "One flex row",
+      "desc": "Menu, logo, search field, mic, create, notifications, and a profile photo."
+    },
+    {
+      "tag": "Side",
+      "title": "Stacked links",
+      "desc": "Home, library, subscriptions, and settings. On a screen under 550px the sidebar starts hidden."
+    },
+    {
+      "tag": "Grid",
+      "title": "Auto-fit cards",
+      "desc": "Fifteen cards use CSS grid with a 270px minimum, so the row count follows the width."
+    },
+    {
+      "tag": "Toggle",
+      "title": "One class",
+      "desc": "The menu adds or removes hide on the sidebar. Search and the cards do not run any script."
+    }
+  ],
+  "highlights": [
+    "Viewable on this site",
+    "Header, sidebar, and 15 video cards",
+    "Menu toggles the sidebar",
+    "Grid reflows from a 270px minimum",
+    "Search bar becomes an icon under 550px",
+    "images/ and SVG/ match the markup"
+  ],
+  "stack": [
+    { "layer": "Page", "tech": "HTML", "role": "Header, sidebar, and card markup" },
+    { "layer": "Look", "tech": "CSS", "role": "Dark theme, flex header, and the card grid" },
+    { "layer": "Toggle", "tech": "JavaScript", "role": "Menu click hides the sidebar" },
+    { "layer": "Icons", "tech": "SVG", "role": "Sidebar and header icons" },
+    { "layer": "Photos", "tech": "PNG", "role": "Logo, mic, menu, notifications, profile" }
+  ],
+  "status": [
+    { "phase": "Completed", "label": "Static home layout from February 2023", "done": true },
+    { "phase": "Completed", "label": "Images and icons in images/ and SVG/", "done": true },
+    { "phase": "Completed", "label": "Menu image wired to images/menu.png", "done": true },
+    { "phase": "Completed", "label": "Sidebar toggle and responsive card grid", "done": true },
+    { "phase": "Completed", "label": "Embedded on this site", "done": true }
+  ],
+  "statusHeading": "Build status — shipped complete.",
+  "footer": "YouTube Clone · February 2023",
+  "badge": "Early HTML layout"
+}

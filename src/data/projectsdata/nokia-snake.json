@@ -1,0 +1,89 @@
+{
+  "hero": {
+    "eyebrow": ["HTML", "CSS", "JavaScript", "2023"],
+    "title": "Nokia Snake",
+    "subtitle": "The first page I shipped.",
+    "tagline": "A browser remake of the old Nokia snake, built in February 2023 from a grid of divs, a timer, and the arrow keys. No canvas, no framework.",
+    "impact": "The board below uses the same rules as that repo. The layout is fixed so the grid and the score are visible on this site.",
+    "chips": ["HTML", "CSS", "JavaScript", "10×10 grid", "First project"]
+  },
+  "links": {
+    "github": "https://github.com/MaadhiniNarayanaKumar/snake-game-from-oldnokia-using-html-css-js",
+    "githubLabel": "View repository"
+  },
+  "embed": {
+    "label": "Play",
+    "title": "Start, then steer.",
+    "body": "Click Start / Restart. Arrow keys change direction. On a phone, use the pad under the board. Eat the red apple to grow. The loop gets faster after each apple. A wall or your own tail ends the run.",
+    "src": "/games/nokia-snake/index.html",
+    "frameTitle": "Playable Nokia Snake"
+  },
+  "problems": [
+    {
+      "n": "01",
+      "t": "Move without a canvas",
+      "d": "The snake has to travel a board made of plain divs. Each step is a class moving from one cell to the next."
+    },
+    {
+      "n": "02",
+      "t": "Four directions",
+      "d": "Arrow keys have to turn the head. On a phone there is no keyboard, so the page also needs a direction pad."
+    },
+    {
+      "n": "03",
+      "t": "Grow, then go faster",
+      "d": "Eating should add a segment and shorten the timer, or the game stays the same length and the same speed."
+    },
+    {
+      "n": "04",
+      "t": "A real ending",
+      "d": "The loop has to stop when the head hits a wall or runs into its own body."
+    }
+  ],
+  "layers": [
+    {
+      "tag": "Board",
+      "title": "100 divs",
+      "desc": "A 10 by 10 flex grid. The snake is the cells with the snake class. The apple is one other cell."
+    },
+    {
+      "tag": "Body",
+      "title": "Head-first array",
+      "desc": "It starts as [2, 1, 0]. Each tick drops the tail and pushes a new head one step in the current direction."
+    },
+    {
+      "tag": "Tick",
+      "title": "setInterval",
+      "desc": "The first delay is 1000ms. Each apple restarts the timer at 0.9× the previous delay, down to 80ms."
+    },
+    {
+      "tag": "Input",
+      "title": "Arrows and the pad",
+      "desc": "Right is +1, left is −1, down is +10, up is −10. A 180° turn is ignored so the snake does not eat itself instantly."
+    }
+  ],
+  "highlights": [
+    "Playable on this site",
+    "10×10 div board, no canvas",
+    "Head-first array, tail drops each tick",
+    "Apple grows the snake and speeds the loop",
+    "Wall and self collision end the run",
+    "On-screen pad for a phone"
+  ],
+  "stack": [
+    { "layer": "Page", "tech": "HTML", "role": "Score, start button, and the grid" },
+    { "layer": "Look", "tech": "CSS", "role": "Black board, green snake, red apple" },
+    { "layer": "Loop", "tech": "JavaScript", "role": "Timer, movement, and collisions" },
+    { "layer": "Board", "tech": "Div grid", "role": "100 cells, 10 across" },
+    { "layer": "Input", "tech": "Keyboard and buttons", "role": "Direction for the next tick" }
+  ],
+  "status": [
+    { "phase": "Completed", "label": "Movement, apple, and collision in the February 2023 file", "done": true },
+    { "phase": "Completed", "label": "Playable copy on this site, with a visible score and a centered board", "done": true },
+    { "phase": "Completed", "label": "Game over written under the grid instead of an alert", "done": true },
+    { "phase": "Open", "label": "The GitHub file still calls alert and places the board at left: 110%", "done": false }
+  ],
+  "statusHeading": "Build status — playable on this site.",
+  "footer": "Nokia Snake · February 2023",
+  "badge": "First HTML project"
+}

@@ -33,6 +33,15 @@ export type SimpleProjectData = {
   footer: string;
   badge: string;
   statusHeading?: string;
+  embed?: {
+    label: string;
+    title: string;
+    body: string;
+    src: string;
+    frameTitle: string;
+    tall?: boolean;
+    allow?: string;
+  };
 };
 
 const sidebar = [
@@ -45,8 +54,19 @@ const sidebar = [
 
 export default function SimpleProjectPage({ data }: { data: SimpleProjectData }) {
   const [activeSection, setActiveSection] = useState("overview");
-  const { hero, links, problems, layers, highlights, stack, status, footer, badge, statusHeading } =
-    data;
+  const {
+    hero,
+    links,
+    problems,
+    layers,
+    highlights,
+    stack,
+    status,
+    footer,
+    badge,
+    statusHeading,
+    embed,
+  } = data;
 
   const scrollToSection = (id: string) => {
     setActiveSection(id);
@@ -112,6 +132,21 @@ export default function SimpleProjectPage({ data }: { data: SimpleProjectData })
 
       <div className="pj-main-with-sidebar">
         <div className="pj-main-content">
+          {embed && (
+            <section className="pj-section">
+              <div className="pj-label">{embed.label}</div>
+              <h2 className="pj-title">{embed.title}</h2>
+              <p className="pj-body">{embed.body}</p>
+              <div className={`pj-play-frame${embed.tall ? " pj-play-frame-tall" : ""}`}>
+                <iframe
+                  src={embed.src}
+                  title={embed.frameTitle}
+                  className="pj-play-frame-iframe"
+                  allow={embed.allow}
+                />
+              </div>
+            </section>
+          )}
           <section className="pj-section" id="problem">
             <div className="pj-label">01 — The Problem</div>
             <h2 className="pj-title">What this build solves.</h2>
