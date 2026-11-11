@@ -32,11 +32,48 @@ const GROUPS: Record<string, GroupId[]> = {
 
 const listed = LISTED_IDS.map((id) => projects.find((p) => p.id === id)!);
 
-function ProjectCard({ project }: { project: (typeof projects)[0] }) {
+type Span = 1 | 2 | 3;
+
+const ROW_PATTERNS: Span[][] = [
+  [2, 1],
+  [1, 1, 1],
+  [1, 2],
+];
+
+function layoutRows<T>(items: T[]): { item: T; span: Span }[][] {
+  if (items.length === 1) return [[{ item: items[0], span: 3 }]];
+  if (items.length === 3) return [items.map((item) => ({ item, span: 1 }))];
+
+  const rows: { item: T; span: Span }[][] = [];
+  let index = 0;
+  let patternIndex = 0;
+
+  while (index < items.length) {
+    const pattern = ROW_PATTERNS[patternIndex % ROW_PATTERNS.length];
+    const remaining = items.length - index;
+    let spans: Span[];
+
+    if (remaining >= pattern.length) {
+      spans = pattern;
+      patternIndex += 1;
+    } else if (remaining === 2) {
+      spans = pattern[0] === 2 ? [2, 1] : [1, 2];
+    } else {
+      spans = [3];
+    }
+
+    rows.push(spans.map((span, offset) => ({ item: items[index + offset], span })));
+    index += spans.length;
+  }
+
+  return rows;
+}
+
+function ProjectCard({ project, span }: { project: (typeof projects)[0]; span: Span }) {
   return (
     <Link
       href={`/projects/${project.slug}`}
-      className={`pg-card pg-card-${project.size}`}
+      className={`pg-card pg-card-${project.size} pg-span-${span}`}
       style={{ background: project.gradient }}
     >
       <div className="pg-badge" style={{ color: project.accent, borderColor: `${project.accent}40` }}>
@@ -79,6 +116,7 @@ export default function ProjectsPage() {
 
   const visible =
     active === 'all' ? listed : listed.filter((p) => GROUPS[p.id]?.includes(active));
+  const rows = layoutRows(visible);
 
   return (
     <div className="pg-section pg-page">
@@ -114,9 +152,16 @@ export default function ProjectsPage() {
         {visible.length === 0 ? (
           <p className="pg-empty">No projects in this group yet.</p>
         ) : (
-          <div className="pg-row pg-page-grid">
-            {visible.map((p) => (
-              <ProjectCard key={p.id} project={p} />
+          <div className="pg-bento">
+            {rows.map((row) => (
+              <div
+                key={row.map((cell) => cell.item.id).join('-')}
+                className={`pg-bento-row ${row.some((cell) => cell.span > 1) ? 'pg-bento-row-feature' : 'pg-bento-row-equal'}`}
+              >
+                {row.map(({ item, span }) => (
+                  <ProjectCard key={item.id} project={item} span={span} />
+                ))}
+              </div>
             ))}
           </div>
         )}
