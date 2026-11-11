@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Eye detection preview</title>
+    <style>
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+        background: #071018;
+        color: #e2e8f0;
+        font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+      }
+
+      .wrap {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .stage {
+        position: relative;
+        flex: 1;
+        min-height: 0;
+        background: #020617;
+        overflow: hidden;
+      }
+
+      .mirror {
+        position: absolute;
+        inset: 0;
+        transform: scaleX(-1);
+      }
+
+      video,
+      canvas.overlay {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      canvas.overlay {
+        pointer-events: none;
+      }
+
+      .idle {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 24px;
+        text-align: center;
+        color: #94a3b8;
+        font-size: 13px;
+        line-height: 1.5;
+      }
+
+      .bar {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 12px;
+        border-top: 1px solid rgba(148, 163, 184, 0.18);
+      }
+
+      button {
+        font: inherit;
+        font-size: 13px;
+        font-weight: 600;
+        border-radius: 999px;
+        padding: 6px 14px;
+        cursor: pointer;
+        border: 1px solid rgba(103, 232, 249, 0.4);
+        background: rgba(103, 232, 249, 0.12);
+        color: #67e8f9;
+      }
+
+      button.secondary {
+        background: transparent;
+        color: #cbd5e1;
+        border-color: rgba(148, 163, 184, 0.35);
+      }
+
+      button:disabled {
+        opacity: 0.45;
+        cursor: default;
+      }
+
+      #status {
+        margin: 0;
+        font-size: 12px;
+        line-height: 1.4;
+        color: #94a3b8;
+      }
+
+      #status.is-error {
+        color: #fecaca;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <div class="stage">
+        <div class="mirror" id="mirror" hidden>
+          <video id="video" playsinline autoplay muted></video>
+          <canvas id="overlay" class="overlay"></canvas>
+        </div>
+        <div class="idle" id="idle">Camera is off.</div>
+      </div>
+      <div class="bar">
+        <button type="button" id="start">Start camera</button>
+        <button type="button" id="stop" class="secondary" disabled>Stop</button>
+        <p id="status" role="status">Video stays in this page. Nothing is uploaded.</p>
+      </div>
+    </div>
+    <canvas id="scratch" hidden></canvas>
+    <script>
+      const OPENCV_SRC =
+        "https://cdn.jsdelivr.net/npm/@techstark/opencv-js@4.10.0-release.1/dist/opencv.js";
+      const SCALE = 1.1;
+      const MIN_NEIGHBORS = 10;
+      const DETECT_WIDTH = 480;
+
+      const video = document.getElementById("video");
+      const overlay = document.getElementById("overlay");
+      const ctx = overlay.getContext("2d");
+      const scratch = document.getElementById("scratch");
+      const scratchCtx = scratch.getContext("2d", { willReadFrequently: true });
+      const mirror = document.getElementById("mirror");
+      const idle = document.getElementById("idle");
+      const startBtn = document.getElementById("start");
+      const stopBtn = document.getElementById("stop");
+      const statusEl = document.getElementById("status");
+
+      let token = 0;
+      let running = false;
+      let stream = null;
+      let timer = 0;
+      let classifier = null;
+      let gray = null;
+      let rects = null;
+      let minSize = null;
+
+      function setStatus(text, isError) {
+        statusEl.textContent = text;
+        statusEl.classList.toggle("is-error", Boolean(isError));
+      }
+
+      function loadOpenCv() {
+        if (window.cv && typeof window.cv.Mat === "function") return Promise.resolve();
+        if (window.__cvPromise) return window.__cvPromise;
+        window.__cvPromise = new Promise((resolve, reject) => {
+          let settled = false;
+          const finish = () => {
+            if (settled) return;
+            settled = true;
+            resolve();
+          };
+          const fail = (error) => {
+            if (settled) return;
+            settled = true;
+            window.__cvPromise = null;
+            reject(error);
+          };
+          const script = document.createElement("script");
+          script.src = OPENCV_SRC;
+          script.async = true;
+          const started = Date.now();
+          const poll = () => {
+            if (settled) return;
+            if (window.cv && typeof window.cv.Mat === "function") finish();
+            else if (Date.now() - started > 30000) fail(new Error("The detector took too long to load."));
+            else setTimeout(poll, 50);
+          };
+          script.onload = poll;
+          script.onerror = () => fail(new Error("Could not load the detector."));
+          document.head.appendChild(script);
+        });
+        return window.__cvPromise;
+      }
+
+      async function loadCascade() {
+        if (classifier) return;
+        const response = await fetch("haarcascade_eye.xml");
+        if (!response.ok) throw new Error("Could not load the cascade file.");
+        const bytes = new Uint8Array(await response.arrayBuffer());
+        try {
+          window.cv.FS_createDataFile("/", "haarcascade_eye.xml", bytes, true, false, false);
+        } catch (error) {
+          const exists = window.cv.FS.analyzePath("/haarcascade_eye.xml").exists;
+          if (!exists) throw new Error("Could not store the cascade file.");
+        }
+        classifier = new window.cv.CascadeClassifier();
+        if (classifier.load("haarcascade_eye.xml") === false) {
+          classifier = null;
+          throw new Error("The cascade file did not load.");
+        }
+        gray = new window.cv.Mat();
+        rects = new window.cv.RectVector();
+        minSize = new window.cv.Size(20, 20);
+      }
+
+      function releaseStream() {
+        if (stream) {
+          stream.getTracks().forEach((track) => track.stop());
+          stream = null;
+        }
+        video.srcObject = null;
+      }
+
+      function showCamera(on) {
+        mirror.hidden = !on;
+        idle.hidden = on;
+      }
+
+      function scan() {
+        const vw = video.videoWidth;
+        const vh = video.videoHeight;
+        if (!vw || !vh || video.readyState < 2) return null;
+        const scale = Math.min(1, DETECT_WIDTH / vw);
+        const w = Math.max(1, Math.round(vw * scale));
+        const h = Math.max(1, Math.round(vh * scale));
+        if (scratch.width !== w || scratch.height !== h) {
+          scratch.width = w;
+          scratch.height = h;
+          overlay.width = w;
+          overlay.height = h;
+        }
+        scratchCtx.drawImage(video, 0, 0, w, h);
+        const frame = window.cv.imread(scratch);
+        try {
+          window.cv.cvtColor(frame, gray, window.cv.COLOR_RGBA2GRAY);
+          classifier.detectMultiScale(gray, rects, SCALE, MIN_NEIGHBORS, 0, minSize);
+          ctx.clearRect(0, 0, w, h);
+          ctx.strokeStyle = "#ffffff";
+          ctx.lineWidth = 2;
+          const count = rects.size();
+          for (let i = 0; i < count; i += 1) {
+            const rect = rects.get(i);
+            ctx.strokeRect(rect.x, rect.y, rect.width, rect.height);
+          }
+          return count;
+        } finally {
+          frame.delete();
+        }
+      }
+
+      function tick() {
+        if (!running) return;
+        try {
+          const count = scan();
+          if (!running) return;
+          if (count === null) setStatus("Camera is on.");
+          else if (count === 0) setStatus("Camera is on. No eyes in this frame.");
+          else setStatus(count === 1 ? "Camera is on. 1 eye." : "Camera is on. " + count + " eyes.");
+        } catch (error) {
+          if (!running) return;
+          setStatus("Camera is on. " + (error.message || "This frame was skipped."));
+        }
+        if (!running) return;
+        timer = window.setTimeout(tick, 200);
+      }
+
+      function cameraError(error) {
+        if (!error) return "Could not open the camera.";
+        if (error.name === "NotAllowedError" || error.name === "SecurityError") {
+          return "Camera permission was blocked. Allow it for this site and try again.";
+        }
+        if (error.name === "NotFoundError") return "No camera was found.";
+        if (error.name === "NotReadableError" || error.name === "AbortError") {
+          return "The camera is busy or unavailable. Close other apps using it and try again.";
+        }
+        if (error.name === "OverconstrainedError") {
+          return "This browser could not open the camera with the requested settings.";
+        }
+        return error.message || "Could not open the camera.";
+      }
+
+      async function start() {
+        if (running) return;
+        const session = ++token;
+        running = true;
+        startBtn.disabled = true;
+        stopBtn.disabled = false;
+        const alive = () => running && session === token;
+
+        try {
+          if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+            throw new Error("This browser cannot use the camera on this page.");
+          }
+          setStatus("Asking for the camera…");
+          const nextStream = await navigator.mediaDevices.getUserMedia({
+            audio: false,
+            video: true,
+          });
+          if (!alive()) {
+            nextStream.getTracks().forEach((track) => track.stop());
+            return;
+          }
+          stream = nextStream;
+          video.srcObject = stream;
+          showCamera(true);
+          await video.play();
+          if (!alive()) return;
+          setStatus("Camera is on. Loading the detector…");
+          try {
+            await loadOpenCv();
+            if (!alive()) return;
+            await loadCascade();
+          } catch (error) {
+            if (!alive()) return;
+            setStatus("Camera is on. " + (error.message || "The detector did not load."), true);
+            return;
+          }
+          if (!alive()) return;
+          setStatus("Camera is on. Looking for eyes…");
+          tick();
+        } catch (error) {
+          if (!alive()) return;
+          running = false;
+          window.clearTimeout(timer);
+          releaseStream();
+          showCamera(false);
+          startBtn.disabled = false;
+          stopBtn.disabled = true;
+          setStatus(cameraError(error), true);
+        }
+      }
+
+      function stop() {
+        token += 1;
+        running = false;
+        window.clearTimeout(timer);
+        timer = 0;
+        releaseStream();
+        if (ctx && overlay.width) ctx.clearRect(0, 0, overlay.width, overlay.height);
+        showCamera(false);
+        startBtn.disabled = false;
+        stopBtn.disabled = true;
+        setStatus("Camera is off.");
+      }
+
+      startBtn.addEventListener("click", () => {
+        start();
+      });
+      stopBtn.addEventListener("click", stop);
+      window.addEventListener("pagehide", stop);
+    </script>
+  </body>
+</html>

@@ -3,9 +3,9 @@ import Link from 'next/link';
 import projects from '../../data/projects.json';
 import '../../styles/projects-grid.css';
 
-// Featured builds with detail pages (quant + Mia app + both extensions + interview assistant + early web + eye detection)
+// Featured builds with detail pages (quant + Mia app + both extensions + interview assistant + early web + eye detection + job match)
 const projects1 = projects.filter((p) =>
-  ['1', '2', '3', '4', '10', '11', '12', '13'].includes(p.id),
+  ['1', '2', '3', '4', '10', '11', '12', '13', '14'].includes(p.id),
 );
 
 function ProjectCard({ project }: { project: (typeof projects)[0] }) {

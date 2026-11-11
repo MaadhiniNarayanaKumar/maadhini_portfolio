@@ -149,6 +149,24 @@
     "slug": "detection-using-xml"
   },
   {
+    "id": "14",
+    "title": "AI Job Match Backend",
+    "description": "FastAPI service for a Chrome extension: parse a PDF, DOCX, or TXT resume, then score keyword overlap with a job page and return apply, maybe, or do not apply.",
+    "category": "ML & AI",
+    "year": "2026",
+    "tags": [
+      "FastAPI",
+      "Python",
+      "Gemini",
+      "Resume",
+      "Chrome Extension"
+    ],
+    "gradient": "linear-gradient(135deg, #1c1917 0%, #78350f 50%, #b45309 100%)",
+    "accent": "#fbbf24",
+    "size": "medium",
+    "slug": "ai-job-match-backend"
+  },
+  {
     "id": "5",
     "title": "Portfolio Risk Analyzer",
     "description": "Monte Carlo based portfolio risk engine computing VaR, CVaR, and stress test scenarios across multi-asset portfolios.",

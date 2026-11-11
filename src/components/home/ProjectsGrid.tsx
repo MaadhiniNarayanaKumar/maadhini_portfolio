@@ -10,7 +10,7 @@ const filters = ['All', 'Quant Finance', 'ML & AI', 'Engineering', 'Research'];
 /* ── Row layout config ── */
 const row1 = ['1', '2', '3'];        // quant + Mia app + calendar extension
 const row2 = ['4', '10', '11'];      // Mia task extension + interview assistant + nokia snake
-const row3 = ['12', '13'];           // youtube clone + eye detection
+const row3 = ['12', '13', '14'];     // youtube clone + eye detection + job match
 
 function getProject(id: string) {
   return projects.find(p => p.id === id)!;

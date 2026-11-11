@@ -1,0 +1,91 @@
+{
+  "hero": {
+    "eyebrow": ["FastAPI", "Resume", "Chrome extension", "2026"],
+    "title": "AI Job Match",
+    "subtitle": "Resume in. Apply, maybe, or skip.",
+    "tagline": "A FastAPI backend for a job-match Chrome extension. It reads a resume file, finds skills with a keyword list, and scores that list against the text of a job page.",
+    "impact": "Three routes do the work: /upload-resume parses the file, /match-job returns the decision, and /analyze sends the posting to Gemini.",
+    "chips": ["FastAPI", "Python", "pdfplumber", "python-docx", "Gemini"]
+  },
+  "links": {
+    "github": "https://github.com/MaadhiniNarayanaKumar/ai_job_match_chrome_extension_backend",
+    "githubLabel": "View repository"
+  },
+  "embed": {
+    "label": "Preview",
+    "title": "Score a posting in the browser.",
+    "body": "Paste resume text and a job page. This frame runs the same keyword list and the same 70 / 50 cutoffs as /match-job. File upload and the Gemini route stay in the repository. The link above still opens that Python project.",
+    "src": "/demos/ai-job-match/index.html",
+    "frameTitle": "Job match score preview"
+  },
+  "problems": [
+    {
+      "n": "01",
+      "t": "A posting is a wall of text",
+      "d": "The extension has a page, not a structured job object. The API has to pull skills out of whatever text the tab contains."
+    },
+    {
+      "n": "02",
+      "t": "Resumes arrive as files",
+      "d": "PDF, DOCX, and TXT need one text string before any score can run."
+    },
+    {
+      "n": "03",
+      "t": "A yes or no, not a paragraph",
+      "d": "The extension needs a decision it can color: apply, maybe, or do not apply, plus the skills behind that number."
+    },
+    {
+      "n": "04",
+      "t": "A second read of the posting",
+      "d": "Keyword overlap does not rank which skills matter more. A separate route sends the posting text to a chat model."
+    }
+  ],
+  "layers": [
+    {
+      "tag": "Parse",
+      "title": "POST /upload-resume",
+      "desc": "pdfplumber for PDF, python-docx for DOCX, plain decode for TXT. Then a skill list and a years-of-experience regex."
+    },
+    {
+      "tag": "Score",
+      "title": "POST /match-job",
+      "desc": "Skills from the resume, plus any skills the user typed, compared with skills found in the page text."
+    },
+    {
+      "tag": "Decide",
+      "title": "70 / 50",
+      "desc": "70 or above is APPLY. 50 to 69 is MAYBE APPLY. Below that is DO NOT APPLY. The score is posting skills the resume covers, divided by the posting skill list."
+    },
+    {
+      "tag": "Read",
+      "title": "POST /analyze",
+      "desc": "Sends the posting to Gemini and returns skills in priority order, then a short list of non-skill expectations."
+    }
+  ],
+  "highlights": [
+    "POST /upload-resume accepts PDF, DOCX, and TXT",
+    "Keyword skill list with whole-word matching",
+    "POST /match-job returns both scores, matched skills, and a color",
+    "Manual skills are merged with skills found in the resume",
+    "GET /health for a live check",
+    "vercel.json routes every path to main.py"
+  ],
+  "stack": [
+    { "layer": "API", "tech": "FastAPI", "role": "Upload, match, analyze, and health" },
+    { "layer": "Files", "tech": "pdfplumber / python-docx", "role": "Resume text from PDF and DOCX" },
+    { "layer": "Match", "tech": "Keyword list + regex", "role": "Skills and years of experience" },
+    { "layer": "Model", "tech": "Gemini", "role": "Posting summary on /analyze" },
+    { "layer": "Host", "tech": "Vercel Python", "role": "main.py handles every route" }
+  ],
+  "status": [
+    { "phase": "Completed", "label": "Resume upload for PDF, DOCX, and TXT", "done": true },
+    { "phase": "Completed", "label": "Match score, decision, and skill lists", "done": true },
+    { "phase": "Completed", "label": "Health route and Vercel routing file", "done": true },
+    { "phase": "Completed", "label": "/analyze uses Gemini and requires GEMINI_API_KEY", "done": true },
+    { "phase": "Completed", "label": "CORS allows chrome-extension origins", "done": true },
+    { "phase": "Open", "label": "The Chrome extension UI is not in this repo", "done": false }
+  ],
+  "statusHeading": "Build status — match API in place.",
+  "footer": "AI Job Match Backend · 2026",
+  "badge": "FastAPI service"
+}
