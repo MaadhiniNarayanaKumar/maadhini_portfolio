@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Mask detection preview</title>
+    <style>
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+        background: #071018;
+        color: #e2e8f0;
+        font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+      }
+
+      .wrap {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .stage {
+        position: relative;
+        flex: 1;
+        min-height: 180px;
+        background: #020617;
+        overflow: hidden;
+      }
+
+      canvas.view,
+      canvas.overlay {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      canvas.view.is-camera {
+        transform: scaleX(-1);
+      }
+
+      canvas.overlay {
+        pointer-events: none;
+      }
+
+      .count {
+        position: absolute;
+        top: 12px;
+        left: 12px;
+        z-index: 2;
+        margin: 0;
+        padding: 4px 10px;
+        border-radius: 999px;
+        background: rgba(2, 6, 23, 0.72);
+        border: 1px solid rgba(103, 232, 249, 0.35);
+        color: #67e8f9;
+        font-size: 13px;
+        font-weight: 650;
+        letter-spacing: 0.02em;
+      }
+
+      .idle {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 24px;
+        text-align: center;
+        color: #94a3b8;
+        font-size: 13px;
+        line-height: 1.5;
+      }
+
+      .idle[hidden],
+      .count[hidden],
+      canvas.view[hidden] {
+        display: none;
+      }
+
+      .controls {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        padding: 10px 12px 12px;
+        border-top: 1px solid rgba(148, 163, 184, 0.18);
+      }
+
+      .bar {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 10px;
+      }
+
+      button,
+      input[type="range"] {
+        font: inherit;
+      }
+
+      button {
+        font-size: 13px;
+        font-weight: 600;
+        border-radius: 999px;
+        padding: 6px 14px;
+        cursor: pointer;
+        border: 1px solid rgba(103, 232, 249, 0.4);
+        background: rgba(103, 232, 249, 0.12);
+        color: #67e8f9;
+      }
+
+      button.secondary {
+        background: transparent;
+        color: #cbd5e1;
+        border-color: rgba(148, 163, 184, 0.35);
+      }
+
+      button:disabled {
+        opacity: 0.45;
+        cursor: default;
+      }
+
+      label.field,
+      label.check {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 12px;
+        color: #94a3b8;
+      }
+
+      label.check {
+        font-size: 13px;
+        color: #cbd5e1;
+      }
+
+      input[type="range"] {
+        width: 110px;
+        accent-color: #67e8f9;
+      }
+
+      .val {
+        min-width: 2.4em;
+        color: #e2e8f0;
+        font-variant-numeric: tabular-nums;
+      }
+
+      #status {
+        margin: 0;
+        font-size: 12px;
+        line-height: 1.4;
+        color: #94a3b8;
+      }
+
+      #status.is-error {
+        color: #fecaca;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <div class="stage">
+        <canvas id="view" class="view" hidden></canvas>
+        <canvas id="overlay" class="overlay"></canvas>
+        <p class="count" id="count" hidden>0</p>
+        <div class="idle" id="idle">Camera is off. Start it, or use the sample photo.</div>
+      </div>
+      <div class="controls">
+        <div class="bar">
+          <button type="button" id="start">Start camera</button>
+          <button type="button" id="sample" class="secondary">Sample photo</button>
+          <button type="button" id="stop" class="secondary" disabled>Stop</button>
+          <label class="check"><input type="checkbox" id="gray" /> Gray</label>
+        </div>
+        <div class="bar">
+          <label class="field">
+            Scale
+            <input id="scale" type="range" min="1.05" max="1.5" step="0.05" value="1.3" />
+            <span class="val" id="scale-val">1.30</span>
+          </label>
+          <label class="field">
+            Neighbors
+            <input id="neighbors" type="range" min="1" max="20" step="1" value="10" />
+            <span class="val" id="neighbors-val">10</span>
+          </label>
+        </div>
+        <p id="status" role="status">
+          The checkpoint model-020.model is not in the repo, so this preview draws the face box and does not guess MASK or NO MASK.
+        </p>
+      </div>
+    </div>
+    <canvas id="scratch" hidden></canvas>
+    <img id="sample-img" alt="" hidden />
+    <script>
+      const OPENCV_SRC =
+        "https://cdn.jsdelivr.net/npm/@techstark/opencv-js@4.10.0-release.1/dist/opencv.js";
+      const DETECT_WIDTH = 480;
+      const NOTE =
+        "model-020.model is not in the repo, so this preview does not guess MASK or NO MASK.";
+
+      const video = document.createElement("video");
+      video.playsInline = true;
+      video.autoplay = true;
+      video.muted = true;
+      const view = document.getElementById("view");
+      const viewCtx = view.getContext("2d");
+      const overlay = document.getElementById("overlay");
+      const ctx = overlay.getContext("2d");
+      const scratch = document.getElementById("scratch");
+      const scratchCtx = scratch.getContext("2d", { willReadFrequently: true });
+      const idle = document.getElementById("idle");
+      const countEl = document.getElementById("count");
+      const startBtn = document.getElementById("start");
+      const sampleBtn = document.getElementById("sample");
+      const stopBtn = document.getElementById("stop");
+      const grayBox = document.getElementById("gray");
+      const scaleInput = document.getElementById("scale");
+      const scaleVal = document.getElementById("scale-val");
+      const neighborsInput = document.getElementById("neighbors");
+      const neighborsVal = document.getElementById("neighbors-val");
+      const statusEl = document.getElementById("status");
+      const sampleImg = document.getElementById("sample-img");
+
+      let token = 0;
+      let running = false;
+      let mode = "off";
+      let stream = null;
+      let timer = 0;
+      let classifier = null;
+      let gray = null;
+      let rects = null;
+      let minSize = null;
+
+      function setStatus(text, isError) {
+        statusEl.textContent = text;
+        statusEl.classList.toggle("is-error", Boolean(isError));
+      }
+
+      function showCount(count) {
+        if (count === null || mode === "off") {
+          countEl.hidden = true;
+          return;
+        }
+        countEl.hidden = false;
+        countEl.textContent = count + (count === 1 ? " face" : " faces");
+      }
+
+      function loadOpenCv() {
+        if (window.cv && typeof window.cv.Mat === "function") return Promise.resolve();
+        if (window.__cvPromise) return window.__cvPromise;
+        window.__cvPromise = new Promise((resolve, reject) => {
+          let settled = false;
+          const finish = () => {
+            if (settled) return;
+            settled = true;
+            resolve();
+          };
+          const fail = (error) => {
+            if (settled) return;
+            settled = true;
+            window.__cvPromise = null;
+            reject(error);
+          };
+          const script = document.createElement("script");
+          script.src = OPENCV_SRC;
+          script.async = true;
+          const started = Date.now();
+          const poll = () => {
+            if (settled) return;
+            if (window.cv && typeof window.cv.Mat === "function") finish();
+            else if (Date.now() - started > 30000) fail(new Error("The detector took too long to load."));
+            else setTimeout(poll, 50);
+          };
+          script.onload = poll;
+          script.onerror = () => fail(new Error("Could not load the detector."));
+          document.head.appendChild(script);
+        });
+        return window.__cvPromise;
+      }
+
+      async function loadCascade() {
+        if (classifier) return;
+        const response = await fetch("haarcascade_frontalface_default.xml");
+        if (!response.ok) throw new Error("Could not load the face cascade.");
+        const bytes = new Uint8Array(await response.arrayBuffer());
+        window.cv.FS_createDataFile("/", "face.xml", bytes, true, false, false);
+        classifier = new window.cv.CascadeClassifier();
+        if (classifier.load("face.xml") === false) {
+          classifier.delete();
+          classifier = null;
+          throw new Error("The face cascade did not load.");
+        }
+        gray = new window.cv.Mat();
+        rects = new window.cv.RectVector();
+        minSize = new window.cv.Size(24, 24);
+      }
+
+      function releaseStream() {
+        if (stream) {
+          stream.getTracks().forEach((track) => track.stop());
+          stream = null;
+        }
+        video.srcObject = null;
+      }
+
+      function showStage(on) {
+        view.hidden = !on;
+        idle.hidden = on;
+        view.classList.toggle("is-camera", mode === "camera");
+        if (!on) showCount(null);
+      }
+
+      function sourceElement() {
+        return mode === "sample" ? sampleImg : video;
+      }
+
+      function sourceReady() {
+        if (mode === "sample") return sampleImg.complete && sampleImg.naturalWidth > 0;
+        return video.videoWidth > 0 && video.readyState >= 2;
+      }
+
+      function sourceSize() {
+        if (mode === "sample") return [sampleImg.naturalWidth, sampleImg.naturalHeight];
+        return [video.videoWidth, video.videoHeight];
+      }
+
+      function scan() {
+        if (!sourceReady() || !classifier) return null;
+        const [sw, sh] = sourceSize();
+        const scaleDown = Math.min(1, DETECT_WIDTH / sw);
+        const w = Math.max(1, Math.round(sw * scaleDown));
+        const h = Math.max(1, Math.round(sh * scaleDown));
+        if (scratch.width !== w || scratch.height !== h) {
+          scratch.width = w;
+          scratch.height = h;
+          view.width = w;
+          view.height = h;
+          overlay.width = w;
+          overlay.height = h;
+        }
+        scratchCtx.drawImage(sourceElement(), 0, 0, w, h);
+        const frame = window.cv.imread(scratch);
+        let shown = null;
+        try {
+          window.cv.cvtColor(frame, gray, window.cv.COLOR_RGBA2GRAY);
+          classifier.detectMultiScale(
+            gray,
+            rects,
+            Number(scaleInput.value),
+            Number(neighborsInput.value),
+            0,
+            minSize
+          );
+          if (grayBox.checked) {
+            shown = new window.cv.Mat();
+            window.cv.cvtColor(gray, shown, window.cv.COLOR_GRAY2RGBA);
+            window.cv.imshow(view, shown);
+          } else {
+            viewCtx.drawImage(sourceElement(), 0, 0, w, h);
+          }
+          ctx.clearRect(0, 0, w, h);
+          ctx.strokeStyle = "#67e8f9";
+          ctx.lineWidth = 2;
+          const count = rects.size();
+          for (let i = 0; i < count; i += 1) {
+            const rect = rects.get(i);
+            const dx = mode === "camera" ? w - rect.x - rect.width : rect.x;
+            ctx.strokeRect(dx, rect.y, rect.width, rect.height);
+          }
+          return count;
+        } finally {
+          frame.delete();
+          if (shown) shown.delete();
+        }
+      }
+
+      function tick() {
+        if (!running) return;
+        try {
+          const count = scan();
+          if (!running) return;
+          const prefix = mode === "sample" ? "Sample photo." : "Camera is on.";
+          if (count === null) setStatus(prefix + " " + NOTE);
+          else {
+            const noun = count === 1 ? "face" : "faces";
+            setStatus(prefix + " " + count + " " + noun + ". " + NOTE);
+          }
+          showCount(count);
+        } catch (error) {
+          if (!running) return;
+          setStatus(error.message || "This frame was skipped.", true);
+        }
+        if (!running) return;
+        timer = window.setTimeout(tick, 200);
+      }
+
+      function cameraError(error) {
+        if (!error) return "Could not open the camera.";
+        if (error.name === "NotAllowedError" || error.name === "SecurityError") {
+          return "Camera permission was blocked. Allow it for this site, or use the sample photo.";
+        }
+        if (error.name === "NotFoundError") return "No camera was found. Use the sample photo.";
+        if (error.name === "NotReadableError" || error.name === "AbortError") {
+          return "The camera is busy or unavailable. Close other apps using it and try again.";
+        }
+        return error.message || "Could not open the camera.";
+      }
+
+      function armButtons(on) {
+        startBtn.disabled = on;
+        sampleBtn.disabled = on;
+        stopBtn.disabled = !on;
+      }
+
+      async function start() {
+        if (running && mode === "camera") return;
+        stop(false);
+        const session = ++token;
+        running = true;
+        mode = "camera";
+        armButtons(true);
+        const alive = () => running && session === token && mode === "camera";
+        try {
+          if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+            throw new Error("This browser cannot use the camera on this page.");
+          }
+          setStatus("Asking for the camera…");
+          const nextStream = await navigator.mediaDevices.getUserMedia({ audio: false, video: true });
+          if (!alive()) {
+            nextStream.getTracks().forEach((track) => track.stop());
+            return;
+          }
+          stream = nextStream;
+          video.srcObject = stream;
+          showStage(true);
+          await video.play();
+          if (!alive()) return;
+          setStatus("Camera is on. Loading the face cascade…");
+          await loadOpenCv();
+          await loadCascade();
+          if (!alive()) return;
+          tick();
+        } catch (error) {
+          if (!alive()) return;
+          running = false;
+          mode = "off";
+          window.clearTimeout(timer);
+          releaseStream();
+          showStage(false);
+          armButtons(false);
+          setStatus(cameraError(error), true);
+        }
+      }
+
+      async function useSample() {
+        stop(false);
+        const session = ++token;
+        running = true;
+        mode = "sample";
+        armButtons(true);
+        const alive = () => running && session === token && mode === "sample";
+        try {
+          setStatus("Loading the sample photo…");
+          if (!sampleImg.complete || !sampleImg.naturalWidth) {
+            sampleImg.src = "sample.jpg";
+            await sampleImg.decode();
+          }
+          if (!alive()) return;
+          showStage(true);
+          setStatus("Sample photo. Loading the face cascade…");
+          await loadOpenCv();
+          await loadCascade();
+          if (!alive()) return;
+          tick();
+        } catch (error) {
+          if (!alive()) return;
+          running = false;
+          mode = "off";
+          showStage(false);
+          armButtons(false);
+          setStatus(error.message || "The sample photo did not load.", true);
+        }
+      }
+
+      function stop(updateStatus) {
+        token += 1;
+        running = false;
+        mode = "off";
+        window.clearTimeout(timer);
+        timer = 0;
+        releaseStream();
+        view.classList.remove("is-camera");
+        if (ctx && overlay.width) ctx.clearRect(0, 0, overlay.width, overlay.height);
+        showStage(false);
+        armButtons(false);
+        if (updateStatus !== false) {
+          setStatus("Camera is off. " + NOTE);
+        }
+      }
+
+      scaleInput.addEventListener("input", () => {
+        scaleVal.textContent = Number(scaleInput.value).toFixed(2);
+      });
+      neighborsInput.addEventListener("input", () => {
+        neighborsVal.textContent = neighborsInput.value;
+      });
+      startBtn.addEventListener("click", () => {
+        start();
+      });
+      sampleBtn.addEventListener("click", () => {
+        useSample();
+      });
+      stopBtn.addEventListener("click", () => stop());
+      window.addEventListener("pagehide", () => stop());
+    </script>
+  </body>
+</html>

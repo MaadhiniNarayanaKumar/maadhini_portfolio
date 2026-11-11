@@ -61,7 +61,8 @@
     "Conv 200 then conv 100, dropout 0.5",
     "20 epochs with a checkpoint each epoch",
     "Webcam face crop fed at 100×100",
-    "Green MASK box, red NO MASK box"
+    "Green MASK box, red NO MASK box",
+    "Browser preview draws the face box. The epoch-20 checkpoint is not in the repo"
   ],
   "stack": [
     { "layer": "Language", "tech": "Python / Jupyter", "role": "Prep, train, and camera notebooks" },
@@ -73,6 +74,7 @@
   "status": [
     { "phase": "Completed", "label": "Prep, train, and webcam notebooks are in the repo", "done": true },
     { "phase": "Completed", "label": "Live loop draws MASK or NO MASK on a face box", "done": true },
+    { "phase": "Completed", "label": "Browser preview finds the face. The checkpoint file is not in the repo", "done": true },
     { "phase": "Completed", "label": "Live on the portfolio", "done": true }
   ],
   "statusHeading": "Build status — shipped complete.",

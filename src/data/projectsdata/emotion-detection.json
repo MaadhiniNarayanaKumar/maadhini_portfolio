@@ -11,6 +11,15 @@
     "github": "https://github.com/MaadhiniNarayanaKumar/emotion-detection",
     "githubLabel": "View repository"
   },
+  "embed": {
+    "label": "Preview",
+    "title": "Try it on your camera.",
+    "body": "Start the camera, or use the sample photo if the camera is blocked. The page finds a face with the notebook's Haar settings, scale 1.3 and 5 neighbors, then scores a 48×48 gray crop with the saved weights. Pixels are divided by 255, the same rescale the training generator used. Gray, scale, and neighbors are on the preview. The video stays on this page.",
+    "src": "/demos/emotion-detection/index.html",
+    "frameTitle": "Emotion detection preview",
+    "tall": true,
+    "allow": "camera"
+  },
   "problems": [
     {
       "n": "01",
@@ -61,6 +70,7 @@
     "50 epochs, batch 64, Adam learning rate 0.0001",
     "Model JSON and h5 weights written to disk",
     "Webcam face box, then a 48×48 crop for predict",
+    "Browser preview labels that crop from the saved weights",
     "Escape releases the camera and closes the window"
   ],
   "stack": [
@@ -73,6 +83,7 @@
   "status": [
     { "phase": "Completed", "label": "CNN trained for 50 epochs and saved as JSON plus h5", "done": true },
     { "phase": "Completed", "label": "Webcam loop that labels a detected face", "done": true },
+    { "phase": "Completed", "label": "Browser preview with gray view, sliders, a sample photo, and a live label", "done": true },
     { "phase": "Completed", "label": "Live on the portfolio", "done": true }
   ],
   "statusHeading": "Build status — shipped complete.",
