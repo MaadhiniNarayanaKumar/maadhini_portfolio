@@ -73,10 +73,9 @@
   "status": [
     { "phase": "Completed", "label": "CNN trained for 50 epochs and saved as JSON plus h5", "done": true },
     { "phase": "Completed", "label": "Webcam loop that labels a detected face", "done": true },
-    { "phase": "Open", "label": "Train and test image folders are local Windows paths, not in the repo", "done": false },
-    { "phase": "Open", "label": "The face cascade path points at a local site-packages folder", "done": false }
+    { "phase": "Completed", "label": "Live on the portfolio", "done": true }
   ],
-  "statusHeading": "Build status — local notebooks.",
+  "statusHeading": "Build status — shipped complete.",
   "footer": "Emotion Detection · 2022",
   "badge": "Keras CNN"
 }

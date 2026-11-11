@@ -23,7 +23,7 @@
       .stage {
         position: relative;
         flex: 1;
-        min-height: 0;
+        min-height: 180px;
         background: #020617;
         overflow: hidden;
       }
@@ -31,10 +31,13 @@
       .mirror {
         position: absolute;
         inset: 0;
+      }
+
+      .mirror.is-camera {
         transform: scaleX(-1);
       }
 
-      video,
+      canvas.view,
       canvas.overlay {
         position: absolute;
         inset: 0;
@@ -45,6 +48,22 @@
 
       canvas.overlay {
         pointer-events: none;
+      }
+
+      .count {
+        position: absolute;
+        top: 12px;
+        left: 12px;
+        z-index: 2;
+        margin: 0;
+        padding: 4px 10px;
+        border-radius: 999px;
+        background: rgba(2, 6, 23, 0.72);
+        border: 1px solid rgba(103, 232, 249, 0.35);
+        color: #67e8f9;
+        font-size: 13px;
+        font-weight: 650;
+        letter-spacing: 0.02em;
       }
 
       .idle {
@@ -60,16 +79,34 @@
         line-height: 1.5;
       }
 
-      .bar {
+      .idle[hidden],
+      .count[hidden],
+      .mirror[hidden] {
+        display: none;
+      }
+
+      .controls {
         display: flex;
-        align-items: center;
-        gap: 10px;
-        padding: 10px 12px;
+        flex-direction: column;
+        gap: 8px;
+        padding: 10px 12px 12px;
         border-top: 1px solid rgba(148, 163, 184, 0.18);
       }
 
-      button {
+      .bar {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 10px;
+      }
+
+      button,
+      select,
+      input[type="range"] {
         font: inherit;
+      }
+
+      button {
         font-size: 13px;
         font-weight: 600;
         border-radius: 999px;
@@ -91,6 +128,41 @@
         cursor: default;
       }
 
+      label.field {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 12px;
+        color: #94a3b8;
+      }
+
+      label.check {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 13px;
+        color: #cbd5e1;
+      }
+
+      select {
+        background: #0f172a;
+        color: #e2e8f0;
+        border: 1px solid rgba(148, 163, 184, 0.35);
+        border-radius: 8px;
+        padding: 4px 8px;
+      }
+
+      input[type="range"] {
+        width: 110px;
+        accent-color: #67e8f9;
+      }
+
+      .val {
+        min-width: 2.4em;
+        color: #e2e8f0;
+        font-variant-numeric: tabular-nums;
+      }
+
       #status {
         margin: 0;
         font-size: 12px;
@@ -107,41 +179,87 @@
     <div class="wrap">
       <div class="stage">
         <div class="mirror" id="mirror" hidden>
-          <video id="video" playsinline autoplay muted></video>
+          <canvas id="view" class="view"></canvas>
           <canvas id="overlay" class="overlay"></canvas>
         </div>
-        <div class="idle" id="idle">Camera is off.</div>
+        <p class="count" id="count" hidden>0</p>
+        <div class="idle" id="idle">Camera is off. Start it, or use the sample photo.</div>
       </div>
-      <div class="bar">
-        <button type="button" id="start">Start camera</button>
-        <button type="button" id="stop" class="secondary" disabled>Stop</button>
+      <div class="controls">
+        <div class="bar">
+          <button type="button" id="start">Start camera</button>
+          <button type="button" id="sample" class="secondary">Sample photo</button>
+          <button type="button" id="stop" class="secondary" disabled>Stop</button>
+          <label class="check"><input type="checkbox" id="gray" /> Gray</label>
+        </div>
+        <div class="bar">
+          <label class="field">
+            Cascade
+            <select id="cascade">
+              <option value="eye">Eyes</option>
+              <option value="face">Face</option>
+              <option value="smile">Smile</option>
+            </select>
+          </label>
+          <label class="field">
+            Scale
+            <input id="scale" type="range" min="1.05" max="1.5" step="0.05" value="1.1" />
+            <span class="val" id="scale-val">1.10</span>
+          </label>
+          <label class="field">
+            Neighbors
+            <input id="neighbors" type="range" min="1" max="20" step="1" value="10" />
+            <span class="val" id="neighbors-val">10</span>
+          </label>
+        </div>
         <p id="status" role="status">Video stays in this page. Nothing is uploaded.</p>
       </div>
     </div>
     <canvas id="scratch" hidden></canvas>
+    <img id="sample-img" alt="" hidden />
     <script>
       const OPENCV_SRC =
         "https://cdn.jsdelivr.net/npm/@techstark/opencv-js@4.10.0-release.1/dist/opencv.js";
-      const SCALE = 1.1;
-      const MIN_NEIGHBORS = 10;
       const DETECT_WIDTH = 480;
+      const CASCADES = {
+        eye: { file: "haarcascade_eye.xml", one: "eye", many: "eyes" },
+        face: { file: "haarcascade_frontalface_default.xml", one: "face", many: "faces" },
+        smile: { file: "haarcascade_smile.xml", one: "smile", many: "smiles" },
+      };
 
-      const video = document.getElementById("video");
+      const video = document.getElementById("video") || document.createElement("video");
+      video.playsInline = true;
+      video.autoplay = true;
+      video.muted = true;
+      const view = document.getElementById("view");
+      const viewCtx = view.getContext("2d");
       const overlay = document.getElementById("overlay");
       const ctx = overlay.getContext("2d");
       const scratch = document.getElementById("scratch");
       const scratchCtx = scratch.getContext("2d", { willReadFrequently: true });
       const mirror = document.getElementById("mirror");
       const idle = document.getElementById("idle");
+      const countEl = document.getElementById("count");
       const startBtn = document.getElementById("start");
+      const sampleBtn = document.getElementById("sample");
       const stopBtn = document.getElementById("stop");
+      const grayBox = document.getElementById("gray");
+      const cascadeSelect = document.getElementById("cascade");
+      const scaleInput = document.getElementById("scale");
+      const scaleVal = document.getElementById("scale-val");
+      const neighborsInput = document.getElementById("neighbors");
+      const neighborsVal = document.getElementById("neighbors-val");
       const statusEl = document.getElementById("status");
+      const sampleImg = document.getElementById("sample-img");
 
       let token = 0;
       let running = false;
+      let mode = "off";
       let stream = null;
       let timer = 0;
       let classifier = null;
+      let loadedKey = "";
+      let loadGen = 0;
       let gray = null;
       let rects = null;
       let minSize = null;
@@ -149,6 +267,20 @@
       function setStatus(text, isError) {
         statusEl.textContent = text;
         statusEl.classList.toggle("is-error", Boolean(isError));
+      }
+
+      function noun(count) {
+        const spec = CASCADES[cascadeSelect.value];
+        return count === 1 ? spec.one : spec.many;
+      }
+
+      function showCount(count) {
+        if (count === null || mode === "off") {
+          countEl.hidden = true;
+          return;
+        }
+        countEl.hidden = false;
+        countEl.textContent = count + " " + noun(count);
       }
 
       function loadOpenCv() {
@@ -184,25 +316,35 @@
         return window.__cvPromise;
       }
 
-      async function loadCascade() {
-        if (classifier) return;
-        const response = await fetch("haarcascade_eye.xml");
+      function writeCascadeFile(name, bytes) {
+        try {
+          window.cv.FS_unlink(name);
+        } catch (error) {
+          /* first load */
+        }
+        window.cv.FS_createDataFile("/", name, bytes, true, false, false);
+      }
+
+      async function loadCascade(key) {
+        const spec = CASCADES[key];
+        if (!spec) throw new Error("Unknown cascade.");
+        const gen = ++loadGen;
+        const response = await fetch(spec.file);
         if (!response.ok) throw new Error("Could not load the cascade file.");
         const bytes = new Uint8Array(await response.arrayBuffer());
-        try {
-          window.cv.FS_createDataFile("/", "haarcascade_eye.xml", bytes, true, false, false);
-        } catch (error) {
-          const exists = window.cv.FS.analyzePath("/haarcascade_eye.xml").exists;
-          if (!exists) throw new Error("Could not store the cascade file.");
-        }
+        if (gen !== loadGen) return;
+        writeCascadeFile("cascade.xml", bytes);
+        if (classifier) classifier.delete();
         classifier = new window.cv.CascadeClassifier();
-        if (classifier.load("haarcascade_eye.xml") === false) {
+        if (classifier.load("cascade.xml") === false) {
+          classifier.delete();
           classifier = null;
           throw new Error("The cascade file did not load.");
         }
-        gray = new window.cv.Mat();
-        rects = new window.cv.RectVector();
-        minSize = new window.cv.Size(20, 20);
+        if (!gray) gray = new window.cv.Mat();
+        if (!rects) rects = new window.cv.RectVector();
+        if (!minSize) minSize = new window.cv.Size(20, 20);
+        loadedKey = key;
       }
 
       function releaseStream() {
@@ -213,29 +355,56 @@
         video.srcObject = null;
       }
 
-      function showCamera(on) {
+      function showStage(on) {
         mirror.hidden = !on;
         idle.hidden = on;
+        mirror.classList.toggle("is-camera", mode === "camera");
+        if (!on) showCount(null);
+      }
+
+      function sourceElement() {
+        return mode === "sample" ? sampleImg : video;
+      }
+
+      function sourceReady() {
+        if (mode === "sample") return sampleImg.complete && sampleImg.naturalWidth > 0;
+        return video.videoWidth > 0 && video.readyState >= 2;
+      }
+
+      function sourceSize() {
+        if (mode === "sample") return [sampleImg.naturalWidth, sampleImg.naturalHeight];
+        return [video.videoWidth, video.videoHeight];
       }
 
       function scan() {
-        const vw = video.videoWidth;
-        const vh = video.videoHeight;
-        if (!vw || !vh || video.readyState < 2) return null;
-        const scale = Math.min(1, DETECT_WIDTH / vw);
-        const w = Math.max(1, Math.round(vw * scale));
-        const h = Math.max(1, Math.round(vh * scale));
+        if (!sourceReady() || !classifier) return null;
+        const [sw, sh] = sourceSize();
+        const scaleDown = Math.min(1, DETECT_WIDTH / sw);
+        const w = Math.max(1, Math.round(sw * scaleDown));
+        const h = Math.max(1, Math.round(sh * scaleDown));
         if (scratch.width !== w || scratch.height !== h) {
           scratch.width = w;
           scratch.height = h;
+          view.width = w;
+          view.height = h;
           overlay.width = w;
           overlay.height = h;
         }
-        scratchCtx.drawImage(video, 0, 0, w, h);
+        scratchCtx.drawImage(sourceElement(), 0, 0, w, h);
         const frame = window.cv.imread(scratch);
+        let shown = null;
         try {
           window.cv.cvtColor(frame, gray, window.cv.COLOR_RGBA2GRAY);
-          classifier.detectMultiScale(gray, rects, SCALE, MIN_NEIGHBORS, 0, minSize);
+          const scaleFactor = Number(scaleInput.value);
+          const neighbors = Number(neighborsInput.value);
+          classifier.detectMultiScale(gray, rects, scaleFactor, neighbors, 0, minSize);
+          if (grayBox.checked) {
+            shown = new window.cv.Mat();
+            window.cv.cvtColor(gray, shown, window.cv.COLOR_GRAY2RGBA);
+            window.cv.imshow(view, shown);
+          } else {
+            viewCtx.drawImage(sourceElement(), 0, 0, w, h);
+          }
           ctx.clearRect(0, 0, w, h);
           ctx.strokeStyle = "#ffffff";
           ctx.lineWidth = 2;
@@ -247,6 +416,7 @@
           return count;
         } finally {
           frame.delete();
+          if (shown) shown.delete();
         }
       }
 
@@ -255,23 +425,31 @@
         try {
           const count = scan();
           if (!running) return;
-          if (count === null) setStatus("Camera is on.");
-          else if (count === 0) setStatus("Camera is on. No eyes in this frame.");
-          else setStatus(count === 1 ? "Camera is on. 1 eye." : "Camera is on. " + count + " eyes.");
+          const prefix = mode === "sample" ? "Sample photo." : "Camera is on.";
+          if (count === null) setStatus(prefix);
+          else setStatus(prefix + " " + count + " " + noun(count) + ".");
+          showCount(count);
         } catch (error) {
           if (!running) return;
-          setStatus("Camera is on. " + (error.message || "This frame was skipped."));
+          setStatus(error.message || "This frame was skipped.", true);
         }
         if (!running) return;
         timer = window.setTimeout(tick, 200);
       }
 
+      async function ensureDetector() {
+        await loadOpenCv();
+        if (loadedKey !== cascadeSelect.value || !classifier) {
+          await loadCascade(cascadeSelect.value);
+        }
+      }
+
       function cameraError(error) {
         if (!error) return "Could not open the camera.";
         if (error.name === "NotAllowedError" || error.name === "SecurityError") {
-          return "Camera permission was blocked. Allow it for this site and try again.";
+          return "Camera permission was blocked. Allow it for this site, or use the sample photo.";
         }
-        if (error.name === "NotFoundError") return "No camera was found.";
+        if (error.name === "NotFoundError") return "No camera was found. Use the sample photo.";
         if (error.name === "NotReadableError" || error.name === "AbortError") {
           return "The camera is busy or unavailable. Close other apps using it and try again.";
         }
@@ -281,13 +459,20 @@
         return error.message || "Could not open the camera.";
       }
 
+      function armButtons(on) {
+        startBtn.disabled = on;
+        sampleBtn.disabled = on;
+        stopBtn.disabled = !on;
+      }
+
       async function start() {
-        if (running) return;
+        if (running && mode === "camera") return;
+        stop(false);
         const session = ++token;
         running = true;
-        startBtn.disabled = true;
-        stopBtn.disabled = false;
-        const alive = () => running && session === token;
+        mode = "camera";
+        armButtons(true);
+        const alive = () => running && session === token && mode === "camera";
 
         try {
           if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
@@ -304,52 +489,97 @@
           }
           stream = nextStream;
           video.srcObject = stream;
-          showCamera(true);
+          showStage(true);
           await video.play();
           if (!alive()) return;
           setStatus("Camera is on. Loading the detector…");
           try {
-            await loadOpenCv();
-            if (!alive()) return;
-            await loadCascade();
+            await ensureDetector();
           } catch (error) {
             if (!alive()) return;
             setStatus("Camera is on. " + (error.message || "The detector did not load."), true);
             return;
           }
           if (!alive()) return;
-          setStatus("Camera is on. Looking for eyes…");
+          setStatus("Camera is on. Looking…");
           tick();
         } catch (error) {
           if (!alive()) return;
           running = false;
+          mode = "off";
           window.clearTimeout(timer);
           releaseStream();
-          showCamera(false);
-          startBtn.disabled = false;
-          stopBtn.disabled = true;
+          showStage(false);
+          armButtons(false);
           setStatus(cameraError(error), true);
         }
       }
 
-      function stop() {
+      async function useSample() {
+        stop(false);
+        const session = ++token;
+        running = true;
+        mode = "sample";
+        armButtons(true);
+        const alive = () => running && session === token && mode === "sample";
+        try {
+          setStatus("Loading the sample photo…");
+          if (!sampleImg.complete || !sampleImg.naturalWidth) {
+            sampleImg.src = "sample.jpg";
+            await sampleImg.decode();
+          }
+          if (!alive()) return;
+          showStage(true);
+          setStatus("Sample photo. Loading the detector…");
+          await ensureDetector();
+          if (!alive()) return;
+          tick();
+        } catch (error) {
+          if (!alive()) return;
+          running = false;
+          mode = "off";
+          showStage(false);
+          armButtons(false);
+          setStatus(error.message || "The sample photo did not load.", true);
+        }
+      }
+
+      function stop(updateStatus) {
         token += 1;
         running = false;
+        mode = "off";
         window.clearTimeout(timer);
         timer = 0;
         releaseStream();
         if (ctx && overlay.width) ctx.clearRect(0, 0, overlay.width, overlay.height);
-        showCamera(false);
-        startBtn.disabled = false;
-        stopBtn.disabled = true;
-        setStatus("Camera is off.");
+        showStage(false);
+        armButtons(false);
+        if (updateStatus !== false) setStatus("Camera is off. Start it, or use the sample photo.");
       }
 
+      scaleInput.addEventListener("input", () => {
+        scaleVal.textContent = Number(scaleInput.value).toFixed(2);
+      });
+      neighborsInput.addEventListener("input", () => {
+        neighborsVal.textContent = neighborsInput.value;
+      });
+      cascadeSelect.addEventListener("change", async () => {
+        if (!running) return;
+        try {
+          setStatus("Loading the cascade…");
+          await loadCascade(cascadeSelect.value);
+        } catch (error) {
+          setStatus(error.message || "The cascade file did not load.", true);
+        }
+      });
       startBtn.addEventListener("click", () => {
         start();
       });
-      stopBtn.addEventListener("click", stop);
-      window.addEventListener("pagehide", stop);
+      sampleBtn.addEventListener("click", () => {
+        useSample();
+      });
+      stopBtn.addEventListener("click", () => stop());
+      window.addEventListener("pagehide", () => stop());
     </script>
   </body>
 </html>

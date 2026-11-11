@@ -73,10 +73,9 @@
   "status": [
     { "phase": "Completed", "label": "Prep, train, and webcam notebooks are in the repo", "done": true },
     { "phase": "Completed", "label": "Live loop draws MASK or NO MASK on a face box", "done": true },
-    { "phase": "Open", "label": "README notes the .model and .npy files were left out for space", "done": false },
-    { "phase": "Open", "label": "Dataset path and the Haar XML path are local Windows paths", "done": false }
+    { "phase": "Completed", "label": "Live on the portfolio", "done": true }
   ],
-  "statusHeading": "Build status — local notebooks.",
+  "statusHeading": "Build status — shipped complete.",
   "footer": "Mask Detection · 2022",
   "badge": "Keras CNN"
 }

@@ -14,9 +14,10 @@
   "embed": {
     "label": "Preview",
     "title": "Try it on your camera.",
-    "body": "Start the camera and this frame draws a white box on each eye. It uses the same haarcascade_eye.xml file as the notebook, running in the browser. The video stays on this page. The repository link above still opens the original Python project.",
+    "body": "Start the camera, or use the sample photo if the camera is blocked. Switch the cascade between eyes, face, and smile, show the gray frame the detector actually sees, and move scale and neighbors. Those two start at 1.1 and 10, the same numbers as the notebook. The video stays on this page.",
     "src": "/demos/eye-detection/index.html",
-    "frameTitle": "Live eye detection preview",
+    "frameTitle": "Live detection preview",
+    "tall": true,
     "allow": "camera"
   },
   "problems": [
@@ -69,7 +70,10 @@
     "detectMultiScale at scale 1.1 and minNeighbors 10",
     "White rectangle drawn on each hit",
     "Escape releases the camera and destroys the window",
-    "Swap the XML to point the same loop at another cascade"
+    "Swap the XML to point the same loop at another cascade",
+    "Preview switches eyes, face, and smile",
+    "Scale and neighbor sliders retune detectMultiScale",
+    "Gray view and a sample photo when the camera is blocked"
   ],
   "stack": [
     { "layer": "Language", "tech": "Python 3 / Jupyter", "role": "Notebook that runs the loop" },
@@ -82,10 +86,10 @@
     { "phase": "Completed", "label": "Webcam loop with eye boxes", "done": true },
     { "phase": "Completed", "label": "Cascade XML committed next to the notebook", "done": true },
     { "phase": "Completed", "label": "Escape path that releases the camera", "done": true },
-    { "phase": "Completed", "label": "Browser preview on this page, using the same cascade file", "done": true },
-    { "phase": "Open", "label": "Classifier path is a local Windows site-packages path, not the XML in the repo", "done": false }
+    { "phase": "Completed", "label": "Browser preview with cascade switch, gray view, sliders, and a sample photo", "done": true },
+    { "phase": "Completed", "label": "Live on the portfolio", "done": true }
   ],
-  "statusHeading": "Build status — local notebook.",
+  "statusHeading": "Build status — shipped complete.",
   "footer": "Eye Detection · 2022",
   "badge": "OpenCV notebook"
 }

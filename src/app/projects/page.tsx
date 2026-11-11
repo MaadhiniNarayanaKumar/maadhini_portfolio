@@ -16,7 +16,7 @@ type FilterId = (typeof FILTERS)[number]['id'];
 type GroupId = Exclude<FilterId, 'all'>;
 
 // Live sites, then extensions. Not-live and in-process projects stay off this page.
-const LISTED_IDS = ['1', '11', '12', '3', '4', '14'];
+const LISTED_IDS = ['1', '11', '12', '3', '4', '14', '13', '15', '17'];
 
 const GROUPS: Record<string, GroupId[]> = {
   '1': ['quant'],
@@ -25,6 +25,9 @@ const GROUPS: Record<string, GroupId[]> = {
   '3': ['web'],
   '4': ['aiml'],
   '14': ['aiml'],
+  '13': ['aiml'],
+  '15': ['aiml'],
+  '17': ['aiml'],
 };
 
 const listed = LISTED_IDS.map((id) => projects.find((p) => p.id === id)!);
