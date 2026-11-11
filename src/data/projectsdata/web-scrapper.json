@@ -1,0 +1,82 @@
+{
+  "hero": {
+    "eyebrow": ["Node", "Cheerio", "Axios", "2023"],
+    "title": "Guardian Scraper",
+    "subtitle": "One page, a list of titles.",
+    "tagline": "A Node script that fetches the Guardian UK front and prints each headline with its link.",
+    "impact": "Axios downloads the HTML. Cheerio reads every .fc-item__title. The title text and the anchor href are pushed into an array and logged.",
+    "chips": ["Node.js", "Express", "Cheerio", "Axios", "The Guardian"]
+  },
+  "links": {
+    "github": "https://github.com/MaadhiniNarayanaKumar/web-scrapper-using-node.js",
+    "githubLabel": "View repository"
+  },
+  "problems": [
+    {
+      "n": "01",
+      "t": "A page, not an API",
+      "d": "The URL is https://www.theguardian.com/uk. Axios gets the HTML. There is no JSON feed in this script."
+    },
+    {
+      "n": "02",
+      "t": "A selector for the headline",
+      "d": "Cheerio loads the HTML and walks .fc-item__title. Each node’s text is the title. The nested anchor’s href is stored with it."
+    },
+    {
+      "n": "03",
+      "t": "See it in the terminal",
+      "d": "The array is console.log’d when the request finishes. Failures log the error."
+    },
+    {
+      "n": "04",
+      "t": "A server that only listens",
+      "d": "Express is created and listens on port 8000. The scrape runs once at startup. No route returns the list."
+    }
+  ],
+  "layers": [
+    {
+      "tag": "Fetch",
+      "title": "Axios",
+      "desc": "GET https://www.theguardian.com/uk and read response.data as HTML"
+    },
+    {
+      "tag": "Parse",
+      "title": "Cheerio",
+      "desc": "Load the HTML, then .each on .fc-item__title"
+    },
+    {
+      "tag": "Row",
+      "title": "title + href",
+      "desc": "text() for the headline. find('a').attr('href') for the link, stored as img_link"
+    },
+    {
+      "tag": "Run",
+      "title": "Port 8000",
+      "desc": "npm start runs nodemon index.js. The process logs the array and prints server running"
+    }
+  ],
+  "highlights": [
+    "One hard-coded Guardian UK URL",
+    "Axios fetch of the front page",
+    "Cheerio selector .fc-item__title",
+    "Title text and anchor href collected together",
+    "Result printed in the terminal",
+    "Express listen on port 8000"
+  ],
+  "stack": [
+    { "layer": "Runtime", "tech": "Node.js", "role": "index.js" },
+    { "layer": "HTTP", "tech": "Axios", "role": "Downloads the front page" },
+    { "layer": "HTML", "tech": "Cheerio", "role": "Selects headline nodes" },
+    { "layer": "Server", "tech": "Express", "role": "Listens on 8000, no scrape route" },
+    { "layer": "Dev", "tech": "nodemon", "role": "npm start" }
+  ],
+  "status": [
+    { "phase": "Completed", "label": "Startup scrape of Guardian UK headlines into the console", "done": true },
+    { "phase": "Completed", "label": "Each item keeps a title and an href", "done": true },
+    { "phase": "Open", "label": "Express does not serve the list on any route", "done": false },
+    { "phase": "Open", "label": "The selector is tied to one Guardian front-page class name", "done": false }
+  ],
+  "statusHeading": "Build status — local Node script.",
+  "footer": "Guardian Scraper · 2023",
+  "badge": "Cheerio scraper"
+}

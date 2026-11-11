@@ -22,7 +22,17 @@
     },
     "links": {
         "github": "https://github.com/MaadhiniNarayanaKumar/distributed-market-intelligence-quant-qa",
-        "githubLabel": "View repository"
+        "githubLabel": "View repository",
+        "live": "/demos/distributed-market-intelligence/index.html",
+        "liveLabel": "Open interactive preview"
+    },
+    "embed": {
+        "label": "00 — Preview",
+        "title": "Walk the snapshot demo in-page.",
+        "body": "Dashboard, pipeline replay, QA, signals, and backtest from the same exported run (demo-job-001). This is the fixture-backed portfolio preview — open it full-screen for a larger walkthrough.",
+        "src": "/demos/distributed-market-intelligence/index.html",
+        "frameTitle": "Market Intelligence Quant QA demo preview",
+        "tall": true
     },
     "sections": {
         "problem": {
@@ -97,19 +107,6 @@
         "SIGNAL_GENERATION",
         "BACKTEST",
         "REPORT_EXPORT"
-    ],
-    "flowStepsDetail": [
-        "Next.js UI — ticker input (dates in config/config.json)",
-        "POST /run-pipeline → job_id (API on :8080)",
-        "WebSocket /ws/{job_id} for live timeline",
-        "Seven stages above, then SAVING_DATA → COMPLETED",
-        "Parquet + versioned artifacts under data/versioned/",
-        "DuckDB stores jobs, QA, signals, backtests per run_id",
-        "GET /features, /qa, /api/v1/signals, regime, backtest, reports/{ticker}",
-        "Single pipeline lock — 409 if a run is already active",
-        "Snapshot mode: per-ticker CSV under data/snap/; live mode: yfinance",
-        "Demo refresh: seed pipeline → capture GETs → fixtures under demo/public/fixtures/",
-        "Vercel Root Directory = demo — zero backend, fixture replay of pipeline steps"
     ],
     "highlights": [
         {
@@ -208,7 +205,6 @@
             "role": "Live :8080/:3002 · Demo :3003"
         }
     ],
-    "futureWork": "Phases 1–5 are complete: PySpark pipeline, FastAPI, Next.js live UI, WebSocket job tracking, and the static Vercel demo with fixture capture. Optional research waves (richer indicators, HMM regimes, HTML/PDF reports, formal pytest goldens) remain outside the shipped core.",
     "roadmap": [
         {
             "phase": "Phase 1",
@@ -240,6 +236,11 @@
         {
             "id": "overview",
             "label": "Overview",
+            "number": "00"
+        },
+        {
+            "id": "preview",
+            "label": "Preview",
             "number": "01"
         },
         {

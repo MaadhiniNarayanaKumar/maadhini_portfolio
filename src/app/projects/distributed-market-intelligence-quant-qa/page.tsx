@@ -63,21 +63,19 @@ function TechTable({ rows }: { rows: TechRow[] }) {
 
 export default function ProjectPage() {
   const [activeSection, setActiveSection] = useState("overview");
-  const [openFlow, setOpenFlow] = useState(false);
   const [openStack, setOpenStack] = useState(false);
 
   const {
     hero,
     links,
+    embed,
     sections,
     problems,
     archLayers,
     pipelineStages,
-    flowStepsDetail,
     highlights,
     techStackPrimary,
     techStackSecondary,
-    futureWork,
     roadmap,
     sidebar,
   } = proj1data;
@@ -117,6 +115,11 @@ export default function ProjectPage() {
 
   const githubHref = links.github;
   const showGithubLink = githubHref && githubHref !== "#";
+  const liveHref = "live" in links ? links.live : undefined;
+  const liveLabel =
+    "liveLabel" in links && links.liveLabel
+      ? links.liveLabel
+      : "Open interactive preview";
 
   return (
     <div className="pj-root">
@@ -146,24 +149,56 @@ export default function ProjectPage() {
             </span>
           ))}
         </div>
-        {showGithubLink ? (
-          <a
-            href={githubHref}
-            className="pj-hero-link"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            {links.githubLabel} →
-          </a>
-        ) : (
-          <span className="pj-hero-link pj-hero-link-disabled" title="Add repo URL in proj1data.json">
-            {links.githubLabel} (coming soon)
-          </span>
-        )}
+        <div className="pj-hero-links">
+          {liveHref ? (
+            <a
+              href={liveHref}
+              className="pj-hero-link"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {liveLabel} →
+            </a>
+          ) : null}
+          {showGithubLink ? (
+            <a
+              href={githubHref}
+              className="pj-hero-link"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {links.githubLabel} →
+            </a>
+          ) : (
+            <span
+              className="pj-hero-link pj-hero-link-disabled"
+              title="Add repo URL in proj1data.json"
+            >
+              {links.githubLabel} (coming soon)
+            </span>
+          )}
+        </div>
       </div>
 
       <div className="pj-main-with-sidebar">
         <div className="pj-main-content">
+          {embed ? (
+            <section className="pj-section" id="preview">
+              <div className="pj-label">{embed.label}</div>
+              <h2 className="pj-title">{embed.title}</h2>
+              <p className="pj-body">{embed.body}</p>
+              <div
+                className={`pj-play-frame${embed.tall ? " pj-play-frame-tall" : ""}`}
+              >
+                <iframe
+                  src={embed.src}
+                  title={embed.frameTitle}
+                  className="pj-play-frame-iframe"
+                />
+              </div>
+            </section>
+          ) : null}
+
           {/* PROBLEM */}
           <section className="pj-section" id="problem">
             <div className="pj-label">{sections.problem.label}</div>
@@ -216,17 +251,6 @@ export default function ProjectPage() {
                 {sections.howItWorks.pipelineNote}
               </p>
             </div>
-            {/* } <Accordion
-              title="Full flow & APIs"
-              open={openFlow}
-              onToggle={() => setOpenFlow((v) => !v)}
-            >
-              <ul className="pj-detail-list">
-                {flowStepsDetail.map((step, i) => (
-                  <li key={i}>{step}</li>
-                ))}
-              </ul>
-            </Accordion>*/}
           </section>
 
           {/* HIGHLIGHTS */}
@@ -291,7 +315,6 @@ export default function ProjectPage() {
                 </div>
               ))}
             </div>
-            <p className="pj-body pj-future-work">{futureWork}</p>
           </section>
         </div>
 

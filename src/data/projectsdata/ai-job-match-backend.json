@@ -13,10 +13,10 @@
   },
   "embed": {
     "label": "Preview",
-    "title": "Score a posting in the browser.",
-    "body": "Paste resume text and a job page. This frame runs the same keyword list and the same 70 / 50 cutoffs as /match-job. File upload and the Gemini route stay in the repository. The link above still opens that Python project.",
+    "title": "The extension panel, in the page.",
+    "body": "Same layout and colors as the Chrome side panel. Score uses the same skill list and the same 70 / 50 cutoffs, with no API. Analyze ranks skills from the posting text in the browser. Gemini, PDF, and DOCX stay in the backend.",
     "src": "/demos/ai-job-match/index.html",
-    "frameTitle": "Job match score preview"
+    "frameTitle": "Job match extension preview"
   },
   "problems": [
     {
@@ -83,9 +83,9 @@
     { "phase": "Completed", "label": "Health route and Vercel routing file", "done": true },
     { "phase": "Completed", "label": "/analyze uses Gemini and requires GEMINI_API_KEY", "done": true },
     { "phase": "Completed", "label": "CORS allows chrome-extension origins", "done": true },
-    { "phase": "Open", "label": "The Chrome extension UI is not in this repo", "done": false }
+    { "phase": "Completed", "label": "Extension panel and in-page preview", "done": true }
   ],
-  "statusHeading": "Build status — match API in place.",
-  "footer": "AI Job Match Backend · 2026",
-  "badge": "FastAPI service"
+  "statusHeading": "Build status — shipped complete.",
+  "footer": "AI Job Match · 2026",
+  "badge": "Completed — Chrome companion"
 }

@@ -1,0 +1,83 @@
+{
+  "hero": {
+    "eyebrow": ["scikit-learn", "Flask", "Adult census", "2022"],
+    "title": "Income Prediction",
+    "subtitle": "Above 50K, or not.",
+    "tagline": "A notebook that fits three classifiers on adult.csv, pickles gradient boosting, and a Flask form that returns >50K or <=50K.",
+    "impact": "The form sends 12 fields. The app reshapes them to one row and reads the pickled GradientBoostingClassifier.",
+    "chips": ["Flask", "scikit-learn", "Adult census", "Gradient boosting", "Heroku Procfile"]
+  },
+  "links": {
+    "github": "https://github.com/MaadhiniNarayanaKumar/income_pred_webapp",
+    "githubLabel": "View repository"
+  },
+  "problems": [
+    {
+      "n": "01",
+      "t": "A census table",
+      "d": "adult.csv is the income table. The notebook drops fnlwgt and educational-num, and fills ? with the most common value in that column."
+    },
+    {
+      "n": "02",
+      "t": "Text columns",
+      "d": "LabelEncoder maps workclass, education, marital status, occupation, relationship, race, gender, country, and income to integers."
+    },
+    {
+      "n": "03",
+      "t": "Which model to ship",
+      "d": "Random forest, gradient boosting, and AdaBoost each train on a 70/30 split. ROC curves are plotted. model.pkl is the gradient boosting fit."
+    },
+    {
+      "n": "04",
+      "t": "A form instead of a notebook",
+      "d": "Twelve inputs — age through country — post to /predict. Output 1 is >50K. Output 0 is <=50K."
+    }
+  ],
+  "layers": [
+    {
+      "tag": "Table",
+      "title": "adult.csv",
+      "desc": "Income counts, a correlation heatmap, and a t-SNE scatter of <=50K against >50K"
+    },
+    {
+      "tag": "Fit",
+      "title": "Three classifiers",
+      "desc": "100 estimators each. Confusion matrix, classification report, accuracy, recall, precision, and ROC AUC"
+    },
+    {
+      "tag": "Export",
+      "title": "model.pkl",
+      "desc": "pickle dumps the gradient boosting classifier"
+    },
+    {
+      "tag": "App",
+      "title": "Flask",
+      "desc": "GET / renders the form. POST /predict maps the 12 fields to ints, predicts, and prints Employee Income is >50K or <=50K"
+    }
+  ],
+  "highlights": [
+    "adult.csv with ? filled by the column mode",
+    "Label-encoded categoricals",
+    "Random forest, gradient boosting, and AdaBoost on a 30% test split",
+    "ROC curves and a random-forest feature-importance bar",
+    "Gradient boosting saved as model.pkl",
+    "Flask form with 12 fields and a Procfile for gunicorn"
+  ],
+  "stack": [
+    { "layer": "Language", "tech": "Python", "role": "Notebook plus Flask app" },
+    { "layer": "Data", "tech": "adult.csv", "role": "Census-style rows labeled <=50K or >50K" },
+    { "layer": "Model", "tech": "GradientBoostingClassifier", "role": "The pickled model the form calls" },
+    { "layer": "App", "tech": "Flask", "role": "Form post and prediction text" },
+    { "layer": "Server", "tech": "gunicorn", "role": "Procfile: web: gunicorn app:app" }
+  ],
+  "status": [
+    { "phase": "Completed", "label": "Notebook compares three models and writes model.pkl", "done": true },
+    { "phase": "Completed", "label": "Flask route maps 12 form fields to >50K or <=50K", "done": true },
+    { "phase": "Completed", "label": "Procfile and requirements are in the repo", "done": true },
+    { "phase": "Open", "label": "Flask render_template looks for templates/index.html; the form file is at the repo root", "done": false },
+    { "phase": "Open", "label": "No live deployment. This page links the repository only", "done": false }
+  ],
+  "statusHeading": "Build status — local Flask app.",
+  "footer": "Income Prediction · 2022",
+  "badge": "Flask + sklearn"
+}

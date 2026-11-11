@@ -167,6 +167,146 @@
     "slug": "ai-job-match-backend"
   },
   {
+    "id": "15",
+    "title": "Emotion Detection",
+    "description": "Keras CNN on 48×48 grayscale faces, then a webcam loop that labels the face as one of seven emotions.",
+    "category": "ML & AI",
+    "year": "2022",
+    "tags": [
+      "Keras",
+      "CNN",
+      "OpenCV",
+      "Webcam",
+      "Python"
+    ],
+    "gradient": "linear-gradient(135deg, #3b0764 0%, #9d174d 52%, #e11d48 100%)",
+    "accent": "#fda4af",
+    "size": "medium",
+    "slug": "emotion-detection"
+  },
+  {
+    "id": "16",
+    "title": "Handwritten Digit Recognition",
+    "description": "Keras notebook on MNIST: flatten 28×28 digits to 784 inputs and train a dense network with a 10-way softmax.",
+    "category": "ML & AI",
+    "year": "2022",
+    "tags": [
+      "MNIST",
+      "Keras",
+      "ANN",
+      "Python",
+      "Jupyter"
+    ],
+    "gradient": "linear-gradient(135deg, #0c0a09 0%, #292524 48%, #57534e 100%)",
+    "accent": "#d6d3d1",
+    "size": "medium",
+    "slug": "handwritten-digit-recognition"
+  },
+  {
+    "id": "17",
+    "title": "Face Mask Detection",
+    "description": "Notebooks that resize faces to 100×100, train a two-class CNN, and label a webcam face as mask or no mask.",
+    "category": "ML & AI",
+    "year": "2022",
+    "tags": [
+      "Keras",
+      "CNN",
+      "OpenCV",
+      "Webcam",
+      "Python"
+    ],
+    "gradient": "linear-gradient(135deg, #022c22 0%, #115e59 50%, #0f766e 100%)",
+    "accent": "#5eead4",
+    "size": "medium",
+    "slug": "mask-detection-cnn"
+  },
+  {
+    "id": "18",
+    "title": "Income Prediction",
+    "description": "Census-income notebook that compares three classifiers, pickles gradient boosting, and serves a Flask form for >50K or <=50K.",
+    "category": "ML & AI",
+    "year": "2022",
+    "tags": [
+      "Flask",
+      "scikit-learn",
+      "Gradient Boosting",
+      "Python"
+    ],
+    "gradient": "linear-gradient(135deg, #422006 0%, #92400e 48%, #d97706 100%)",
+    "accent": "#fcd34d",
+    "size": "medium",
+    "slug": "income-pred-webapp"
+  },
+  {
+    "id": "19",
+    "title": "Login Page",
+    "description": "Express form that checks a username and password against a local MongoDB collection and opens a welcome page on a match.",
+    "category": "Web",
+    "year": "2023",
+    "tags": [
+      "Express",
+      "MongoDB",
+      "HTML",
+      "CSS",
+      "Node.js"
+    ],
+    "gradient": "linear-gradient(135deg, #1e1b4b 0%, #3730a3 50%, #4f46e5 100%)",
+    "accent": "#a5b4fc",
+    "size": "medium",
+    "slug": "login-page"
+  },
+  {
+    "id": "20",
+    "title": "Voice Command Canvas",
+    "description": "React page that loads a TensorFlow.js speech-commands model and moves a canvas ball with spoken directions and number words.",
+    "category": "ML & AI",
+    "year": "2023",
+    "tags": [
+      "React",
+      "TensorFlow.js",
+      "Speech",
+      "Canvas"
+    ],
+    "gradient": "linear-gradient(135deg, #2e1065 0%, #6d28d9 48%, #7c3aed 100%)",
+    "accent": "#ddd6fe",
+    "size": "medium",
+    "slug": "nlp-reactproject"
+  },
+  {
+    "id": "21",
+    "title": "PCOS Classification",
+    "description": "Notebook that merges two PCOS tables, plots correlations, and fits a logistic regression on a 30% holdout.",
+    "category": "ML & AI",
+    "year": "2024",
+    "tags": [
+      "pandas",
+      "scikit-learn",
+      "Logistic Regression",
+      "Jupyter"
+    ],
+    "gradient": "linear-gradient(135deg, #4a044e 0%, #9d174d 52%, #be185d 100%)",
+    "accent": "#f9a8d4",
+    "size": "medium",
+    "slug": "pcos-detection"
+  },
+  {
+    "id": "22",
+    "title": "Guardian Headline Scraper",
+    "description": "Node script that fetches the Guardian UK front with Axios and Cheerio and prints each headline with its link.",
+    "category": "Web",
+    "year": "2023",
+    "tags": [
+      "Node.js",
+      "Cheerio",
+      "Axios",
+      "Express"
+    ],
+    "gradient": "linear-gradient(135deg, #0c1929 0%, #1e3a5f 48%, #1d4ed8 100%)",
+    "accent": "#93c5fd",
+    "size": "medium",
+    "slug": "web-scrapper"
+  },
+  {
     "id": "5",
     "title": "Portfolio Risk Analyzer",
     "description": "Monte Carlo based portfolio risk engine computing VaR, CVaR, and stress test scenarios across multi-asset portfolios.",

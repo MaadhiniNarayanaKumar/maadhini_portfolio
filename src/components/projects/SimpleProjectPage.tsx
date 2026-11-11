@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../../styles/proj1.css";
 
 type Problem = { n: string; t: string; d: string };
@@ -68,9 +68,40 @@ export default function SimpleProjectPage({ data }: { data: SimpleProjectData })
     embed,
   } = data;
 
+  useEffect(() => {
+    const root = document.querySelector("main");
+    if (!root) return;
+    const ids = sidebar.map((item) => item.id);
+
+    const onScroll = () => {
+      const rootRect = root.getBoundingClientRect();
+      const maxScroll = Math.max(1, root.scrollHeight - root.clientHeight);
+      const progress = Math.min(1, root.scrollTop / maxScroll);
+      const marker = rootRect.top + 100 + progress * (root.clientHeight - 180);
+      let current = ids[0];
+      ids.forEach((id) => {
+        const el = document.getElementById(id);
+        if (el && el.getBoundingClientRect().top <= marker) current = id;
+      });
+      setActiveSection(current);
+    };
+
+    onScroll();
+    root.addEventListener("scroll", onScroll, { passive: true });
+    return () => root.removeEventListener("scroll", onScroll);
+  }, []);
+
   const scrollToSection = (id: string) => {
+    const root = document.querySelector("main");
+    const element = document.getElementById(id);
+    if (!root || !element) return;
+    const top =
+      element.getBoundingClientRect().top -
+      root.getBoundingClientRect().top +
+      root.scrollTop -
+      72;
+    root.scrollTo({ top, behavior: "smooth" });
     setActiveSection(id);
-    document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
   return (

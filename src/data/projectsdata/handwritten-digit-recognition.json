@@ -1,0 +1,82 @@
+{
+  "hero": {
+    "eyebrow": ["MNIST", "Keras", "ANN", "2022"],
+    "title": "Handwritten Digits",
+    "subtitle": "784 pixels, ten classes.",
+    "tagline": "A Keras notebook that loads MNIST, flattens each 28×28 digit, and trains a small dense network to ten classes.",
+    "impact": "No camera and no saved model file. The notebook trains, scores train and test, and prints predictions for the first 100 test images next to their labels.",
+    "chips": ["MNIST", "Keras", "Dense", "Softmax", "Jupyter"]
+  },
+  "links": {
+    "github": "https://github.com/MaadhiniNarayanaKumar/handwritten-digit-recognition",
+    "githubLabel": "View repository"
+  },
+  "problems": [
+    {
+      "n": "01",
+      "t": "Images are not vectors",
+      "d": "MNIST arrives as 28×28 arrays. The notebook divides by 255, then reshapes train to 60000×784 and test to 10000×784."
+    },
+    {
+      "n": "02",
+      "t": "Labels need ten slots",
+      "d": "keras.utils.to_categorical turns the digit id into a one-hot row so the loss can be categorical crossentropy."
+    },
+    {
+      "n": "03",
+      "t": "A plain dense stack",
+      "d": "No convolutions. Three ReLU hidden layers, then a 10-way softmax."
+    },
+    {
+      "n": "04",
+      "t": "Check the guess",
+      "d": "After fit, evaluate runs on train and on test. argmax on the first 100 predictions is printed beside argmax of the one-hot labels."
+    }
+  ],
+  "layers": [
+    {
+      "tag": "Data",
+      "title": "MNIST",
+      "desc": "tensorflow.keras.datasets.mnist.load_data(). One sample is shown with imshow before scaling"
+    },
+    {
+      "tag": "Prep",
+      "title": "Scale and flatten",
+      "desc": "Divide by 255. Reshape to 784. One-hot the labels. Labels stay unscaled"
+    },
+    {
+      "tag": "ANN",
+      "title": "Sequential",
+      "desc": "Dense 512 ReLU, dense 64 ReLU, dense 32 ReLU, dense 10 softmax. Adam and categorical crossentropy"
+    },
+    {
+      "tag": "Score",
+      "title": "Evaluate",
+      "desc": "100 epochs, then evaluate on train and test, then predict the first 100 test rows"
+    }
+  ],
+  "highlights": [
+    "MNIST loaded from Keras datasets",
+    "Pixels divided by 255",
+    "28×28 flattened to 784",
+    "One-hot labels",
+    "Dense stack 512 → 64 → 32 → 10",
+    "Train and test evaluate, plus a 100-row prediction check"
+  ],
+  "stack": [
+    { "layer": "Language", "tech": "Python / Jupyter", "role": "Single notebook" },
+    { "layer": "Data", "tech": "MNIST", "role": "60,000 train and 10,000 test digits" },
+    { "layer": "Model", "tech": "Keras Sequential", "role": "Dense network, softmax output" },
+    { "layer": "Train", "tech": "Adam", "role": "100 epochs, categorical crossentropy, accuracy" },
+    { "layer": "Check", "tech": "evaluate / predict", "role": "Scores and a side-by-side argmax on 100 rows" }
+  ],
+  "status": [
+    { "phase": "Completed", "label": "Notebook loads MNIST, trains, and evaluates", "done": true },
+    { "phase": "Completed", "label": "Prediction check on the first 100 test images", "done": true },
+    { "phase": "Open", "label": "No saved weights and no drawing UI", "done": false },
+    { "phase": "Open", "label": "StandardScaler and train_test_split are imported and unused", "done": false }
+  ],
+  "statusHeading": "Build status — local notebook.",
+  "footer": "Handwritten Digits · 2022",
+  "badge": "MNIST notebook"
+}

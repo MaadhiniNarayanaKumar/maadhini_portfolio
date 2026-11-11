@@ -11,6 +11,13 @@
     "github": "https://github.com/MaadhiniNarayanaKumar/mia-calendar-extension",
     "githubLabel": "View repository (private)"
   },
+  "embed": {
+    "label": "Preview",
+    "title": "The calendar popup, in the page.",
+    "body": "Same layout and colors as the Chrome popup. Paste an invite and the page fills title, date, time, and location with the same parser as the extension. Send stays in this preview. Firestore stays in the extension.",
+    "src": "/demos/mia-calendar/index.html",
+    "frameTitle": "Mia Calendar Capture preview"
+  },
   "problems": [
     {
       "n": "01",

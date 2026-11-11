@@ -1,0 +1,82 @@
+{
+  "hero": {
+    "eyebrow": ["Express", "MongoDB", "HTML", "2023"],
+    "title": "Login Page",
+    "subtitle": "A name, a password, a record.",
+    "tagline": "An Express server that serves a login form and checks the username and password against a MongoDB collection on localhost.",
+    "impact": "A match redirects to a welcome page. A known user with the wrong password gets an invalid-password message. An unknown username is told to create an account first.",
+    "chips": ["Express", "Mongoose", "MongoDB", "HTML", "CSS"]
+  },
+  "links": {
+    "github": "https://github.com/MaadhiniNarayanaKumar/login-page-using-node-and-mongodb",
+    "githubLabel": "View repository"
+  },
+  "problems": [
+    {
+      "n": "01",
+      "t": "A form that posts",
+      "d": "public/index.html posts username and password to /login. Font Awesome icons sit in the labels. Styles live in public/style.css."
+    },
+    {
+      "n": "02",
+      "t": "A local database",
+      "d": "Mongoose connects to mongodb://0.0.0.0:27017/login_page. The lookup uses the login collection."
+    },
+    {
+      "n": "03",
+      "t": "Three answers",
+      "d": "No document: create an account first. Password mismatch: invalid password. Match: redirect to login.html, which says the login succeeded."
+    },
+    {
+      "n": "04",
+      "t": "No signup in this repo",
+      "d": "The failure copy mentions creating an account. The server only implements the login lookup."
+    }
+  ],
+  "layers": [
+    {
+      "tag": "Static",
+      "title": "public/",
+      "desc": "express.static serves index.html, login.html, and style.css. GET / redirects to the form"
+    },
+    {
+      "tag": "Parse",
+      "title": "body-parser",
+      "desc": "JSON and urlencoded bodies. The form fields are username and password"
+    },
+    {
+      "tag": "Store",
+      "title": "MongoDB",
+      "desc": "Database login_page, collection login, findOne by username"
+    },
+    {
+      "tag": "Gate",
+      "title": "POST /login",
+      "desc": "String compare on password. Success redirects to the welcome page. The process listens on port 3000"
+    }
+  ],
+  "highlights": [
+    "Login form with username and password",
+    "Express static files from public/",
+    "Mongoose connection to localhost:27017",
+    "findOne on the login collection",
+    "Redirect to a welcome page on a match",
+    "Separate messages for unknown user and bad password"
+  ],
+  "stack": [
+    { "layer": "Server", "tech": "Express 4", "role": "Static files and POST /login" },
+    { "layer": "Database", "tech": "MongoDB + Mongoose 6", "role": "login_page.login documents" },
+    { "layer": "Form", "tech": "HTML / CSS", "role": "Login page and welcome page" },
+    { "layer": "Body", "tech": "body-parser", "role": "Reads the posted fields" },
+    { "layer": "Port", "tech": "3000", "role": "listen is chained on the GET / route" }
+  ],
+  "status": [
+    { "phase": "Completed", "label": "Form, Mongo lookup, and welcome page", "done": true },
+    { "phase": "Completed", "label": "Unknown user and bad password are different responses", "done": true },
+    { "phase": "Open", "label": "No signup route, even though the error text mentions creating an account", "done": false },
+    { "phase": "Open", "label": "Password is compared as a stored string, and the database is local only", "done": false }
+  ],
+  "statusHeading": "Build status — local Node app.",
+  "footer": "Login Page · 2023",
+  "badge": "Express + MongoDB"
+}

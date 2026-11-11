@@ -1,0 +1,82 @@
+{
+  "hero": {
+    "eyebrow": ["Keras", "CNN", "Webcam", "2022"],
+    "title": "Mask Detection",
+    "subtitle": "Mask or no mask.",
+    "tagline": "Three notebooks: turn face photos into 100×100 grayscale arrays, train a two-class CNN, then label a webcam face as MASK or NO MASK.",
+    "impact": "Green box for mask, red box for no mask. The detector loads model-020.model, the checkpoint from epoch 20.",
+    "chips": ["Keras", "OpenCV", "CNN", "Webcam", "2 classes"]
+  },
+  "links": {
+    "github": "https://github.com/MaadhiniNarayanaKumar/mask_detection_cnn",
+    "githubLabel": "View repository"
+  },
+  "problems": [
+    {
+      "n": "01",
+      "t": "Photos are not arrays",
+      "d": "The prep notebook walks a local train folder, converts each image to gray, resizes to 100×100, and scales by 255."
+    },
+    {
+      "n": "02",
+      "t": "Two labels",
+      "d": "Folder names become class ids. Targets are one-hot encoded and saved beside the image array."
+    },
+    {
+      "n": "03",
+      "t": "A small CNN",
+      "d": "Conv 200, pool, conv 100, pool, dropout 0.5, dense 50, dense 2 softmax. Adam, 20 epochs, 10% held out as test."
+    },
+    {
+      "n": "04",
+      "t": "A face in the frame",
+      "d": "The live notebook finds a face with a Haar cascade, resizes the crop to 100×100 gray, and paints MASK or NO MASK."
+    }
+  ],
+  "layers": [
+    {
+      "tag": "Prep",
+      "title": "NumPy files",
+      "desc": "data.npy holds N×100×100×1 images. new_target.npy holds the one-hot labels"
+    },
+    {
+      "tag": "Train",
+      "title": "20 epochs",
+      "desc": "90/10 split, then 20% of the train portion for validation. ModelCheckpoint writes model-{epoch}.model"
+    },
+    {
+      "tag": "Plots",
+      "title": "Loss and accuracy",
+      "desc": "Train and validation curves, then evaluate on the held-out test arrays"
+    },
+    {
+      "tag": "Camera",
+      "title": "Live box",
+      "desc": "Label 1 is MASK in green. Label 0 is NO MASK in red. Escape stops the capture"
+    }
+  ],
+  "highlights": [
+    "Grayscale 100×100 faces, scaled by 255",
+    "Two-class softmax: mask and no mask",
+    "Conv 200 then conv 100, dropout 0.5",
+    "20 epochs with a checkpoint each epoch",
+    "Webcam face crop fed at 100×100",
+    "Green MASK box, red NO MASK box"
+  ],
+  "stack": [
+    { "layer": "Language", "tech": "Python / Jupyter", "role": "Prep, train, and camera notebooks" },
+    { "layer": "Model", "tech": "Keras Sequential", "role": "Two-class CNN" },
+    { "layer": "Vision", "tech": "OpenCV", "role": "Gray resize in prep, Haar face box on camera" },
+    { "layer": "Arrays", "tech": "NumPy .npy", "role": "Images and one-hot targets" },
+    { "layer": "Checkpoint", "tech": "model-020.model", "role": "Weights the camera notebook loads" }
+  ],
+  "status": [
+    { "phase": "Completed", "label": "Prep, train, and webcam notebooks are in the repo", "done": true },
+    { "phase": "Completed", "label": "Live loop draws MASK or NO MASK on a face box", "done": true },
+    { "phase": "Open", "label": "README notes the .model and .npy files were left out for space", "done": false },
+    { "phase": "Open", "label": "Dataset path and the Haar XML path are local Windows paths", "done": false }
+  ],
+  "statusHeading": "Build status — local notebooks.",
+  "footer": "Mask Detection · 2022",
+  "badge": "Keras CNN"
+}

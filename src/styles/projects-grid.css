@@ -9,6 +9,10 @@
   gap: 32px;
 }
 
+.pg-page {
+  padding: 36px 0 56px;
+}
+
 /* ── Eyebrow ── */
 .pg-eyebrow {
   display: flex;
@@ -70,6 +74,7 @@
   border: 1px solid var(--border);
   background: var(--bg-subtle);
   color: var(--text-muted);
+  font-family: inherit;
   font-size: 0.78rem;
   font-weight: 500;
   cursor: pointer;
@@ -90,10 +95,32 @@
 
 .pg-filter-count {
   font-size: 0.65rem;
-  opacity: 0.7;
-  background: rgba(255,255,255,0.15);
+  opacity: 0.85;
+  background: color-mix(in srgb, currentColor 14%, transparent);
   padding: 1px 6px;
   border-radius: 999px;
+}
+
+.pg-filter-active .pg-filter-count {
+  background: rgba(255, 255, 255, 0.22);
+  opacity: 1;
+}
+
+.pg-page-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.pg-empty {
+  margin: 12px 0 28px;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+@media (max-width: 720px) {
+  .pg-page-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* ── Grid wrapper ── */
@@ -121,6 +148,11 @@
 /* Row 2 — three equal small cards */
 .pg-row-2 {
   grid-template-columns: 1fr 1fr 1fr;
+  min-height: 220px;
+}
+
+.pg-row-pair {
+  grid-template-columns: 1fr 1fr;
   min-height: 220px;
 }
 

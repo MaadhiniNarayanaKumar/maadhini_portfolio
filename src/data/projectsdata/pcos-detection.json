@@ -1,0 +1,82 @@
+{
+  "hero": {
+    "eyebrow": ["pandas", "scikit-learn", "Logistic regression", "2024"],
+    "title": "PCOS Classification",
+    "subtitle": "Two tables, one target.",
+    "tagline": "A notebook that merges a PCOS clinical table with an infertility table, plots the features, and fits a logistic regression on a 30% holdout.",
+    "impact": "The target column is renamed from PCOS (Y/N). The model that actually fits is logistic regression. The other classifiers are imported and not trained.",
+    "chips": ["pandas", "seaborn", "Logistic regression", "Excel", "Jupyter"]
+  },
+  "links": {
+    "github": "https://github.com/MaadhiniNarayanaKumar/pcos_detection_and_analysis",
+    "githubLabel": "View repository"
+  },
+  "problems": [
+    {
+      "n": "01",
+      "t": "Two files, one patient id",
+      "d": "The clinical sheet and the infertility csv are merged on Patient File No. Repeated hormone columns from the infertility file are dropped."
+    },
+    {
+      "n": "02",
+      "t": "Messy numbers",
+      "d": "AMH and the second beta-HCG column are coerced to numeric. Marriage years, that hormone, AMH, and fast food are filled with the column median."
+    },
+    {
+      "n": "03",
+      "t": "What moves with the label",
+      "d": "A full correlation heatmap, then a second heatmap of features whose absolute correlation with the target is above 0.25."
+    },
+    {
+      "n": "04",
+      "t": "A first classifier",
+      "d": "train_test_split holds out 30%. LogisticRegression is fit, then train and test accuracy are printed as percents."
+    }
+  ],
+  "layers": [
+    {
+      "tag": "Load",
+      "title": "Excel + CSV",
+      "desc": "PCOS_data_without_infertility.xlsx sheet Full_new, left-merged with PCOS_infertility.csv"
+    },
+    {
+      "tag": "Clean",
+      "title": "Types and nulls",
+      "desc": "Drop serial and file-number columns. Coerce two lab fields. Median fill on four columns"
+    },
+    {
+      "tag": "Look",
+      "title": "Plots",
+      "desc": "Bar counts for yes/no clinical flags. Histograms for age, weight, and marriage years. Correlation heatmaps"
+    },
+    {
+      "tag": "Model",
+      "title": "Logistic regression",
+      "desc": "All remaining columns except Target. 30% test. Printed train and test accuracy"
+    }
+  ],
+  "highlights": [
+    "Left merge on Patient File No.",
+    "Target renamed from PCOS (Y/N)",
+    "Median fill for marriage years, beta-HCG, AMH, and fast food",
+    "Categorical bar charts and three histograms",
+    "Correlation filter at absolute 0.25",
+    "Logistic regression with a 30% test split"
+  ],
+  "stack": [
+    { "layer": "Language", "tech": "Python / Jupyter", "role": "One classification notebook" },
+    { "layer": "Tables", "tech": "pandas + openpyxl", "role": "Excel sheet and csv merge" },
+    { "layer": "Plots", "tech": "matplotlib / seaborn", "role": "Bars, histograms, heatmaps" },
+    { "layer": "Model", "tech": "LogisticRegression", "role": "The classifier that is fit" },
+    { "layer": "Split", "tech": "train_test_split", "role": "test_size 0.3" }
+  ],
+  "status": [
+    { "phase": "Completed", "label": "Merge, cleaning, plots, and logistic regression are in the notebook", "done": true },
+    { "phase": "Completed", "label": "Clinical workbook is in the repo under archive/", "done": true },
+    { "phase": "Open", "label": "PCOS_infertility.csv is read from a local path and is not in the repo", "done": false },
+    { "phase": "Open", "label": "SVM, forests, boosting, and neighbors are imported and never fit", "done": false }
+  ],
+  "statusHeading": "Build status — local notebook.",
+  "footer": "PCOS Classification · 2024",
+  "badge": "Classification notebook"
+}

@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Mia Tasks</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --bg: #f3f0fa;
+        --card: #ffffff;
+        --text: #111827;
+        --muted: #6b7280;
+        --label: #9ca3af;
+        --primary: #4f46e5;
+        --primary-soft: #818cf8;
+        --tint: #eef2ff;
+        --border: #e5e7eb;
+        --guess: #f59e0b;
+        --guess-bg: #fef3c7;
+        --radius: 8px;
+        --shadow: 0 -8px 24px rgba(17, 24, 39, 0.06);
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          color-scheme: dark;
+          --bg: #111827;
+          --card: #1f2937;
+          --text: #f9fafb;
+          --muted: #9ca3af;
+          --label: #9ca3af;
+          --primary: #818cf8;
+          --primary-soft: #a5b4fc;
+          --tint: #1e1b4b;
+          --border: #374151;
+          --guess: #fbbf24;
+          --guess-bg: #422006;
+          --shadow: 0 -8px 24px rgba(0, 0, 0, 0.35);
+        }
+      }
+      * { box-sizing: border-box; }
+      html, body {
+        margin: 0;
+        height: 100%;
+        font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+        background: var(--bg);
+        color: var(--text);
+      }
+      .stage { height: 100%; min-height: 100%; display: flex; }
+      .shell {
+        width: 100%;
+        min-height: 100%;
+        display: flex;
+        flex-direction: column;
+        background: var(--bg);
+      }
+      .header { padding: 16px 16px 12px; border-bottom: 1px solid var(--border); }
+      .brand { display: flex; gap: 10px; align-items: center; }
+      .logo { width: 36px; height: 36px; border-radius: 10px; }
+      h1 { margin: 0; font-size: 22px; font-weight: 800; letter-spacing: -0.02em; }
+      .steps { list-style: none; display: flex; gap: 12px; margin: 4px 0 0; padding: 0; font-size: 12px; font-weight: 600; color: var(--label); }
+      .steps li { position: relative; padding-left: 11px; }
+      .steps li::before { content: ""; position: absolute; left: 0; top: 3px; width: 6px; height: 6px; border-radius: 50%; background: var(--border); }
+      .steps li.active { color: var(--primary); }
+      .steps li.active::before, .steps li.done::before { background: var(--primary); }
+      .steps li.done { color: var(--muted); }
+      .scroll { flex: 1; padding: 16px; display: flex; flex-direction: column; gap: 12px; }
+      .footer { padding: 12px 16px 16px; background: var(--card); border-top: 1px solid var(--border); box-shadow: var(--shadow); }
+      .field-label { display: block; margin-bottom: 6px; font-size: 12px; font-weight: 650; color: var(--label); }
+      .form { display: flex; flex-direction: column; gap: 12px; }
+      input, textarea, select {
+        width: 100%; font: inherit; font-size: 14px; font-weight: 500; color: var(--text);
+        background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 8px 10px; outline: none;
+      }
+      input[type="date"], select { height: 38px; }
+      input:focus, textarea:focus, select:focus { border-color: var(--primary); box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary) 22%, transparent); }
+      .guessed { border-color: var(--guess) !important; background: color-mix(in srgb, var(--guess-bg) 55%, var(--card)); }
+      .title-area { resize: vertical; min-height: 40px; }
+      #notes, #paste { resize: vertical; min-height: 72px; }
+      .btn { border: 0; border-radius: var(--radius); padding: 10px 14px; width: 100%; font: inherit; font-size: 14px; font-weight: 700; cursor: pointer; background: var(--primary); color: #fff; }
+      .paste-collapsed[hidden], #pasteBlock[hidden] { display: none; }
+      .paste-collapsed {
+        display: flex; justify-content: space-between; width: 100%; border: 1px dashed var(--border);
+        background: var(--tint); color: var(--text); border-radius: var(--radius); padding: 5px 8px; font-size: 11px; font-weight: 600; cursor: pointer;
+      }
+      .paste-collapsed span { color: var(--muted); font-weight: 500; }
+      .chips { display: flex; gap: 6px; }
+      .chips button { flex: 1; border: 1px solid var(--border); background: var(--card); color: var(--muted); border-radius: 999px; padding: 3px 6px; font: inherit; font-size: 11px; font-weight: 700; cursor: pointer; }
+      .chips button.active { background: var(--tint); color: var(--primary); border-color: var(--primary); }
+      .hint { margin: 0; font-size: 10px; font-weight: 600; color: var(--muted); }
+      .split-row { display: flex; gap: 8px; align-items: flex-end; }
+      .grow { flex: 1; min-width: 0; }
+      .priority-field { width: 110px; }
+      .select-wrap { position: relative; display: flex; align-items: center; }
+      .dot { position: absolute; left: 8px; width: 6px; height: 6px; border-radius: 50%; pointer-events: none; }
+      .select-wrap select { padding-left: 20px; }
+      .status { margin: 0 0 4px; font-size: 11px; font-weight: 600; text-align: center; }
+      .status.ok { color: #16a34a; }
+      .status.err { color: #dc2626; }
+      .toast { position: fixed; left: 50%; bottom: 28px; transform: translateX(-50%); background: #111827; color: #fff; padding: 10px 14px; border-radius: 999px; font-size: 13px; font-weight: 700; }
+      .caption { margin: 10px 0 0; font-size: 12px; color: var(--muted); text-align: center; }
+    </style>
+  </head>
+  <body>
+    <div class="stage">
+      <div class="shell">
+        <header class="header">
+          <div class="brand">
+            <img class="logo" src="icon.png" alt="" />
+            <div>
+              <h1>Mia Tasks</h1>
+              <ol class="steps" id="steps">
+                <li data-step="1">Paste</li>
+                <li data-step="2">Review</li>
+                <li data-step="3">Send</li>
+              </ol>
+            </div>
+          </div>
+        </header>
+        <div class="scroll">
+          <section id="pasteBlock">
+            <label class="field-label" for="paste">Paste task</label>
+            <textarea id="paste" rows="2" placeholder="Buy milk tomorrow · email the professor by Friday, high priority"></textarea>
+          </section>
+          <button type="button" class="paste-collapsed" id="pasteCollapsed" hidden>Pasted task <span>(tap to edit)</span></button>
+          <form id="form" class="form">
+            <div class="field">
+              <label class="field-label" for="title">Title</label>
+              <textarea id="title" class="title-area" rows="1" required placeholder="Short task title"></textarea>
+            </div>
+            <div class="field">
+              <label class="field-label" for="category">Category</label>
+              <select id="category"><option value="">Auto</option></select>
+            </div>
+            <div class="chips" id="dueChips">
+              <button type="button" data-offset="0">Today</button>
+              <button type="button" data-offset="1">Tomorrow</button>
+              <button type="button" data-offset="7">Next week</button>
+            </div>
+            <div class="split-row">
+              <div class="field grow">
+                <label class="field-label" for="due">Due</label>
+                <input id="due" type="date" required />
+              </div>
+              <div class="field priority-field">
+                <label class="field-label" for="priority">Priority</label>
+                <div class="select-wrap">
+                  <span class="dot" id="priorityDot" style="background:#d97706"></span>
+                  <select id="priority">
+                    <option value="low" data-color="#16a34a">Low</option>
+                    <option value="medium" data-color="#d97706" selected>Medium</option>
+                    <option value="high" data-color="#dc2626">High</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <p id="priorityNote" class="hint" hidden></p>
+            <div class="field">
+              <label class="field-label" for="notes">Notes</label>
+              <textarea id="notes" rows="1" placeholder="Optional notes…"></textarea>
+            </div>
+          </form>
+        </div>
+        <footer class="footer">
+          <p id="status" class="status" hidden></p>
+          <button id="submit" type="submit" form="form" class="btn">Send to Mia</button>
+          <p class="caption">Preview only. Nothing is written to Firestore.</p>
+        </footer>
+      </div>
+    </div>
+    <div id="toast" class="toast" hidden>Saved in this preview</div>
+    <script>
+      const CATEGORIES = [
+        { name: "Groceries", emoji: "🛒" },
+        { name: "Class", emoji: "📚" },
+        { name: "Job", emoji: "💼" },
+        { name: "Personal", emoji: "🏠" },
+      ];
+      const KEYWORD_RULES = [
+        ["groceries", ["milk", "eggs", "bread", "grocery", "groceries", "store", "supermarket", "buy food"]],
+        ["class", ["homework", "assignment", "class", "lecture", "exam", "study", "school", "college"]],
+        ["job", ["work", "job", "meeting", "email", "boss", "office", "client", "deadline"]],
+        ["personal", ["personal", "family", "friend", "home", "doctor", "gym"]],
+      ];
+      const WEEKDAYS = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
+      const MONTHS = ["january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december"];
+
+      const pasteEl = document.querySelector("#paste");
+      const pasteBlock = document.querySelector("#pasteBlock");
+      const pasteCollapsed = document.querySelector("#pasteCollapsed");
+      const titleEl = document.querySelector("#title");
+      const categoryEl = document.querySelector("#category");
+      const dueEl = document.querySelector("#due");
+      const priorityEl = document.querySelector("#priority");
+      const priorityDot = document.querySelector("#priorityDot");
+      const priorityNote = document.querySelector("#priorityNote");
+      const statusEl = document.querySelector("#status");
+      const toastEl = document.querySelector("#toast");
+      const steps = [...document.querySelectorAll("#steps li")];
+      const guessFields = { title: titleEl, due: dueEl, priority: priorityEl, category: categoryEl };
+      let categoryTouched = false;
+
+      function startOfDay(date) { return new Date(date.getFullYear(), date.getMonth(), date.getDate()); }
+      function addDays(date, days) { const next = new Date(date); next.setDate(next.getDate() + days); return next; }
+      function toDateValue(date) {
+        return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
+      }
+      function nextWeekday(now, name, forceNextWeek) {
+        const target = WEEKDAYS.indexOf(String(name).toLowerCase());
+        if (target < 0) return null;
+        const today = startOfDay(now);
+        let delta = (target - today.getDay() + 7) % 7;
+        if (forceNextWeek || delta === 0) delta += 7;
+        return addDays(today, delta);
+      }
+      function monthDay(now, monthOrName, day, yearText, numericMonth) {
+        let month = numericMonth ? Number(monthOrName) : MONTHS.indexOf(String(monthOrName).toLowerCase()) + 1;
+        if (!numericMonth && month < 1) month = MONTHS.findIndex((item) => item.startsWith(String(monthOrName).toLowerCase().slice(0, 3))) + 1;
+        if (month < 1 || month > 12 || day < 1 || day > 31) return null;
+        let year = yearText ? Number(yearText) : now.getFullYear();
+        if (year < 100) year += 2000;
+        let date = new Date(year, month - 1, day);
+        if (date.getMonth() !== month - 1) return null;
+        if (!yearText && date < startOfDay(now)) date = new Date(year + 1, month - 1, day);
+        return date;
+      }
+      function extractDue(text, now) {
+        const patterns = [
+          { re: /\b(?:due\s+|by\s+|on\s+|before\s+)?tonight\b/i, toDate: () => startOfDay(now) },
+          { re: /\b(?:due\s+|by\s+|on\s+|before\s+)?today\b/i, toDate: () => startOfDay(now) },
+          { re: /\b(?:due\s+|by\s+|before\s+)?tomorrow\b/i, toDate: () => addDays(startOfDay(now), 1) },
+          { re: /\bnext week\b/i, toDate: () => addDays(startOfDay(now), 7) },
+          { re: new RegExp(`\\bnext\\s+(${WEEKDAYS.join("|")})\\b`, "i"), toDate: (match) => nextWeekday(now, match[1], true) },
+          { re: new RegExp(`\\b(?:due\\s+|by\\s+|on\\s+|before\\s+)?(${WEEKDAYS.join("|")})\\b`, "i"), toDate: (match) => nextWeekday(now, match[1], false) },
+          { re: new RegExp(`\\b(?:due\\s+|by\\s+|on\\s+|before\\s+)?(${MONTHS.join("|")})\\s+(\\d{1,2})(?:st|nd|rd|th)?(?:,?\\s*(\\d{4}))?\\b`, "i"), toDate: (match) => monthDay(now, match[1], Number(match[2]), match[3], false) },
+          { re: /\b(?:due\s+|by\s+|on\s+|before\s+)?(\d{1,2})[/-](\d{1,2})(?:[/-](\d{2,4}))?\b/, toDate: (match) => monthDay(now, Number(match[1]), Number(match[2]), match[3], true) },
+        ];
+        for (const pattern of patterns) {
+          const match = text.match(pattern.re);
+          if (!match) continue;
+          const date = pattern.toDate(match);
+          if (!date || Number.isNaN(date.getTime())) continue;
+          return { date, pattern: pattern.re };
+        }
+        return null;
+      }
+      function parseTaskText(raw, now = new Date()) {
+        const original = (raw || "").trim();
+        if (!original) return null;
+        let text = original.replace(/\s+/g, " ").trim();
+        text = text.replace(/^(?:hey|hi|hay)\s+mi(?:a|ya|er|eea)\b[,.!:;\-\s]*/i, "").trim();
+        text = text.replace(/^(?:can you |could you |please |will you )+/i, "").trim();
+        text = text.replace(/^(?:add (?:a |the )?tasks? |add |create (?:a |the )?tasks? |remind me to )/i, "").trim();
+        if (!text) return null;
+        const guessed = new Set(["title"]);
+        let working = text;
+        let priority = "medium";
+        const highRe = /\b(?:urgent|asap|high priority|important)\b/gi;
+        const lowRe = /\b(?:low priority|whenever)\b/gi;
+        if (highRe.test(working)) {
+          priority = "high"; guessed.add("priority"); working = working.replace(highRe, " ");
+        } else if (lowRe.test(working)) {
+          priority = "low"; guessed.add("priority"); working = working.replace(lowRe, " ");
+        }
+        const due = extractDue(working, now);
+        let dueDate = due ? due.date : addDays(startOfDay(now), 1);
+        guessed.add("due");
+        if (due) working = working.replace(due.pattern, " ");
+        let title = working.replace(/\s+/g, " ").replace(/^[\s,.\-–—:]+|[\s,.\-–—:]+$/g, "").trim();
+        if (!title) title = text;
+        return { title, rawText: text, priority, dueDate, guessed: [...guessed] };
+      }
+      function classifyHeuristic(rawText) {
+        const lower = (rawText || "").toLowerCase();
+        const names = CATEGORIES.map((item) => item.name);
+        let matched = names.find((name) => lower.includes(name.toLowerCase())) || null;
+        if (!matched) {
+          for (const [key, words] of KEYWORD_RULES) {
+            if (!words.some((word) => lower.includes(word))) continue;
+            matched = names.find((name) => name.toLowerCase() === key) || null;
+            if (matched) break;
+          }
+        }
+        return CATEGORIES.find((item) => item.name === matched) || null;
+      }
+      function effectivePriority(current, dueDate, now = new Date()) {
+        const order = ["low", "medium", "high"];
+        const chosen = order.includes(current) ? current : "medium";
+        if (!dueDate) return chosen;
+        const daysLeft = Math.round((startOfDay(dueDate) - startOfDay(now)) / 86400000);
+        const fromDue = daysLeft <= 0 ? "high" : daysLeft <= 2 ? "medium" : "low";
+        return order.indexOf(chosen) >= order.indexOf(fromDue) ? chosen : fromDue;
+      }
+      function setStep(n) {
+        steps.forEach((li) => {
+          const step = Number(li.dataset.step);
+          li.classList.toggle("active", step === n);
+          li.classList.toggle("done", step < n);
+        });
+      }
+      function setStatus(message, ok) {
+        statusEl.hidden = !message;
+        statusEl.textContent = message || "";
+        statusEl.className = `status ${ok ? "ok" : "err"}`;
+      }
+      function markGuessed(names) {
+        Object.values(guessFields).forEach((el) => el.classList.remove("guessed"));
+        names.forEach((name) => guessFields[name] && guessFields[name].classList.add("guessed"));
+      }
+      function fillCategories() {
+        categoryEl.replaceChildren(new Option("Auto", ""));
+        CATEGORIES.forEach((category) => categoryEl.append(new Option(`${category.emoji} ${category.name}`, category.name)));
+      }
+      function syncDueChips() {
+        const today = new Date();
+        document.querySelectorAll("#dueChips button").forEach((button) => {
+          const date = new Date(today.getFullYear(), today.getMonth(), today.getDate() + Number(button.dataset.offset));
+          button.classList.toggle("active", toDateValue(date) === dueEl.value);
+        });
+      }
+      function refreshEscalation() {
+        const chosen = priorityEl.value;
+        const due = new Date(`${dueEl.value}T00:00:00`);
+        const effective = effectivePriority(chosen, due);
+        priorityDot.style.background = priorityEl.selectedOptions[0].dataset.color;
+        if (effective !== chosen) {
+          const daysLeft = Math.round((startOfDay(due) - startOfDay(new Date())) / 86400000);
+          priorityNote.hidden = false;
+          priorityNote.textContent = `Saves as ${effective} — ${daysLeft <= 0 ? "due today or overdue" : "due within 2 days"}`;
+        } else {
+          priorityNote.hidden = true;
+        }
+      }
+      function collapsePaste(collapsed) {
+        pasteBlock.hidden = collapsed;
+        pasteCollapsed.hidden = !collapsed;
+        setStep(collapsed ? 2 : 1);
+      }
+      function applyParsed(parsed) {
+        if (!parsed) { setStatus("Paste a task first", false); return; }
+        titleEl.value = parsed.title || "";
+        dueEl.value = toDateValue(parsed.dueDate);
+        priorityEl.value = parsed.priority || "medium";
+        categoryTouched = false;
+        const guessed = [...parsed.guessed];
+        const match = classifyHeuristic(parsed.rawText);
+        if (match && !categoryTouched) {
+          categoryEl.value = match.name;
+          guessed.push("category");
+        }
+        markGuessed(guessed);
+        syncDueChips();
+        refreshEscalation();
+        collapsePaste(true);
+        setStatus("Review highlighted fields, then Send", true);
+      }
+      fillCategories();
+      pasteEl.value = "Buy milk tomorrow";
+      applyParsed(parseTaskText(pasteEl.value));
+      pasteEl.addEventListener("input", () => {
+        if (pasteEl.value.trim().length > 8) applyParsed(parseTaskText(pasteEl.value));
+      });
+      pasteCollapsed.addEventListener("click", () => { collapsePaste(false); pasteEl.focus(); });
+      dueEl.addEventListener("change", () => { syncDueChips(); refreshEscalation(); setStep(2); });
+      priorityEl.addEventListener("change", () => { refreshEscalation(); setStep(2); });
+      categoryEl.addEventListener("change", () => { categoryTouched = categoryEl.value !== ""; setStep(2); });
+      document.querySelector("#dueChips").addEventListener("click", (event) => {
+        const button = event.target.closest("button");
+        if (!button) return;
+        const today = new Date();
+        dueEl.value = toDateValue(new Date(today.getFullYear(), today.getMonth(), today.getDate() + Number(button.dataset.offset)));
+        syncDueChips();
+        refreshEscalation();
+        setStep(2);
+      });
+      document.querySelector("#form").addEventListener("submit", (event) => {
+        event.preventDefault();
+        if (!titleEl.value.trim()) return;
+        setStep(3);
+        setStatus("Saved in this preview", true);
+        toastEl.hidden = false;
+        setTimeout(() => { toastEl.hidden = true; setStep(2); }, 1200);
+      });
+    </script>
+  </body>
+</html>

@@ -3,181 +3,258 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Job match preview</title>
+    <title>AI Job Match</title>
     <style>
-      html,
-      body {
+      :root {
+        color-scheme: light;
+        --bg: #f8fafc;
+        --card: #ffffff;
+        --ink: #1f2937;
+        --muted: #6b7280;
+        --line: #e5e7eb;
+        --accent: #6366f1;
+        --accent-deep: #4f46e5;
+        --accent-soft: #eef2ff;
+        --green: #047857;
+        --green-soft: #ecfdf5;
+        --orange: #c2410c;
+        --orange-soft: #fff7ed;
+        --red: #b91c1c;
+        --red-soft: #fef2f2;
+      }
+
+      * { box-sizing: border-box; }
+
+      html, body {
         margin: 0;
-        height: 100%;
-        background: #14110e;
-        color: #e7e5e4;
+        min-height: 100%;
+        background:
+          radial-gradient(900px 280px at 0% -10%, rgba(99, 102, 241, 0.16), transparent 60%),
+          var(--bg);
+        color: var(--ink);
         font-family: Inter, ui-sans-serif, system-ui, sans-serif;
       }
 
-      .wrap {
-        box-sizing: border-box;
-        height: 100%;
-        overflow: auto;
-        padding: 14px;
+      body {
+        max-width: 720px;
+        margin: 0 auto;
+        padding: 20px 16px 28px;
       }
 
-      form {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 10px;
-      }
-
-      label {
+      header {
         display: flex;
-        flex-direction: column;
-        gap: 6px;
+        justify-content: space-between;
+        gap: 12px;
+        align-items: flex-start;
+        margin-bottom: 16px;
+      }
+
+      .eyebrow, h1, p { margin: 0; }
+
+      .eyebrow {
         font-size: 11px;
-        font-weight: 600;
+        font-weight: 700;
         letter-spacing: 0.08em;
         text-transform: uppercase;
-        color: #a8a29e;
+        color: var(--accent-deep);
       }
 
-      label.wide {
-        grid-column: 1 / -1;
+      h1 {
+        margin-top: 4px;
+        font-size: 22px;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        color: #111827;
       }
 
-      textarea,
-      input {
-        box-sizing: border-box;
+      .health {
+        flex: none;
+        border-radius: 999px;
+        padding: 5px 10px;
+        font-size: 12px;
+        font-weight: 650;
+        color: var(--green);
+        background: var(--green-soft);
+        border: 1px solid #a7f3d0;
+      }
+
+      form, .result {
+        display: grid;
+        gap: 12px;
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        padding: 16px;
+        box-shadow: 0 10px 30px rgba(15, 23, 42, 0.05);
+      }
+
+      .result { margin-top: 12px; }
+      .result[hidden] { display: none; }
+
+      label {
+        display: grid;
+        gap: 6px;
+        font-size: 12px;
+        font-weight: 650;
+        color: #374151;
+      }
+
+      textarea, input[type="text"], input[type="file"] {
         width: 100%;
-        border-radius: 8px;
-        border: 1px solid rgba(251, 191, 36, 0.25);
-        background: #0c0a09;
-        color: #fafaf9;
+        border-radius: 10px;
+        border: 1px solid var(--line);
+        background: #f8fafc;
+        color: var(--ink);
         font: inherit;
-        font-size: 13px;
-        line-height: 1.45;
-        padding: 8px 10px;
+        font-size: 14px;
+        font-weight: 450;
+        padding: 10px 12px;
       }
 
       textarea {
-        min-height: 92px;
+        min-height: 96px;
         resize: vertical;
+        line-height: 1.5;
       }
 
-      .actions {
-        grid-column: 1 / -1;
-        display: flex;
-        align-items: center;
-        gap: 10px;
+      textarea::placeholder, input::placeholder { color: #9ca3af; }
+
+      textarea:focus, input[type="text"]:focus, input[type="file"]:focus {
+        outline: none;
+        border-color: var(--accent);
+        background: #fff;
+        box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.18);
       }
+
+      input[type="file"] { padding: 8px; }
+
+      input[type="file"]::file-selector-button {
+        margin-right: 10px;
+        border: 0;
+        border-radius: 999px;
+        padding: 7px 12px;
+        background: var(--accent-soft);
+        color: var(--accent-deep);
+        font: inherit;
+        font-size: 13px;
+        font-weight: 650;
+        cursor: pointer;
+      }
+
+      .actions { display: flex; flex-wrap: wrap; gap: 8px; }
 
       button {
         font: inherit;
         font-size: 13px;
-        font-weight: 600;
+        font-weight: 650;
         border-radius: 999px;
-        padding: 7px 14px;
+        padding: 8px 14px;
         cursor: pointer;
-        border: 1px solid rgba(251, 191, 36, 0.45);
-        background: rgba(251, 191, 36, 0.14);
-        color: #fbbf24;
+        border: 1px solid var(--line);
+        background: #fff;
+        color: #374151;
       }
 
-      button.secondary {
-        background: transparent;
-        color: #d6d3d1;
-        border-color: rgba(168, 162, 158, 0.4);
+      button:hover {
+        border-color: #c7d2fe;
+        background: var(--accent-soft);
+        color: var(--accent-deep);
       }
 
-      #result {
-        margin-top: 12px;
+      #score {
+        border-color: var(--accent);
+        background: var(--accent);
+        color: #fff;
       }
 
-      #result:empty {
-        display: none;
+      #score:hover {
+        background: var(--accent-deep);
+        border-color: var(--accent-deep);
+        color: #fff;
       }
+
+      .message { min-height: 1.2em; font-size: 13px; color: var(--muted); }
+      .message.error { color: var(--red); }
 
       .decision {
-        display: flex;
-        align-items: baseline;
-        justify-content: space-between;
-        gap: 12px;
-        margin-bottom: 8px;
-      }
-
-      .decision strong {
+        display: inline-flex;
+        width: fit-content;
+        align-items: center;
+        border-radius: 12px;
+        padding: 8px 12px;
         font-size: 18px;
-        letter-spacing: 0.04em;
+        font-weight: 750;
+        letter-spacing: -0.02em;
       }
 
-      .scores {
-        display: flex;
-        gap: 16px;
-        font-size: 13px;
-        color: #d6d3d1;
-        margin-bottom: 10px;
-      }
+      .decision.green { color: var(--green); background: var(--green-soft); }
+      .decision.orange { color: var(--orange); background: var(--orange-soft); }
+      .decision.red { color: var(--red); background: var(--red-soft); }
 
-      .cols {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 10px;
-      }
+      .meta, .note, li { font-size: 14px; line-height: 1.5; color: #374151; }
+      .note { color: var(--muted); }
 
-      .col h3 {
-        margin: 0 0 6px;
-        font-size: 11px;
-        letter-spacing: 0.08em;
+      h2 {
+        margin: 4px 0 0;
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 0.06em;
         text-transform: uppercase;
-        color: #a8a29e;
+        color: var(--muted);
       }
 
-      .chips {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 6px;
-      }
+      ul { margin: 0; padding-left: 18px; display: grid; gap: 4px; }
+      .chips { display: flex; flex-wrap: wrap; gap: 6px; }
 
       .chip {
-        font-size: 12px;
-        padding: 3px 8px;
         border-radius: 999px;
-        border: 1px solid rgba(168, 162, 158, 0.35);
-        color: #e7e5e4;
-      }
-
-      .empty {
+        padding: 4px 9px;
         font-size: 12px;
-        color: #a8a29e;
+        font-weight: 650;
+        background: #f3f4f6;
+        color: #374151;
       }
 
-      @media (max-width: 640px) {
-        form,
-        .cols {
-          grid-template-columns: 1fr;
-        }
-      }
+      .chip.missing { color: var(--red); background: var(--red-soft); }
+      .chip.matched { color: var(--green); background: var(--green-soft); }
     </style>
   </head>
   <body>
-    <div class="wrap">
-      <form id="form">
-        <label>
-          Resume text
-          <textarea id="resume" name="resume">Python developer with 4 years of experience. Built APIs with FastAPI and Flask. Daily work in SQL, Docker, and AWS. Comfortable with git and React.</textarea>
-        </label>
-        <label>
-          Job page text
-          <textarea id="job" name="job">We need a Python engineer who knows FastAPI, PostgreSQL, Docker, and AWS. React is a plus. Kubernetes experience is required.</textarea>
-        </label>
-        <label class="wide">
-          Extra skills, comma separated
-          <input id="extra" name="extra" value="postgresql" />
-        </label>
-        <div class="actions">
-          <button type="submit">Match</button>
-          <button type="button" id="clear" class="secondary">Clear</button>
-        </div>
-      </form>
-      <div id="result"></div>
-    </div>
+    <header>
+      <div>
+        <p class="eyebrow">AI Job Match</p>
+        <h1>Resume against this job</h1>
+      </div>
+      <p class="health">In browser</p>
+    </header>
+
+    <form id="form">
+      <label>
+        Resume
+        <textarea id="resume" name="resume">Python developer with 4 years of experience. Built APIs with FastAPI and Flask. Daily work in SQL, Docker, and AWS. Comfortable with git and React.</textarea>
+      </label>
+      <label>
+        Or upload a TXT resume
+        <input id="file" name="file" type="file" accept=".txt,text/plain" />
+      </label>
+      <label>
+        Extra skills
+        <input id="skills" name="skills" type="text" value="postgresql" placeholder="PostgreSQL, PyTorch" />
+      </label>
+      <label>
+        Job posting
+        <textarea id="job" name="job">We need a Python engineer who knows FastAPI, PostgreSQL, Docker, and AWS. React is a plus. Kubernetes experience is required. Bachelor's degree.</textarea>
+      </label>
+      <div class="actions">
+        <button id="read-tab" type="button">Read open tab</button>
+        <button id="score" type="submit">Score</button>
+        <button id="analyze" type="button">Analyze</button>
+      </div>
+      <p id="message" class="message" role="status"></p>
+    </form>
+
+    <section id="match" class="result" hidden></section>
+    <section id="analysis" class="result" hidden></section>
     <script>
       const SKILLS = [
         "python", "java", "javascript", "typescript", "csharp", "c#", "cpp", "c++", "ruby", "php", "swift", "kotlin",
@@ -193,92 +270,191 @@
         "webpack", "npm", "yarn", "linux", "unix", "windows", "macos", "deployment", "ci/cd"
       ];
 
-      function extractSkills(text) {
-        const lower = text.toLowerCase();
-        const found = [];
-        for (const skill of SKILLS) {
-          const pattern = new RegExp("\\b" + skill.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + "\\b");
-          if (pattern.test(lower)) found.push(skill);
-        }
-        return found.sort();
+      const resumeInput = document.querySelector("#resume");
+      const fileInput = document.querySelector("#file");
+      const skillsInput = document.querySelector("#skills");
+      const jobInput = document.querySelector("#job");
+      const message = document.querySelector("#message");
+      const matchSection = document.querySelector("#match");
+      const analysisSection = document.querySelector("#analysis");
+
+      function setMessage(text, isError) {
+        message.textContent = text || "";
+        message.classList.toggle("error", Boolean(isError));
       }
 
-      function matchJob(resumeText, pageText, userSkills) {
-        const candidate = Array.from(new Set(extractSkills(resumeText).concat(extractSkills(userSkills.join(" ")))));
-        const jobSkills = extractSkills(pageText);
-        const matched = jobSkills.filter((skill) => candidate.includes(skill)).sort();
-        const missing = jobSkills.filter((skill) => !candidate.includes(skill)).sort();
-        let decision = "DO NOT APPLY";
-        let color = "#f87171";
-        let confidence = "low";
-        let note = "";
-        let score = 0;
-        if (!jobSkills.length) {
-          decision = "MAYBE APPLY";
-          color = "#fb923c";
-          note = "No skills from the list were found in the posting.";
-        } else {
-          score = Math.round((matched.length / jobSkills.length) * 100);
-          if (score >= 70) {
-            decision = "APPLY";
-            color = "#4ade80";
-            confidence = "high";
-          } else if (score >= 50) {
-            decision = "MAYBE APPLY";
-            color = "#fb923c";
-            confidence = "medium";
-          }
-        }
-        return { decision, color, confidence, score, matched, missing, note };
+      function escapeReg(value) {
+        return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
       }
 
       function escapeHtml(value) {
-        return String(value).replace(/[&<>"']/g, (ch) => ({
-          "&": "&amp;",
-          "<": "&lt;",
-          ">": "&gt;",
-          '"': "&quot;",
-          "'": "&#39;",
-        }[ch]));
+        return String(value)
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;");
       }
 
-      function chips(items) {
-        if (!items.length) return '<span class="empty">None</span>';
-        return '<div class="chips">' + items.map((item) => '<span class="chip">' + escapeHtml(item) + "</span>").join("") + "</div>";
+      function extractSkills(text) {
+        const lower = (text || "").toLowerCase();
+        return SKILLS.filter((skill) => new RegExp("\\b" + escapeReg(skill) + "\\b").test(lower)).sort();
       }
 
-      function render(result) {
-        document.getElementById("result").innerHTML =
-          '<div class="decision"><strong style="color:' + result.color + '">' + result.decision + "</strong>" +
-          '<span>' + result.confidence + " confidence</span></div>" +
-          '<div class="scores"><span>Posting covered: ' + result.score + "%</span></div>" +
-          (result.note ? '<p class="empty">' + escapeHtml(result.note) + "</p>" : "") +
-          '<div class="cols"><div class="col"><h3>In both</h3>' + chips(result.matched) + "</div>" +
-          '<div class="col"><h3>Posting skills missing from the resume</h3>' + chips(result.missing) + "</div></div>";
+      function scoreMatch(resumeText, pageText, userSkills) {
+        const candidate = Array.from(new Set(extractSkills(resumeText).concat(extractSkills(userSkills))));
+        const jobSkills = extractSkills(pageText);
+        const matched = jobSkills.filter((skill) => candidate.includes(skill));
+        const missing = jobSkills.filter((skill) => !candidate.includes(skill));
+        if (!jobSkills.length) {
+          return {
+            decision: "MAYBE APPLY",
+            decision_color: "orange",
+            skill_match_score: 0,
+            matched_count: 0,
+            job_skills_count: 0,
+            matched_skills: [],
+            missing_skills: [],
+            note: "No skills from the list were found in the posting.",
+          };
+        }
+        const score = Math.round((matched.length / jobSkills.length) * 100);
+        let decision = "DO NOT APPLY";
+        let color = "red";
+        if (score >= 70) {
+          decision = "APPLY";
+          color = "green";
+        } else if (score >= 50) {
+          decision = "MAYBE APPLY";
+          color = "orange";
+        }
+        return {
+          decision,
+          decision_color: color,
+          skill_match_score: score,
+          matched_count: matched.length,
+          job_skills_count: jobSkills.length,
+          matched_skills: matched,
+          missing_skills: missing,
+          note: "",
+        };
       }
 
-      document.getElementById("form").addEventListener("submit", (event) => {
+      function analyzePosting(text) {
+        const lower = text.toLowerCase();
+        const found = [];
+        SKILLS.forEach((skill) => {
+          const match = new RegExp("\\b" + escapeReg(skill) + "\\b", "i").exec(text);
+          if (!match) return;
+          const before = Math.max(
+            text.lastIndexOf(".", match.index),
+            text.lastIndexOf("!", match.index),
+            text.lastIndexOf("?", match.index),
+            text.lastIndexOf("\n", match.index),
+          );
+          const start = before < 0 ? 0 : before + 1;
+          let end = text.length;
+          [".", "!", "?", "\n"].forEach((mark) => {
+            const at = text.indexOf(mark, match.index);
+            if (at !== -1 && at < end) end = at;
+          });
+          const sentence = lower.slice(start, end);
+          const need = /\b(required|must|proficient)\b/.test(sentence) ? "required" : "preferred";
+          found.push({ skill, need, index: match.index });
+        });
+        found.sort((a, b) => (a.need === b.need ? a.index - b.index : a.need === "required" ? -1 : 1));
+        const skills = found.map((item, index) => ({ rank: index + 1, skill: item.skill, need: item.need }));
+        const expectations = [];
+        text.split(/\n+|(?<=[.!?])\s+/).forEach((part) => {
+          const line = part.replace(/\s+/g, " ").trim();
+          if (line.length < 8 || line.length > 140) return;
+          if (/\b(bachelor|master|ph\.?d|degree|intern|on-?call|enrolled|full-time|part-time)\b/i.test(line) || /\d+\+?\s*(?:years?|yrs?)/i.test(line)) {
+            expectations.push(line);
+          }
+        });
+        return { skills, expectations: expectations.slice(0, 5) };
+      }
+
+      function chips(skills, kind) {
+        if (!skills.length) return "<p class='note'>None</p>";
+        return `<div class="chips">${skills.map((skill) => `<span class="chip ${kind}">${escapeHtml(skill)}</span>`).join("")}</div>`;
+      }
+
+      function showMatch(data) {
+        matchSection.hidden = false;
+        matchSection.innerHTML = `
+          <p class="decision ${escapeHtml(data.decision_color)}">${escapeHtml(data.decision)} · ${escapeHtml(data.skill_match_score)}</p>
+          <p class="meta">${escapeHtml(data.matched_count)} of ${escapeHtml(data.job_skills_count)} posting skills covered</p>
+          ${data.note ? `<p class="note">${escapeHtml(data.note)}</p>` : ""}
+          <h2>Matched</h2>
+          ${chips(data.matched_skills, "matched")}
+          <h2>Missing</h2>
+          ${chips(data.missing_skills, "missing")}
+        `;
+      }
+
+      function showAnalysis(data) {
+        const skills = (data.skills || [])
+          .map((item) => `<li>${escapeHtml(item.rank)}. ${escapeHtml(item.skill)} — ${escapeHtml(item.need)}</li>`)
+          .join("");
+        const expectations = (data.expectations || []).map((line) => `<li>${escapeHtml(line)}</li>`).join("");
+        analysisSection.hidden = false;
+        analysisSection.innerHTML = `
+          <h2>Skills by priority</h2>
+          <ul>${skills || "<li>None found</li>"}</ul>
+          <h2>Expectations</h2>
+          <ul>${expectations || "<li>None found</li>"}</ul>
+          <p class="note">Ranked in this preview from the posting text. The extension asks Gemini for this list.</p>
+        `;
+      }
+
+      document.querySelector("#form").addEventListener("submit", (event) => {
         event.preventDefault();
-        const extra = document.getElementById("extra").value
-          .split(",")
-          .map((item) => item.trim())
-          .filter(Boolean);
-        render(matchJob(
-          document.getElementById("resume").value,
-          document.getElementById("job").value,
-          extra,
-        ));
+        const job = jobInput.value.trim();
+        const resume = resumeInput.value.trim();
+        if (!resume) {
+          setMessage("Paste a resume or choose a TXT file.", true);
+          return;
+        }
+        if (!job) {
+          setMessage("Paste a job posting.", true);
+          return;
+        }
+        showMatch(scoreMatch(resume, job, skillsInput.value));
+        setMessage("");
       });
 
-      document.getElementById("clear").addEventListener("click", () => {
-        document.getElementById("form").reset();
-        document.getElementById("resume").value = "";
-        document.getElementById("job").value = "";
-        document.getElementById("extra").value = "";
-        document.getElementById("result").innerHTML = "";
+      document.querySelector("#analyze").addEventListener("click", () => {
+        const job = jobInput.value.trim();
+        if (!job) {
+          setMessage("Paste a job posting.", true);
+          return;
+        }
+        showAnalysis(analyzePosting(job));
+        setMessage("");
       });
 
-      document.getElementById("form").requestSubmit();
+      document.querySelector("#read-tab").addEventListener("click", () => {
+        setMessage("Read open tab is available in the Chrome extension.", true);
+      });
+
+      fileInput.addEventListener("change", () => {
+        const file = fileInput.files[0];
+        if (!file) return;
+        resumeInput.value = "";
+        if (!file.name.toLowerCase().endsWith(".txt")) {
+          setMessage("This preview reads TXT files. PDF and DOCX are parsed by the API.", true);
+          return;
+        }
+        const reader = new FileReader();
+        reader.onload = () => {
+          resumeInput.value = String(reader.result || "");
+          setMessage("");
+        };
+        reader.onerror = () => setMessage("Could not read that file.", true);
+        reader.readAsText(file);
+      });
+
+      document.querySelector("#form").requestSubmit();
     </script>
   </body>
 </html>

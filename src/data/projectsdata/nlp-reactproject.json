@@ -1,0 +1,83 @@
+{
+  "hero": {
+    "eyebrow": ["React", "TensorFlow.js", "Speech commands", "2023"],
+    "title": "Voice Command Canvas",
+    "subtitle": "Say a word. The ball moves.",
+    "tagline": "A React page that loads the TensorFlow.js speech-commands model in the browser and drives a canvas ball with spoken words.",
+    "impact": "up, down, left, and right move the ball 10 pixels. zero through nine set the radius to 10 times that digit. The model only accepts a score at or above 0.9.",
+    "chips": ["React", "TensorFlow.js", "Speech commands", "Canvas", "Browser FFT"]
+  },
+  "links": {
+    "github": "https://github.com/MaadhiniNarayanaKumar/nlp-reactproject",
+    "githubLabel": "View repository"
+  },
+  "problems": [
+    {
+      "n": "01",
+      "t": "A model in the browser",
+      "d": "speech.create('BROWSER_FFT') builds the recognizer. ensureModelLoaded waits, then wordLabels() is stored for the listener."
+    },
+    {
+      "n": "02",
+      "t": "Words to motion",
+      "d": "The winning label moves x or y by 10, or, for a number word, sets the radius. Anything else is ignored."
+    },
+    {
+      "n": "03",
+      "t": "A canvas, not a chart",
+      "d": "A 600×600 canvas redraws one ball from x, y, and r whenever the action changes."
+    },
+    {
+      "n": "04",
+      "t": "A door into the game",
+      "d": "The login route asks for a name and pushes /game. It does not check the name."
+    }
+  ],
+  "layers": [
+    {
+      "tag": "Route",
+      "title": "React Router 5",
+      "desc": "/ renders the name form. /game renders the canvas. Anything else redirects"
+    },
+    {
+      "tag": "Model",
+      "title": "speech-commands",
+      "desc": "BROWSER_FFT recognizer. Command starts model.listen with includeSpectrogram and probabilityThreshold 0.9"
+    },
+    {
+      "tag": "Label",
+      "title": "argMax",
+      "desc": "The highest score index is mapped through wordLabels() and stored as the action"
+    },
+    {
+      "tag": "Draw",
+      "title": "Canvas",
+      "desc": "drawBall paints the circle. The action is then reset to base so the same word does not repeat"
+    }
+  ],
+  "highlights": [
+    "Browser FFT speech-commands model",
+    "Listen button with a 0.9 probability threshold",
+    "Direction words nudge the ball by 10 pixels",
+    "Number words set radius to 10 × digit",
+    "600×600 canvas and the current word on screen",
+    "Name form that routes to /game"
+  ],
+  "stack": [
+    { "layer": "UI", "tech": "React 18", "role": "Login route and game route" },
+    { "layer": "Router", "tech": "react-router-dom 5", "role": "Switch between / and /game" },
+    { "layer": "Speech", "tech": "@tensorflow-models/speech-commands", "role": "Word recognizer" },
+    { "layer": "Runtime", "tech": "TensorFlow.js", "role": "BROWSER_FFT model in the page" },
+    { "layer": "Draw", "tech": "Canvas 2D", "role": "One ball from x, y, and radius" }
+  ],
+  "status": [
+    { "phase": "Completed", "label": "Recognizer loads and listens after Command is clicked", "done": true },
+    { "phase": "Completed", "label": "Direction and number words update the ball", "done": true },
+    { "phase": "Open", "label": "The name form does not authenticate", "done": false },
+    { "phase": "Open", "label": "Game.jsx imports App.css from a local Windows path", "done": false },
+    { "phase": "Open", "label": "No live site on this portfolio. The repository link is the source", "done": false }
+  ],
+  "statusHeading": "Build status — local React app.",
+  "footer": "Voice Command Canvas · 2023",
+  "badge": "TensorFlow.js"
+}

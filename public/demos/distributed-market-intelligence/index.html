@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Market Intelligence — Demo Preview</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --bg: #f4f4f5;
+        --card: #ffffff;
+        --ink: #18181b;
+        --muted: #71717a;
+        --line: #e4e4e7;
+        --emerald: #059669;
+        --emerald-soft: #ecfdf5;
+        --amber: #d97706;
+        --amber-soft: #fffbeb;
+        --buy: #047857;
+        --hold: #a16207;
+      }
+
+      * { box-sizing: border-box; }
+
+      html, body {
+        margin: 0;
+        min-height: 100%;
+        background: var(--bg);
+        color: var(--ink);
+        font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, sans-serif;
+      }
+
+      body {
+        padding: 14px 14px 20px;
+      }
+
+      .top {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        align-items: flex-start;
+        justify-content: space-between;
+        margin-bottom: 12px;
+      }
+
+      .eyebrow {
+        margin: 0;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--emerald);
+      }
+
+      h1 {
+        margin: 4px 0 0;
+        font-size: 20px;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+      }
+
+      .sub {
+        margin: 4px 0 0;
+        font-size: 12px;
+        color: var(--muted);
+        max-width: 42rem;
+        line-height: 1.4;
+      }
+
+      .tabs {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin-bottom: 12px;
+      }
+
+      .tab {
+        border: 1px solid var(--line);
+        background: var(--card);
+        color: var(--ink);
+        border-radius: 999px;
+        padding: 6px 12px;
+        font-size: 12px;
+        font-weight: 600;
+        cursor: pointer;
+      }
+
+      .tab[aria-selected="true"] {
+        background: var(--emerald);
+        border-color: var(--emerald);
+        color: #fff;
+      }
+
+      .panel { display: none; }
+      .panel.active { display: block; }
+
+      .card {
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        background: var(--card);
+        overflow: hidden;
+      }
+
+      .grid3 {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      @media (max-width: 640px) {
+        .grid3 { grid-template-columns: 1fr; }
+        .grid3 > div + div { border-top: 1px solid var(--line); }
+      }
+
+      @media (min-width: 641px) {
+        .grid3 > div + div { border-left: 1px solid var(--line); }
+      }
+
+      .cell { padding: 12px 14px; }
+
+      .label {
+        margin: 0;
+        font-size: 10px;
+        font-weight: 650;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: var(--muted);
+      }
+
+      .value {
+        margin: 6px 0 0;
+        font-size: 18px;
+        font-weight: 700;
+      }
+
+      .meta {
+        margin: 2px 0 0;
+        font-size: 11px;
+        color: var(--muted);
+        font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      }
+
+      .section {
+        border-top: 1px solid var(--line);
+        padding: 12px 14px;
+      }
+
+      .section h2 {
+        margin: 0 0 8px;
+        font-size: 13px;
+        font-weight: 650;
+      }
+
+      .pills {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+      }
+
+      .pill {
+        border: 1px solid var(--line);
+        background: color-mix(in srgb, var(--bg) 70%, transparent);
+        border-radius: 6px;
+        padding: 3px 8px;
+        font-size: 11px;
+        font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      }
+
+      .btn {
+        border: 0;
+        border-radius: 8px;
+        background: var(--emerald);
+        color: #fff;
+        font-size: 13px;
+        font-weight: 650;
+        padding: 8px 14px;
+        cursor: pointer;
+      }
+
+      .btn:disabled {
+        opacity: 0.55;
+        cursor: default;
+      }
+
+      .btn-ghost {
+        background: transparent;
+        color: var(--ink);
+        border: 1px solid var(--line);
+      }
+
+      .timeline {
+        list-style: none;
+        margin: 12px 0 0;
+        padding: 0;
+        display: grid;
+        gap: 8px;
+      }
+
+      .step {
+        display: grid;
+        grid-template-columns: 18px 1fr auto;
+        gap: 10px;
+        align-items: center;
+        font-size: 12px;
+      }
+
+      .dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 999px;
+        background: var(--line);
+        margin-left: 4px;
+      }
+
+      .step.done .dot { background: var(--emerald); }
+      .step.active .dot {
+        background: var(--emerald);
+        box-shadow: 0 0 0 4px color-mix(in srgb, var(--emerald) 25%, transparent);
+      }
+
+      .step-name { font-weight: 600; }
+      .step-time {
+        color: var(--muted);
+        font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+        font-size: 11px;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 12px;
+      }
+
+      th, td {
+        text-align: left;
+        padding: 8px 10px;
+        border-bottom: 1px solid var(--line);
+        vertical-align: top;
+      }
+
+      th {
+        font-size: 10px;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: var(--muted);
+        font-weight: 650;
+      }
+
+      .sig-buy { color: var(--buy); font-weight: 700; }
+      .sig-hold { color: var(--hold); font-weight: 700; }
+
+      .banner {
+        margin-bottom: 12px;
+        border: 1px solid color-mix(in srgb, var(--emerald) 35%, var(--line));
+        background: var(--emerald-soft);
+        border-radius: 10px;
+        padding: 10px 12px;
+        font-size: 12px;
+        line-height: 1.45;
+      }
+
+      .metrics {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 8px;
+      }
+
+      @media (max-width: 640px) {
+        .metrics { grid-template-columns: 1fr 1fr; }
+      }
+
+      .metric {
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        padding: 10px;
+      }
+
+      .metric .value { font-size: 16px; }
+    </style>
+  </head>
+  <body>
+    <div class="top">
+      <div>
+        <p class="eyebrow">Portfolio preview · fixture snapshot</p>
+        <h1>Market Intelligence Quant QA</h1>
+        <p class="sub">
+          Replay of one exported pipeline run — QA, signals, regime, and backtest
+          from the same snapshot. No Spark required.
+        </p>
+      </div>
+    </div>
+
+    <div class="banner" id="snapshot-banner"></div>
+
+    <div class="tabs" role="tablist" aria-label="Demo panels">
+      <button class="tab" role="tab" aria-selected="true" data-tab="dashboard">Dashboard</button>
+      <button class="tab" role="tab" aria-selected="false" data-tab="pipeline">Run pipeline</button>
+      <button class="tab" role="tab" aria-selected="false" data-tab="qa">QA</button>
+      <button class="tab" role="tab" aria-selected="false" data-tab="signals">Signals</button>
+      <button class="tab" role="tab" aria-selected="false" data-tab="backtest">Backtest</button>
+    </div>
+
+    <section class="panel active" id="panel-dashboard">
+      <div class="card">
+        <div class="grid3">
+          <div class="cell">
+            <p class="label">API health</p>
+            <p class="value" style="color: var(--emerald)">ok</p>
+            <p class="meta">market-intel-api · fixture</p>
+          </div>
+          <div class="cell">
+            <p class="label">Pipeline</p>
+            <p class="value" id="pipeline-state">Idle</p>
+            <p class="meta">Fixture status — replay on Run pipeline</p>
+          </div>
+          <div class="cell">
+            <p class="label">Snapshot completed</p>
+            <p class="value">15 Oct 2026</p>
+            <p class="meta">2026-10-15_20-08-52</p>
+          </div>
+        </div>
+        <div class="section">
+          <h2>Tickers · processed</h2>
+          <div class="pills" id="ticker-pills"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel" id="panel-pipeline">
+      <div class="card">
+        <div class="section" style="border-top: 0">
+          <div style="display:flex; gap:8px; flex-wrap:wrap; align-items:center;">
+            <button class="btn" id="start-pipeline" type="button">Start demo pipeline</button>
+            <button class="btn btn-ghost" id="reset-pipeline" type="button">Reset</button>
+            <span class="meta" id="pipeline-note">Historical timestamps from the export.</span>
+          </div>
+          <ol class="timeline" id="timeline"></ol>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel" id="panel-qa">
+      <div class="card">
+        <div class="grid3">
+          <div class="cell">
+            <p class="label">Overall alignment</p>
+            <p class="value" style="color: var(--emerald)">99.4%</p>
+            <p class="meta">target ≥ 95%</p>
+          </div>
+          <div class="cell">
+            <p class="label">Passed</p>
+            <p class="value">true</p>
+            <p class="meta">tolerance 0.0001</p>
+          </div>
+          <div class="cell">
+            <p class="label">Universe</p>
+            <p class="value">5 tickers</p>
+            <p class="meta">same snapshot run</p>
+          </div>
+        </div>
+        <div class="section">
+          <table>
+            <thead>
+              <tr><th>Ticker</th><th>Aligned</th><th>Status</th></tr>
+            </thead>
+            <tbody id="qa-rows"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel" id="panel-signals">
+      <div class="card">
+        <div class="section" style="border-top: 0">
+          <table>
+            <thead>
+              <tr><th>Ticker</th><th>Signal</th><th>Conf.</th><th>Reasons</th></tr>
+            </thead>
+            <tbody id="signal-rows"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel" id="panel-backtest">
+      <div class="card">
+        <div class="section" style="border-top: 0">
+          <h2 style="margin-bottom:10px">AAPL · signal_rules_v1</h2>
+          <div class="metrics">
+            <div class="metric"><p class="label">CAGR</p><p class="value">8.29%</p></div>
+            <div class="metric"><p class="label">Sharpe</p><p class="value">0.562</p></div>
+            <div class="metric"><p class="label">Max DD</p><p class="value">-14.82%</p></div>
+            <div class="metric"><p class="label">Win rate</p><p class="value">22.0%</p></div>
+            <div class="metric"><p class="label">Profit factor</p><p class="value">1.194</p></div>
+            <div class="metric"><p class="label">Bars</p><p class="value">750</p></div>
+          </div>
+          <p class="meta" style="margin-top:10px">Regime as-of 2026-05-18: bull — price above SMA50 with positive momentum.</p>
+        </div>
+      </div>
+    </section>
+
+    <script>
+      const META = {
+        run_id: "2026-10-15_20-08-52",
+        completed_at: "2026-10-15T20:09:06Z",
+        data_as_of: "2026-05-18",
+        qa_alignment: 99.4,
+        tickers: ["AAPL", "MSFT", "GOOGL", "AMZN", "TSLA"],
+        timeline: [
+          { step: "FETCHING_DATA", timestamp: "2026-10-15T20:05:06Z" },
+          { step: "VALIDATION", timestamp: "2026-10-15T20:05:36Z" },
+          { step: "FEATURE_ENGINEERING", timestamp: "2026-10-15T20:06:06Z" },
+          { step: "RUNNING_QA", timestamp: "2026-10-15T20:06:36Z" },
+          { step: "SIGNAL_GENERATION", timestamp: "2026-10-15T20:07:06Z" },
+          { step: "BACKTEST", timestamp: "2026-10-15T20:07:36Z" },
+          { step: "REPORT_EXPORT", timestamp: "2026-10-15T20:08:06Z" },
+          { step: "SAVING_DATA", timestamp: "2026-10-15T20:08:36Z" },
+          { step: "COMPLETED", timestamp: "2026-10-15T20:09:06Z" }
+        ]
+      };
+
+      const QA = [
+        ["GOOGL", "99.4%"],
+        ["AMZN", "99.4%"],
+        ["AAPL", "99.4%"],
+        ["MSFT", "99.4%"],
+        ["TSLA", "99.4%"]
+      ];
+
+      const SIGNALS = [
+        ["GOOGL", "BUY", 86, "Momentum breakout · RSI · above SMA50"],
+        ["AMZN", "BUY", 86, "Momentum breakout · RSI · above SMA50"],
+        ["AAPL", "BUY", 86, "Momentum breakout · RSI · above SMA50"],
+        ["MSFT", "HOLD", 55, "Trend: price above SMA50"],
+        ["TSLA", "BUY", 86, "Momentum breakout · RSI · above SMA50"]
+      ];
+
+      document.getElementById("snapshot-banner").textContent =
+        "run_id " + META.run_id + " · market as-of " + META.data_as_of +
+        " · QA alignment " + META.qa_alignment + "% · job demo-job-001";
+
+      const pills = document.getElementById("ticker-pills");
+      META.tickers.forEach((t) => {
+        const el = document.createElement("span");
+        el.className = "pill";
+        el.textContent = t;
+        pills.appendChild(el);
+      });
+
+      const qaRows = document.getElementById("qa-rows");
+      QA.forEach(([ticker, pct]) => {
+        const tr = document.createElement("tr");
+        tr.innerHTML =
+          "<td>" + ticker + "</td><td>" + pct + "</td><td style='color:var(--emerald);font-weight:650'>passed</td>";
+        qaRows.appendChild(tr);
+      });
+
+      const signalRows = document.getElementById("signal-rows");
+      SIGNALS.forEach(([ticker, signal, conf, reasons]) => {
+        const tr = document.createElement("tr");
+        const cls = signal === "BUY" ? "sig-buy" : "sig-hold";
+        tr.innerHTML =
+          "<td>" + ticker + "</td><td class='" + cls + "'>" + signal +
+          "</td><td>" + conf + "</td><td>" + reasons + "</td>";
+        signalRows.appendChild(tr);
+      });
+
+      const timelineEl = document.getElementById("timeline");
+      function renderTimeline(activeIndex) {
+        timelineEl.innerHTML = "";
+        META.timeline.forEach((item, i) => {
+          const li = document.createElement("li");
+          li.className = "step" + (i < activeIndex ? " done" : "") + (i === activeIndex ? " active" : "");
+          const time = item.timestamp.replace("T", " ").replace("Z", " UTC");
+          li.innerHTML =
+            '<span class="dot"></span><span class="step-name">' +
+            item.step +
+            '</span><span class="step-time">' +
+            time +
+            "</span>";
+          timelineEl.appendChild(li);
+        });
+      }
+      renderTimeline(-1);
+
+      document.querySelectorAll(".tab").forEach((tab) => {
+        tab.addEventListener("click", () => {
+          document.querySelectorAll(".tab").forEach((t) => t.setAttribute("aria-selected", "false"));
+          tab.setAttribute("aria-selected", "true");
+          document.querySelectorAll(".panel").forEach((p) => p.classList.remove("active"));
+          document.getElementById("panel-" + tab.dataset.tab).classList.add("active");
+        });
+      });
+
+      let timer = null;
+      const startBtn = document.getElementById("start-pipeline");
+      const resetBtn = document.getElementById("reset-pipeline");
+      const pipelineState = document.getElementById("pipeline-state");
+      const pipelineNote = document.getElementById("pipeline-note");
+
+      function clearTimer() {
+        if (timer) {
+          clearInterval(timer);
+          timer = null;
+        }
+      }
+
+      startBtn.addEventListener("click", () => {
+        clearTimer();
+        let i = 0;
+        startBtn.disabled = true;
+        pipelineState.textContent = "Running";
+        pipelineNote.textContent = "Replaying snapshot steps…";
+        renderTimeline(0);
+        timer = setInterval(() => {
+          i += 1;
+          if (i >= META.timeline.length) {
+            clearTimer();
+            renderTimeline(META.timeline.length);
+            pipelineState.textContent = "Idle";
+            pipelineNote.textContent = "Completed · QA alignment 99.4%";
+            startBtn.disabled = false;
+            return;
+          }
+          renderTimeline(i);
+        }, 450);
+      });
+
+      resetBtn.addEventListener("click", () => {
+        clearTimer();
+        startBtn.disabled = false;
+        pipelineState.textContent = "Idle";
+        pipelineNote.textContent = "Historical timestamps from the export.";
+        renderTimeline(-1);
+      });
+    </script>
+  </body>
+</html>

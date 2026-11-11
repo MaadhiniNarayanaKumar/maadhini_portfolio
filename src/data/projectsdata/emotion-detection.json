@@ -1,0 +1,82 @@
+{
+  "hero": {
+    "eyebrow": ["Keras", "CNN", "Webcam", "2022"],
+    "title": "Emotion Detection",
+    "subtitle": "A face, a crop, a label.",
+    "tagline": "A Keras CNN trained on 48×48 grayscale faces, then a webcam loop that finds a face and writes one of seven emotion labels on the frame.",
+    "impact": "Training and inference are split. datatrain.ipynb fits the network and writes emotion_model.json plus emotion_model.h5. datatest.ipynb loads those files and runs the camera.",
+    "chips": ["Keras", "OpenCV", "CNN", "Webcam", "7 classes"]
+  },
+  "links": {
+    "github": "https://github.com/MaadhiniNarayanaKumar/emotion-detection",
+    "githubLabel": "View repository"
+  },
+  "problems": [
+    {
+      "n": "01",
+      "t": "Seven expressions",
+      "d": "The label map is angry, disgusted, fear, happy, neutral, sad, and surprised. The last dense layer is a 7-way softmax."
+    },
+    {
+      "n": "02",
+      "t": "Small grayscale faces",
+      "d": "ImageDataGenerator rescales pixels by 1/255 and loads 48×48 grayscale batches of 64 from local train and test folders."
+    },
+    {
+      "n": "03",
+      "t": "A face before an emotion",
+      "d": "The camera loop uses a frontal-face Haar cascade, crops the box, resizes it to 48×48, and only then calls predict."
+    },
+    {
+      "n": "04",
+      "t": "A model you can reload",
+      "d": "Architecture goes to emotion_model.json. Weights go to emotion_model.h5. The test notebook rebuilds the model from those two files."
+    }
+  ],
+  "layers": [
+    {
+      "tag": "Data",
+      "title": "Kaggle folders",
+      "desc": "flow_from_directory reads a local train folder (steps 28709 // 64) and a test folder (7178 // 64)"
+    },
+    {
+      "tag": "CNN",
+      "title": "Sequential",
+      "desc": "Conv 32 and 64, pool, dropout 0.25, conv 128, pool, conv 128, pool, dropout 0.25, flatten, dense 1024, dropout 0.5, dense 7"
+    },
+    {
+      "tag": "Train",
+      "title": "50 epochs",
+      "desc": "Adam at 0.0001, categorical crossentropy, accuracy. OpenCL is turned off before compile"
+    },
+    {
+      "tag": "Camera",
+      "title": "Live label",
+      "desc": "A green box on the face, blue text for the argmax label. Escape (key 27) leaves the loop"
+    }
+  ],
+  "highlights": [
+    "48×48 grayscale batches with rescale 1/255",
+    "Seven-class softmax: angry through surprised",
+    "50 epochs, batch 64, Adam learning rate 0.0001",
+    "Model JSON and h5 weights written to disk",
+    "Webcam face box, then a 48×48 crop for predict",
+    "Escape releases the camera and closes the window"
+  ],
+  "stack": [
+    { "layer": "Language", "tech": "Python / Jupyter", "role": "Train notebook and camera notebook" },
+    { "layer": "Model", "tech": "Keras Sequential", "role": "CNN with dropout and a 7-way softmax" },
+    { "layer": "Vision", "tech": "OpenCV", "role": "Webcam, Haar face box, resize, draw" },
+    { "layer": "Weights", "tech": "emotion_model.h5", "role": "Saved weights loaded in the test notebook" },
+    { "layer": "Exit", "tech": "waitKey", "role": "Escape closes the window" }
+  ],
+  "status": [
+    { "phase": "Completed", "label": "CNN trained for 50 epochs and saved as JSON plus h5", "done": true },
+    { "phase": "Completed", "label": "Webcam loop that labels a detected face", "done": true },
+    { "phase": "Open", "label": "Train and test image folders are local Windows paths, not in the repo", "done": false },
+    { "phase": "Open", "label": "The face cascade path points at a local site-packages folder", "done": false }
+  ],
+  "statusHeading": "Build status — local notebooks.",
+  "footer": "Emotion Detection · 2022",
+  "badge": "Keras CNN"
+}

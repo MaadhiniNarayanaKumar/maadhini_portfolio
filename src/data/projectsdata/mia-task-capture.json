@@ -11,6 +11,13 @@
     "github": "https://github.com/MaadhiniNarayanaKumar/mia-task-extension",
     "githubLabel": "View repository (private)"
   },
+  "embed": {
+    "label": "Preview",
+    "title": "The task popup, in the page.",
+    "body": "Same layout and colors as the Chrome popup. Paste a task and the page fills title, category, due, and priority with the same rules as the extension. Send stays in this preview. Firestore and Gemini stay in the extension.",
+    "src": "/demos/mia-task/index.html",
+    "frameTitle": "Mia Task Capture preview"
+  },
   "problems": [
     {
       "n": "01",

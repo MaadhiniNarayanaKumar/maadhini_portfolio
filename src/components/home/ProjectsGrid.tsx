@@ -7,10 +7,9 @@ import '../../styles/projects-grid.css';
 
 const filters = ['All', 'Quant Finance', 'ML & AI', 'Engineering', 'Research'];
 
-/* ── Row layout config ── */
-const row1 = ['1', '2', '3'];        // quant + Mia app + calendar extension
-const row2 = ['4', '10', '11'];      // Mia task extension + interview assistant + nokia snake
-const row3 = ['12', '13', '14'];     // youtube clone + eye detection + job match
+/* Live sites, then extensions. Not-live and in-process projects stay off the grid. */
+const row1 = ['1', '11', '12'];      // quant + nokia snake + youtube clone
+const row2 = ['3', '4', '14'];       // calendar capture + task capture + job match
 
 function getProject(id: string) {
   return projects.find(p => p.id === id)!;
@@ -87,10 +86,6 @@ export default function ProjectsGrid() {
   const r2 = row2.map(getProject).filter(p =>
     activeFilter === 'All' || p.category === activeFilter
   );
-  const r3 = row3.map(getProject).filter(p =>
-    activeFilter === 'All' || p.category === activeFilter
-  );
-
   return (
     <section ref={ref} className="pg-section">
 
@@ -142,14 +137,6 @@ export default function ProjectsGrid() {
           <div className="pg-row pg-row-2">
             {r2.map((p, i) => (
               <ProjectCard key={p.id} project={p} index={i + 3} visible={visible} />
-            ))}
-          </div>
-        )}
-
-        {r3.length > 0 && (
-          <div className="pg-row pg-row-2">
-            {r3.map((p, i) => (
-              <ProjectCard key={p.id} project={p} index={i + 6} visible={visible} />
             ))}
           </div>
         )}
