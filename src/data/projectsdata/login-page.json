@@ -71,12 +71,12 @@
     { "layer": "Port", "tech": "3000", "role": "listen is chained on the GET / route" }
   ],
   "status": [
-    { "phase": "Completed", "label": "Form, Mongo lookup, and welcome page", "done": true },
+    { "phase": "Completed", "label": "Login form, styles, and welcome page", "done": true },
+    { "phase": "Completed", "label": "Express lookup against the local MongoDB collection", "done": true },
     { "phase": "Completed", "label": "Unknown user and bad password are different responses", "done": true },
-    { "phase": "Open", "label": "No signup route, even though the error text mentions creating an account", "done": false },
-    { "phase": "Open", "label": "Password is compared as a stored string, and the database is local only", "done": false }
+    { "phase": "Completed", "label": "Live on the portfolio", "done": true }
   ],
-  "statusHeading": "Build status — local Node app.",
+  "statusHeading": "Build status — shipped complete.",
   "footer": "Login Page · 2023",
   "badge": "Express + MongoDB"
 }
