@@ -75,8 +75,10 @@
     { "phase": "Completed", "label": "Mia tasks + voice + Calendar views", "done": true },
     { "phase": "Completed", "label": "Theme packs + bottom nav shell", "done": true },
     { "phase": "Completed", "label": "Task + Calendar Chrome extensions integrated", "done": true },
-    { "phase": "Completed", "label": "Separate GitHub repos for app + companions", "done": true }
+    { "phase": "Completed", "label": "Separate GitHub repos for app + companions", "done": true },
+    { "phase": "Completed", "label": "Live on the portfolio", "done": true }
   ],
+  "statusHeading": "Build status — shipped complete.",
   "footer": "Mia Voice Task App · 2026",
   "badge": "Completed — Flutter product + extensions"
 }
