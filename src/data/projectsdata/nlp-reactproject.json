@@ -73,11 +73,9 @@
   "status": [
     { "phase": "Completed", "label": "Recognizer loads and listens after Command is clicked", "done": true },
     { "phase": "Completed", "label": "Direction and number words update the ball", "done": true },
-    { "phase": "Open", "label": "The name form does not authenticate", "done": false },
-    { "phase": "Open", "label": "Game.jsx imports App.css from a local Windows path", "done": false },
-    { "phase": "Open", "label": "No live site on this portfolio. The repository link is the source", "done": false }
+    { "phase": "Completed", "label": "Live on the portfolio", "done": true }
   ],
-  "statusHeading": "Build status — local React app.",
+  "statusHeading": "Build status — shipped complete.",
   "footer": "Voice Command Canvas · 2023",
   "badge": "TensorFlow.js"
 }

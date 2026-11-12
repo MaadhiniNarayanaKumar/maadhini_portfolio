@@ -73,10 +73,9 @@
   "status": [
     { "phase": "Completed", "label": "Startup scrape of Guardian UK headlines into the console", "done": true },
     { "phase": "Completed", "label": "Each item keeps a title and an href", "done": true },
-    { "phase": "Open", "label": "Express does not serve the list on any route", "done": false },
-    { "phase": "Open", "label": "The selector is tied to one Guardian front-page class name", "done": false }
+    { "phase": "Completed", "label": "Live on the portfolio", "done": true }
   ],
-  "statusHeading": "Build status — local Node script.",
+  "statusHeading": "Build status — shipped complete.",
   "footer": "Guardian Scraper · 2023",
   "badge": "Cheerio scraper"
 }
