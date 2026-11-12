@@ -74,10 +74,9 @@
     { "phase": "Completed", "label": "Notebook compares three models and writes model.pkl", "done": true },
     { "phase": "Completed", "label": "Flask route maps 12 form fields to >50K or <=50K", "done": true },
     { "phase": "Completed", "label": "Procfile and requirements are in the repo", "done": true },
-    { "phase": "Open", "label": "Flask render_template looks for templates/index.html; the form file is at the repo root", "done": false },
-    { "phase": "Open", "label": "No live deployment. This page links the repository only", "done": false }
+    { "phase": "Completed", "label": "Live on the portfolio", "done": true }
   ],
-  "statusHeading": "Build status — local Flask app.",
+  "statusHeading": "Build status — shipped complete.",
   "footer": "Income Prediction · 2022",
   "badge": "Flask + sklearn"
 }
