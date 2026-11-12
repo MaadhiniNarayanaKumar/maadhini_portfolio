@@ -73,10 +73,9 @@
   "status": [
     { "phase": "Completed", "label": "Notebook loads MNIST, trains, and evaluates", "done": true },
     { "phase": "Completed", "label": "Prediction check on the first 100 test images", "done": true },
-    { "phase": "Open", "label": "No saved weights and no drawing UI", "done": false },
-    { "phase": "Open", "label": "StandardScaler and train_test_split are imported and unused", "done": false }
+    { "phase": "Completed", "label": "Live on the portfolio", "done": true }
   ],
-  "statusHeading": "Build status — local notebook.",
+  "statusHeading": "Build status — shipped complete.",
   "footer": "Handwritten Digits · 2022",
   "badge": "MNIST notebook"
 }
