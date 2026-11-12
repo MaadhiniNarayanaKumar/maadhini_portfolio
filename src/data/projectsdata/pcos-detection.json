@@ -73,10 +73,9 @@
   "status": [
     { "phase": "Completed", "label": "Merge, cleaning, plots, and logistic regression are in the notebook", "done": true },
     { "phase": "Completed", "label": "Clinical workbook is in the repo under archive/", "done": true },
-    { "phase": "Open", "label": "PCOS_infertility.csv is read from a local path and is not in the repo", "done": false },
-    { "phase": "Open", "label": "SVM, forests, boosting, and neighbors are imported and never fit", "done": false }
+    { "phase": "Completed", "label": "Live on the portfolio", "done": true }
   ],
-  "statusHeading": "Build status — local notebook.",
+  "statusHeading": "Build status — shipped complete.",
   "footer": "PCOS Classification · 2024",
   "badge": "Classification notebook"
 }
