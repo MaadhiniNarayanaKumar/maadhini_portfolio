@@ -307,6 +307,25 @@
     "slug": "web-scrapper"
   },
   {
+    "id": "23",
+    "title": "OptionPricing",
+    "description": "Object-oriented web platform for option valuation and Greeks: Black-Scholes, binomial tree, and Monte Carlo behind one interface, built on the pyoptionpricing package.",
+    "category": "Quant Finance",
+    "year": "2026",
+    "tags": [
+      "Python",
+      "Options",
+      "Black-Scholes",
+      "Monte Carlo",
+      "FastAPI",
+      "Next.js"
+    ],
+    "gradient": "linear-gradient(135deg, #1a2e05 0%, #365314 50%, #4d7c0f 100%)",
+    "accent": "#bef264",
+    "size": "medium",
+    "slug": "pyoptionpricing"
+  },
+  {
     "id": "5",
     "title": "Portfolio Risk Analyzer",
     "description": "Monte Carlo based portfolio risk engine computing VaR, CVaR, and stress test scenarios across multi-asset portfolios.",

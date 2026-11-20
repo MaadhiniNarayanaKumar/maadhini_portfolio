@@ -16,10 +16,11 @@ type FilterId = (typeof FILTERS)[number]['id'];
 type GroupId = Exclude<FilterId, 'all'>;
 
 // Live sites, then extensions. Not-live and in-process projects stay off this page.
-const LISTED_IDS = ['1', '11', '12', '3', '4', '14', '13', '15', '17', '18', '19', '21', '16', '20', '22', '2'];
+const LISTED_IDS = ['1', '23', '11', '12', '3', '4', '14', '13', '15', '17', '18', '19', '21', '16', '20', '22', '2'];
 
 const GROUPS: Record<string, GroupId[]> = {
   '1': ['quant'],
+  '23': ['quant'],
   '11': ['web'],
   '12': ['web'],
   '3': ['web'],

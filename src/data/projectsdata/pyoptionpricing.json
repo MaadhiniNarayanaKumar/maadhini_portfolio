@@ -1,0 +1,89 @@
+{
+  "hero": {
+    "eyebrow": ["Python", "FastAPI", "Next.js", "2026"],
+    "title": "OptionPricing",
+    "subtitle": "An Object-Oriented Web Platform for Interactive Option Valuation and Greeks Analysis",
+    "tagline": "Price options with Black-Scholes, a binomial tree, or Monte Carlo behind one price() and greeks() interface. The pyoptionpricing Python package powers a FastAPI backend and a Next.js dashboard.",
+    "impact": "Built for the Object-Oriented Programming II course in the Master of Quantitative Finance at Rutgers University. The same call prices European, American, Asian, and barrier options, and implied volatility works with any model. The volatility surface uses synthetic prices, not live market data.",
+    "chips": ["pyoptionpricing", "Python", "FastAPI", "Next.js", "Recharts", "PyPI"]
+  },
+  "links": {
+    "github": "https://github.com/MaadhiniNarayanaKumar/pyoptionpricing",
+    "githubLabel": "View repository (pyoptionpricing)",
+    "live": "https://pyoptionspricing.maadhini.com",
+    "liveLabel": "Open live demo",
+    "api": "https://pyoptionpricing.vercel.app/docs",
+    "apiLabel": "Open API docs"
+  },
+  "problems": [
+    {
+      "n": "01",
+      "t": "Many models, one call",
+      "d": "Black-Scholes, a tree, and a simulation each have their own code. A caller should price any of them with price() and greeks() and not care which."
+    },
+    {
+      "n": "02",
+      "t": "Early exercise and paths",
+      "d": "American options need a tree that checks exercise at every node. Asian and barrier payoffs depend on the whole path, so they need simulated paths."
+    },
+    {
+      "n": "03",
+      "t": "Solving for volatility",
+      "d": "Implied volatility has to work with any model, not only Black-Scholes. The solver calls each option's own price() inside Brent's method and raises a clear error when the market price is out of bounds."
+    },
+    {
+      "n": "04",
+      "t": "Trusting the numbers",
+      "d": "Prices are checked against known results: put-call parity, tree convergence to Black-Scholes, Monte Carlo within standard error, and Greeks against finite differences."
+    }
+  ],
+  "layers": [
+    {
+      "tag": "Core",
+      "title": "Option hierarchy",
+      "desc": "Abstract Option with European, American, and path-dependent children. Black-Scholes, CRR tree, Monte Carlo, Asian, and barrier classes"
+    },
+    {
+      "tag": "Factory",
+      "title": "OptionFactory + PricingEngine",
+      "desc": "The factory builds the right class from model, style, and type. The engine prices any Option the same way"
+    },
+    {
+      "tag": "API",
+      "title": "FastAPI",
+      "desc": "Eight POST endpoints plus /models and /health. Pydantic validation, 422 on bad input, no model logic in the routes"
+    },
+    {
+      "tag": "UI",
+      "title": "Next.js dashboard",
+      "desc": "One form, price and Greeks cards, and Recharts views for compare, payoff, convergence, paths, and the IV smile"
+    }
+  ],
+  "highlights": [
+    "Black-Scholes with analytical delta, gamma, theta, vega, and rho",
+    "CRR binomial tree for European and American options",
+    "Monte Carlo with standard error, plus Asian and barrier options",
+    "Implied volatility with Brent's method, for any model, plus a smile across strikes and maturities",
+    "Side-by-side model comparison and a binomial convergence chart",
+    "Library on PyPI: pip install pyoptionpricing"
+  ],
+  "stack": [
+    { "layer": "Core", "tech": "Python / NumPy / SciPy", "role": "Pricing math, simulation, Brent root finding" },
+    { "layer": "API", "tech": "FastAPI + Pydantic", "role": "Endpoints, validation, Swagger docs" },
+    { "layer": "UI", "tech": "Next.js / React / Recharts", "role": "Dashboard and charts" },
+    { "layer": "Tests", "tech": "pytest + pytest-cov", "role": "Parity, convergence, and Greeks checks" },
+    { "layer": "Package", "tech": "PyPI", "role": "pypi.org/project/pyoptionpricing" },
+    { "layer": "Deploy", "tech": "Vercel", "role": "Backend and frontend as two projects" }
+  ],
+  "status": [
+    { "phase": "Completed", "label": "Black-Scholes, binomial, Monte Carlo, Asian, and barrier models", "done": true },
+    { "phase": "Completed", "label": "Implied volatility, smile, and surface from synthetic prices", "done": true },
+    { "phase": "Completed", "label": "FastAPI backend and Next.js dashboard, both live on Vercel", "done": true },
+    { "phase": "Completed", "label": "198 pytest tests, about 99% coverage", "done": true },
+    { "phase": "Completed", "label": "Published on PyPI as pyoptionpricing 0.1.1", "done": true },
+    { "phase": "Future add-on", "label": "Monte Carlo variance reduction (antithetic and control variates)", "done": false }
+  ],
+  "statusHeading": "Build status — shipped; variance reduction planned as a future add-on.",
+  "footer": "OptionPricing (pyoptionpricing) · 2026",
+  "badge": "Rutgers MQF course project · Live"
+}
